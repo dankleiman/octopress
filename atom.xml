@@ -4,7 +4,7 @@
   <title><![CDATA[Dan Can Code]]></title>
   <link href="http://dankleiman.github.io/atom.xml" rel="self"/>
   <link href="http://dankleiman.github.io/"/>
-  <updated>2014-03-19T18:43:53-04:00</updated>
+  <updated>2014-03-19T18:49:10-04:00</updated>
   <id>http://dankleiman.github.io/</id>
   <author>
     <name><![CDATA[Dan Kleiman]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Learning More About Octopress]]></title>
+    <link href="http://dankleiman.github.io/blog/2014/03/19/learning-more-about-octopress/"/>
+    <updated>2014-03-19T18:46:22-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2014/03/19/learning-more-about-octopress</id>
+    <content type="html"><![CDATA[<p>Just running through a test post again to go over the process and remind myself how this works!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Whoa! Octopress!]]></title>
