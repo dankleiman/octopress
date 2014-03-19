@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[My Octopress Blog]]></title>
+  <link href="http://dankleiman.github.io/atom.xml" rel="self"/>
+  <link href="http://dankleiman.github.io/"/>
+  <updated>2014-03-18T22:29:56-04:00</updated>
+  <id>http://dankleiman.github.io/</id>
+  <author>
+    <name><![CDATA[Your Name]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Whoa! Octopress!]]></title>
+    <link href="http://dankleiman.github.io/blog/2014/03/18/whoa-octopress/"/>
+    <updated>2014-03-18T21:28:17-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2014/03/18/whoa-octopress</id>
+    <content type="html"><![CDATA[<p>So, I just launched this new blog using Octopress.</p>
+
+<p>Here are the steps I followed:</p>
+
+<ul>
+<li><a href="http://octopress.org/docs/setup/">Basics</a></li>
+<li><a href="http://octopress.org/docs/blogging/">How to Blog</a></li>
+<li><a href="http://octopress.org/docs/deploying/github/">Deploying on Github</a></li>
+</ul>
+
+
+<p>I need to dig into the <a href="http://octopress.org/docs/configuring/">configuration stuff</a> a little more.</p>
+
+<h2>Writing This Post in Markdown</h2>
+
+<p>I&rsquo;m learning how to write this in <a href="http://http://daringfireball.net/projects/markdown/basics">Markdown</a> which is also pretty new to me. Right now it feels like a lazy version of html, so we&rsquo;ll see what&rsquo;s it like as I get used to it.</p>
+]]></content>
+  </entry>
+  
+</feed>
