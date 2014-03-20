@@ -4,7 +4,7 @@
   <title><![CDATA[Dan Can Code]]></title>
   <link href="http://dankleiman.github.io/atom.xml" rel="self"/>
   <link href="http://dankleiman.github.io/"/>
-  <updated>2014-03-20T08:36:11-04:00</updated>
+  <updated>2014-03-20T09:19:13-04:00</updated>
   <id>http://dankleiman.github.io/</id>
   <author>
     <name><![CDATA[Dan Kleiman]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Getting a Feel for It]]></title>
+    <link href="http://dankleiman.github.io/blog/2014/03/20/getting-a-feel-for-it/"/>
+    <updated>2014-03-20T08:59:31-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2014/03/20/getting-a-feel-for-it</id>
+    <content type="html"><![CDATA[<p>&ldquo;I just want to get a feel for what I can change/do&hellip;&rdquo;</p>
+
+<p>Or</p>
+
+<p>&ldquo;I just wanted to see what I could do&hellip;&rdquo;</p>
+
+<p>In the middle of launching this blog, I wanted to change some of the core settings and I wasn&rsquo;t sure what could safely be changed without breaking the whole thing.</p>
+
+<p>When I asked someone for help, I explained that I wanted to &ldquo;get a feel&rdquo; for what I could do without messing other things up.</p>
+
+<!-- more -->
+
+
+<h2>How Would You Have Phrased That?</h2>
+
+<p>I didn&rsquo;t used to make a big distinction between these two ways of phrasing, but as I&rsquo;m reading <a href="http://pragprog.com/book/ahptl/pragmatic-thinking-and-learning">Pragmatic Thinking and Learning by Andy Hunt</a>, I&rsquo;m starting to become much more acutely aware of all these layers of filters, perspectives, and contexts that we each have for experiencing the world that influence what we see, say, and do.</p>
+
+<p>For instance, what you value and how you communicate may be shaped by:
+&ndash; your personality type, notably your degree of introversion or extroversion (I love thinking of this as &ldquo;how you recharge your batteries &mdash; from the inside or from other people&rdquo;)
+&ndash; the generation you were born, even in the sense of how you see the role of institutions/companies that you interact with (need to read up on this more, but some people have theorized that there are only 4 generational archetypes that repeat over and over again, largely created and re-created in reference to the previous generation)
+&ndash; the primary senses you use to take information in (often described in an educational context as learning style, i.e. visual, auditory, or kinesthetic)</p>
+
+<h2>Starting to Notice Filters and Cues</h2>
+
+<p>After reading the chapter on sensory filters, I spent the day trying to pick up on subtle language cues that people dropped as I talked to them.</p>
+
+<p>Specificially, I was <a href="http://dankleiman.com">teaching Tai Chi lessons</a> that day, so once I heard a clear cue (&ldquo;I see what you&rsquo;re saying&hellip;&rdquo;), I tried to adapt the teaching to cater to that style.</p>
+
+<p>My first attempt was too heavy-handed, though, and it just ended up confusing my student.</p>
+
+<p>Fascinating to keep trying this approach, though!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Learning More About Octopress]]></title>
@@ -39,6 +78,9 @@
 
 
 <p>I need to dig into the <a href="http://octopress.org/docs/configuring/">configuration stuff</a> a little more.</p>
+
+<!-- more -->
+
 
 <h2>Writing This Post in Markdown</h2>
 
