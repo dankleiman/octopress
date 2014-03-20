@@ -15,6 +15,7 @@ Here are the steps I followed:
 * [Deploying on Github](http://octopress.org/docs/deploying/github/)
 
 I need to dig into the [configuration stuff](http://octopress.org/docs/configuring/) a little more.
+<!-- more -->
 
 Writing This Post in Markdown
 -----------------------------

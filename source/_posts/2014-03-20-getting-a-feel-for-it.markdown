@@ -15,6 +15,7 @@ Or
 In the middle of launching this blog, I wanted to change some of the core settings and I wasn't sure what could safely be changed without breaking the whole thing. 
 
 When I asked someone for help, I explained that I wanted to "get a feel" for what I could do without messing other things up.
+<!-- more -->
 
 How Would You Have Phrased That?
 -------------------------------- 
