@@ -15,5 +15,4 @@ Octopress Blogging
 ------------------
 
 - [Markdown Basics](http://daringfireball.net/projects/markdown/basics)
-- [Blogging Basics](http://octopress.org/docs/blogging/)
-- [Adding spell-check to Sublime Text](http://blog.sashalaundy.com/blog/2013/03/11/turbocharging-octopress/)
+- [New posts, pages, customization, etc.](http://octopress.org/docs/blogging/)
