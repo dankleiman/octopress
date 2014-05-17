@@ -4,7 +4,7 @@
   <title><![CDATA[Dan Can Code]]></title>
   <link href="http://dankleiman.github.io/atom.xml" rel="self"/>
   <link href="http://dankleiman.github.io/"/>
-  <updated>2014-05-12T14:53:41-04:00</updated>
+  <updated>2014-05-17T13:54:51-04:00</updated>
   <id>http://dankleiman.github.io/</id>
   <author>
     <name><![CDATA[Dan Kleiman]]></name>
@@ -12,6 +12,54 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Launch Academy: Week 1 Reflections]]></title>
+    <link href="http://dankleiman.github.io/blog/2014/05/17/launch-academy-week-1-reflections/"/>
+    <updated>2014-05-17T09:32:59-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2014/05/17/launch-academy-week-1-reflections</id>
+    <content type="html"><![CDATA[<p>So, all this week, I&rsquo;ve been experiencing the Tetris effect and I&rsquo;ve come to appreciate the beauty, and the painlessness, of learning how to break down a problem.</p>
+
+<p>Let me explain&hellip;.</p>
+
+<!-- more -->
+
+
+<h2>The Tetris Effect</h2>
+
+<p>According to <a href="http://www.scientificamerican.com/article/tetris-dreams/">the study from Harvard Medical School</a>, games like Tetris can reveal the way our brain integrates new information.</p>
+
+<blockquote>In fact, the game Tetris has proved to be just that. Robert Stickgold and his colleagues at Harvard Medical School recently conducted a clever set of experiments in which they used the game to guide the content of people¿s dreams: among 17 subjects they trained to play Tetris, more than 60 percent reported dreaming of images associated with the game. </blockquote>
+
+
+<p>I&rsquo;ve been having similar dreams about coding all week, especially as I&rsquo;m falling asleep.</p>
+
+<p>In fact, I&rsquo;ve had to resist the urge to jump out of bed and grab my laptop to finish coding problems that plagued me during the day.</p>
+
+<p>What&rsquo;s so cool is that my instructors at Launch Academy have been talking from the beginning about the way coding &mdash; and more generally the brain &mdash; works. They&rsquo;ve been extremely clear about the value of stepping away from the computer to actually find the solution.</p>
+
+<p>I love being immersed in this environment where the answers to &ldquo;my work&rdquo; pour in at night, or on breaks, and more importantly, these down moments are treated as equally valuable as work time.</p>
+
+<h2>Shoring Up Fundamentals</h2>
+
+<p>All week, we&rsquo;ve been reviewing pre-work and solidifying our Ruby basics.</p>
+
+<p>Specifically, here&rsquo;s what we&rsquo;ve been covering:</p>
+
+<p><em>Ruby fundamentals
+</em>Hashes, arrays, and compound data structures
+<em>Iteration
+</em>File IO</p>
+
+<p>Launch Academy has some pretty cool custom tools to help us do this work. I&rsquo;m sure you&rsquo;ve seen things like CodeAcademy or RubyMonk.</p>
+
+<p>At Launch Academy, we have internal tools that integrate shell commands to download, test, and submit practice problems. What I love about this is that not only are we honing our Ruby fundamentals, but we&rsquo;re integrating other skills, like command line basics, git, and a broader understanding of how to navigate the file system.</p>
+
+<p>Next week, I think we&rsquo;re going to expand this work to include remote repositories.</p>
+
+<p>Even though it&rsquo;s been a few days, it feels like it&rsquo;s been months of immersion and I can&rsquo;t wait to get back to work on Monday!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Reflections on Pre-Work: Balancing Theory and Practice]]></title>
@@ -22,6 +70,11 @@
 while finishing up work as the director <a href="http://www.brooklinetaichi.org">Brookline Tai Chi</a> has been a massive exercise in balancing &ldquo;theory and practice.&rdquo;</p>
 
 <p>This explanation from Practical Object-Oriented Design in Ruby by Sandi Metz perfectly captures the difference:</p>
+
+<!-- more -->
+
+
+
 
 <blockquote>What is the difference between theory and practice?
 In theory, there is none. If theory were practice you could learn the rules of OOD, apply them consistently, and create perfect code from this day forward; your work here would be done.
