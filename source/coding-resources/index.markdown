@@ -24,7 +24,7 @@ Cheat Sheets and Reference Pages
 - [Date and Time Formatting](http://strfti.me/)
 - [Pry Gem for Debugging](https://github.com/nixme/pry-debugger)
 - [Regular Expressions](http://rubular.com/)
--[Ruby Style Guide](https://github.com/styleguide/ruby)
+- [Ruby Style Guide](https://github.com/styleguide/ruby)
 
 Soaking Up Code Talk
 --------------------
