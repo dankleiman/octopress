@@ -1,26 +1,25 @@
 ---
 layout: post
-title: "Reflections on Launch Academy Prep: Balancing Theory and Practice"
-date: 2014-05-12 14:36:53 -0400
+title: "Reflections on Pre-Work: Balancing Theory and Practice"
+date: 2014-05-09 12:18:25 -0400
 comments: true
 categories:
-author: Dan Kleiman
 ---
 
-Preparing for [Launch Academy](http://www.launchacademy.com) while finishing up work as the director [Brookline Tai Chi](http://www.brooklinetaichi.org) has been a massive exercise in balancing "theory and practice."
+Preparing for <a href="http://www.launchacademy.com">Launch Academy</a>
+while finishing up work as the director <a href="http://www.brooklinetaichi.org">Brookline Tai Chi</a> has been a massive exercise in balancing "theory and practice."
 
 This explanation from Practical Object-Oriented Design in Ruby by Sandi Metz perfectly captures the difference:
-
 <!-- more -->
 
->What is the difference between theory and practice?
+<blockquote>What is the difference between theory and practice?
 In theory, there is none. If theory were practice you could learn the rules of OOD, apply them consistently, and create perfect code from this day forward; your work here would be done.
 
->However, no matter how deeply theory believes this to be true, practice knows better. Unlike theory, practice gets its hands dirty. It is practice that lays bricks, builds bridges, and writes code. Practice lives in the real world of change, confusion, and uncertainty.
+However, no matter how deeply theory believes this to be true, practice knows better. Unlike theory, practice gets its hands dirty. It is practice that lays bricks, builds bridges, and writes code. Practice lives in the real world of change, confusion, and uncertainty.</blockquote>
 
 I've been straddling the worlds of theory and practice for months now.
 
-**Learning to Code *in Theory***
+<strong>Learning to Code <em>in Theory</em></strong>
 
 Every book, online tutorial, and exercise that I've been working on, in Ruby, HTML, CSS, MySQL, has been carefully selected by the instructors at Launch Academy to lead us step-by-step through the basics.
 
@@ -32,7 +31,7 @@ And when we get stuck, we can reach out for help and clarification.
 
 It's a pleasure to live in this world
 
-**Teaching Tai Chi _in Practice_**
+<strong>Teaching Tai Chi <em>in Practice</em></strong>
 
 For the last ten years, I've been teaching Tai Chi, working with students who are brand new to the practice or who are gradually building new skills.
 
@@ -48,13 +47,13 @@ Is there something they'd rather do with their time?
 
 How do we handle layers of old injuries?
 
-Being on the other side of the theory and practice dichotomy has its own rewards,[which I've written about here].
+Being on the other side of the theory and practice dichotomy has its own rewards, <a href="http://dankleiman.com/about/">which I've written about here</a>.
 
 Right now, though, I'm enjoying being in both worlds simultaneously. I can appreciate all the work the staff at Launch Academy has done to present us with clean, clear instructions.
 
 I'm also getting a little space from my own teaching, so I can appreciate the more abstract, theoretical questions of how, why, and what should be taught, unencumbered by a lot of practical constraints.
 
-**Balancing Theory and Practice in the Future**
+<strong>Balancing Theory and Practice in the Future</strong>
 
 Going forward, months from now, when I'm fully immersed in the world of web applications and my day-to-day will lean more to the "practice" end of the balance than the "theory" side, I hope I can remember this feeling of blending both worldviews.
 
