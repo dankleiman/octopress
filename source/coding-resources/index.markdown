@@ -11,13 +11,20 @@ These are resources I've come across that have helped me launch this site and le
 
 Based on [Hunt's Pragmatic Thinking & Learning](http://pragprog.com/book/ahptl/pragmatic-thinking-and-learning), I'm trying to create an "exocortex" to help free up mental space.
 
-Octopress Blogging 
+Octopress Blogging
 ------------------
 
 Reference tools I'm using to get the hang of blogging in markdown.
 
 - [Markdown Basics](http://daringfireball.net/projects/markdown/basics)
 - [New posts, pages, customization, etc.](http://octopress.org/docs/blogging/)
+
+Cheat Sheets and Reference Pages
+-------------------------------
+- [Date and Time Formatting](http://strfti.me/)
+- [Pry Gem for Debugging](https://github.com/nixme/pry-debugger)
+- [Regular Expressions](http://rubular.com/)
+-[Ruby Style Guide](https://github.com/styleguide/ruby)
 
 Soaking Up Code Talk
 --------------------
