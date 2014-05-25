@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>About - Dan Kleiman</title>
+  <title>Building a Learning Tool for Compound Data Structures - Dan Kleiman</title>
   <meta name="author" content="Dan Kleiman">
 
   
-  <meta name="description" content="About I&rsquo;m currently a Ruby on Rails Apprentice at Launch Academy in Boston. If you&rsquo;re reading this in the Spring/Summer of 2014, then a &hellip;">
+  <meta name="description" content="One of the most challenging things about learning to work with compound data structures has been reading the nested hashes and arrays and extracting &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://dankleiman.github.io/about">
+  <link rel="canonical" href="http://dankleiman.github.io/blog/2014/05/25/building-a-learning-tool-for-compound-data-structures">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Dan Kleiman" type="application/atom+xml">
@@ -59,78 +59,184 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">About</h1>
     
+      <h1 class="entry-title">Building a Learning Tool for Compound Data Structures</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-25T09:07:15-04:00" pubdate data-updated="true">May 25<span>th</span>, 2014</time>
+        
+      </p>
     
   </header>
-  
-  <p><img class="left" src="http://dankleiman.com/wp-content/uploads/2011/12/DK_Headshot.jpg" title="[Dan Kleiman [Dan Kleiman]]" > I&rsquo;m currently a Ruby on Rails Apprentice at <a href="http://launchacademy.com">Launch Academy</a> in Boston.</p>
-
-<p>If you&rsquo;re reading this in the Spring/Summer of 2014, then a lot of the current blog posts will be chronicling my learning journey.</p>
-
-<p>Prior to Launch Academy, I ran <a href="http://brooklinetaichi.org">Brookline Tai Chi</a> for almost 10 years. I taught adults how to relax, slowdown, and improve their health with the Chinese movement arts of Tai Chi and qigong. In addition to being on of the lead instructors, I managed the school and the larger 501&copy;(3) non-profit that runs the school.</p>
-
-<p>Over the last 4 years, I expanded our <a href="http://brooklinetaichi.org/what-we-teach/tai-chi-for-healthy-aging/">Tai Chi for Healthy Aging</a> program to bring Tai Chi to hundreds of seniors throughout Massachusetts. With funding from the <a href="http://www.tuftshealthplanfoundation.org/">Tufts Health Plan Foundation</a> and the Department of Public Health and a close working partnership with the <a href="http://www.maseniorcarefoundation.org/Initiatives/Falls_Prevention/Massachusetts_Falls_Prevention_Coalition.aspx">Massachusetts Falls Prevention Coalition</a>, we&rsquo;ve been able to train volunteer instructors in an evidence-based falls prevention program that is taught in Senior Centers, Councils on Aging, and other community settings.</p>
-
-<h2>Why Code Now?</h2>
-
-<p>One of my favorite parts of teaching at Brookline Tai Chi was my own ongoing learning.</p>
-
-<p>Very early on, I figured out that if I didn&rsquo;t keep up my own personal practice, where I was trying and learning new things, separate and distinct from what I was teaching, I got burnt out, the classes had less energy, and students were more confused and frustrated.</p>
-
-<p>It took me a while to come to terms with the seemingly selfish nature of this lesson, but eventually I accepted: <strong>when I&rsquo;m learning, I do better work and have more to share.</strong></p>
-
-<p>In 2010, while I was teaching 15-20 hours a week of live classes, I decided to refine this learning/teaching/sharing loop even more by beginning to teach via <a href="http://dankleiman.com">DanKleiman.com</a>.</p>
-
-<p>By blogging, making instructional videos and podcasting, I was able to refine my teaching, reach a much wider audience, and experiment with new media, like guided audio practice.</p>
-
-<p>But there was a problem&hellip;.</p>
-
-<p>I kept bumping into technical limitations. With each new technical challenge I got more and more curious about the online tools I was using:</p>
-
-<ul>
-<li>creating the right front-end look for my site</li>
-<li>generating my weekly email from the site RSS automatically</li>
-<li>hosting private forums and downloads for certain students</li>
-<li>capturing customer data from email, payment providers, and site analytics</li>
-</ul>
 
 
-<p> Increasingly, I thought, <em>if I could just build this myself</em> or <em>if I could patch this together with that.</em></p>
+<div class="entry-content"><p>One of the most challenging things about learning to work with compound data structures has been reading the nested hashes and arrays and extracting the right set of brackets to use to identify a particular value in your code.</p>
 
-<h2>Validation from Confusion</h2>
+<!-- more -->
 
-<p>I started telling friends about the little things I fantasized about building, like a business app that would replace the need to email spreadsheets back and forth&hellip;.and the confused looks I got back were major validation.</p>
 
-<p><strong>In the gulf between my excitement and their reaction, I saw a new career emerging.</strong></p>
+<p>For example:
+<code></p>
 
-<p>The more I did online coding tutorials, the more interested I got in the way information is structured, moved, displayed, and consumed.</p>
+<pre><code>movie = {
+  title: 'The Nutty Professor',
+  cast: [
+    {
+      name: 'Eddie Murphy',
+      characters: [
+        'Sherman Klump',
+        'Buddy Love',
+        'Lance Perkins',
+        'Papa Klump',
+        'Mama Klump',
+        'Grandma Klump',
+        'Ernie Klump'
+      ]
+    },
+    {
+      name: 'Jada Pinkett Smith',
+      characters: [
+        'Carla Purty'
+      ]
+    }
+  ]
+}
+</code></pre>
 
-<p>Knowing the <a href="http://dankleiman.com/tag/wsfit2011/">power of immersive learning</a>, I started to consider coding bootcamps like Launch Academy as a way to really expand my skills.</p>
+<p></code></p>
 
-<p>Finally, in December 2013, I made the decision to go for. I applied, got in, and here we are. This next step in my professional journey is likely what you&rsquo;ll read about on this site.</p>
+<p>If I want to find a character, I have to reference an array inside a hash inside an array inside a hash&hellip;I think. Even that last sentence was difficult to write.</p>
 
-<p>I hope to keep learning and sharing as I go.</p>
+<p>So I started thinking&hellip;there must be a programmatic way to express finding the reference for any element of the compound data structure.</p>
 
-<p>Thanks for coming along!</p>
+<h2>Decompose the Problem</h2>
 
-  
-    <footer>
+<p>Here&rsquo;s the problem statement:  <strong>Given a value and a compound data structure, return the position of the value in the strucure, formatted so you can referrence it in your code.</strong></p>
+
+<p>The first thing you realize is that searching through a hash and array will work slightly differently. On the advice of my instructors, I separated out these cases and got to work on the smallest case first.</p>
+
+<p>Breaking it down into steps looked something like this:</p>
+
+<ol>
+<li>Solve just the array case first.</li>
+<li>Start with the smallest possible array.</li>
+<li>Add layers of nesting and make sure it still works.</li>
+<li>Then, modify the searching for hashes.</li>
+<li>Combine.</li>
+</ol>
+
+
+<p>Most of the work happened in step 3, where we run into the problem of tracking the correct path to our value through recursive calls to the search method.</p>
+
+<p>Struggling through the recursion in this problem, I started to wonder if I had traded one problem, learning to read compound data structures, for another: <em>figuring out recursive searching!</em></p>
+
+<h2>Working through Search Recursively</h2>
+
+<p>Check out the suggested search for &ldquo;recursion&rdquo; when you Google it:</p>
+
+<p><a><img src="http://i.imgur.com/3rKK7mF.png" title="Hosted by imgur.com" /></a></p>
+
+<p>Ha! Yeah, I clicked on &ldquo;Did you mean? recursion&rdquo; a few times just to check.</p>
+
+<p>Anyway, since we don&rsquo;t know how big the data structure is, we have to keep searching through unknown elements, that could be value, hashes, or arrays that need to be looked through in turn as well.</p>
+
+<p>This is a job for recursion!</p>
+
+<p>Looking at <a href="http://en.wikipedia.org/wiki/Inorder_traversal#Depth-first">tree traversal search problems</a>, I realized I needed to move through a tree structure and needed to track where I was on the tree…but couldn&rsquo;t figure out at first how to track the path.</p>
+
+<p>The first pass at the problem returned an array of every endpoint of every possible path. Each element of the returned &ldquo;path&rdquo; array came back as true or false relative to the value we were searching for…but there were no breadcrumbs to know what the path was for the true version. <em>To solve the problem, we needed to return a path, not just know that the value was in the data structure</em></p>
+
+<p>To identify the path, we capturing the index of the current element we were testing in the array. We&rsquo;d add them once we new we had a true path on the way &ldquo;back up&rdquo; the recursion. This was messing with the order, though.</p>
+
+<p>Finally, (in the shower, of course!) I realized that adding to the path should happen just before the recursive call AND if the call came back &ldquo;false&rdquo;, we should strip out the path identifier right after the call came back.</p>
+
+<p>Adding to the path:
+<code></p>
+
+<pre><code>if !path.include?(true)
+  path &lt;&lt; i
+end
+</code></pre>
+
+<p></code>
+Removing the &ldquo;wrong branch&rdquo; from the path after the recursive call:
+<code></p>
+
+<pre><code>path = path_finder(value, element, path)
+if !path.include?(true)
+  path.pop
+end
+</code></pre>
+
+<p></code></p>
+
+<p>In other words, a &ldquo;not-true&rdquo; return would tell us that we went down the wrong branch and so we should erase that branch and start going down the next possible branch.</p>
+
+<p>After I got the correct path to return, it was just a matter of cleaning it up and presenting it in a way that would let you &ldquo;copy and paste&rdquo; into your code for easy referrence.</p>
+
+<p>I hope this comes in handy when other people are learning to read compound data structures!</p>
+
+<p><a href="https://github.com/dankleiman/path_finder">Check out the repo on Github</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
       
-        <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/about/index.html" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/about/index.html" >Tweet</a>
+
+<span class="byline author vcard">Posted by <span class="fn">Dan Kleiman</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-25T09:07:15-04:00" pubdate data-updated="true">May 25<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2014/05/25/building-a-learning-tool-for-compound-data-structures/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2014/05/25/building-a-learning-tool-for-compound-data-structures/" >Tweet</a>
   
   
   
 </div>
 
+    
+    <p class="meta">
       
-    </footer>
-  
+        <a class="basic-alignment left" href="/blog/2014/05/21/day-10-the-dreams-continue/" title="Previous Post: Day 10: The Dreams Continue">&laquo; Day 10: The Dreams Continue</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>
