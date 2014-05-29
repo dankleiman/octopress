@@ -187,6 +187,15 @@
   
   
     <section>
+  <h1>Connect with Me</h1>
+  <div class="sidebar-connect">
+    <a class="sidebar-icon" href="https://github.com/dankleiman"><img src="https://raw.githubusercontent.com/adamfairhead/webicons/master/webicons/webicon-github.png" alt="image courtesy of fairheadcreative"></a>
+    <a class="sidebar-icon" href="https://twitter.com/dan_kleiman"><img src="https://raw.githubusercontent.com/adamfairhead/webicons/master/webicons/webicon-twitter.png" alt="image courtesy of fairheadcreative"></a>
+    <a class="sidebar-icon" href="https://www.linkedin.com/in/dlkleiman"><img src="https://raw.githubusercontent.com/adamfairhead/webicons/master/webicons/webicon-linkedin.png" alt="image courtesy of fairheadcreative"></a>
+  </div>
+
+</section>
+<section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
@@ -214,41 +223,9 @@
 </section>
 
 <section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
-  </ul>
-  
-  <a href="https://github.com/dankleiman">@dankleiman</a> on GitHub
-  
-  <script type="text/javascript">
-    $(document).ready(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'dankleiman',
-            count: 0,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-<section>
   <h1>Treehouse Badges</h1>
   <div class="badges-box"></div>
 </section>
-
-
 
 
   
