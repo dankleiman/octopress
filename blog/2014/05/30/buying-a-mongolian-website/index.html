@@ -1,0 +1,530 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Buying a Mongolian Website for My URL Shortner - Dan Kleiman</title>
+  <meta name="author" content="Dan Kleiman">
+
+  
+  <meta name="description" content="Ok, so technically I just purchased a Mongolian domain name: klei.mn. Why, you might be wondering? This week at Launch Academy we&rsquo;ve been &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dankleiman.github.io/blog/2014/05/30/buying-a-mongolian-website">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Dan Kleiman" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Dan Kleiman</a></h1>
+  
+    <h2>Adventures in Learning to Code</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/coding-resources">Coding Resources</a></li>
+  <li><a href="/about">About Me</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Buying a Mongolian Website for My URL Shortner</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-30T09:17:22-04:00" pubdate data-updated="true">May 30<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Ok, so technically I just purchased a Mongolian domain name: <a href="http://klei.mn">klei.mn</a>.</p>
+
+<p>Why, you might be wondering?</p>
+
+<!-- more -->
+
+
+<p>This week at Launch Academy we&rsquo;ve been building Sinatra applications with simple databases (Redis and Postgres) and deploying them to Heroku.</p>
+
+<p>One of the extra-credit projects was to build a url shortner and I thought it would be cool to hook mine up to a customized domain, kind of like a vanity plate for your car.</p>
+
+<p>In this post, I&rsquo;m going to explain why you might want a URL shortner and how I built and deployed my own custom version.</p>
+
+<h2>The Basic Logic of a URL Shortner</h2>
+
+<p>Sometimes, when you&rsquo;re sharing the url of a website, the address can be really, really long.</p>
+
+<p>This is problematic if you&rsquo;re trying to dictate the url to someone, have to write it out by hand for some reason, or if you want to share it somewhere with space constraints, like on Twitter.</p>
+
+<p>The idea behind a url shortner is that you can generate a shorter url whose sole purpose is to redirect to the longer url. Now, you can use a much shorter, more manageable set of characters to describe the same page.</p>
+
+<p>Often, the domain of the url itself is only a few characters long, further truncating the &ldquo;short url&rdquo; &mdash; examples include Twitters own service, t.co, or a free service anyone can access like bit.ly.</p>
+
+<p>Many sites like the New York Times have created prorietary domains just to shorten their own links, which is a combination of branding when the short domain resembles the name of the company or main site and a tracking tool, which I&rsquo;ll explain more further down this post.</p>
+
+<h2>My Mongolian Domain Name</h2>
+
+<p>So, when I said this was a bit of a vanity project for me, what I meant was, I took my last name &ldquo;Kleiman&rdquo; and tried to think of a way to shrink it down to fit a small domain name.</p>
+
+<p>Using something like &ldquo;DansShortUrlforShorteningLongUrls.com&rdquo; would totally defeat the purpose, right?</p>
+
+<p>I had seen the &ldquo;.mn&rdquo; Top Level Domain (TLD &ndash; that&rsquo;s the extension on any url, like .com), so I poked around a little to see about purchasing one.</p>
+
+<p>It turns out that the more obscure TLDs aren&rsquo;t for sale on all of the popular domain resellers, but after a little digging, I did <a href="http://domain.mn">find a site</a> that sells .mn domains &mdash; and it turns out that the country that owns that TLD is Mongolia.</p>
+
+<p>Nothing like starting your morning off with a little international commerce!</p>
+
+<h2>The Final Step: Deploying the App</h2>
+
+<p>So, last thing first, then we&rsquo;ll talk about the code.</p>
+
+<p>When you deploy an application to <a href="http://heroku.com">Heroku</a>, they host your code on a server and set you up with a subdomain.</p>
+
+<p>Their subdomains are pretty elegantly named. They always conjure dark, quiet, rustic imagery, like &ldquo;sleepy-journey&rdquo; or &ldquo;damp-retreat&rdquo;.</p>
+
+<p>Again, though, the problem is that &ldquo;stormy-stream-3295.herokuapp.com&rdquo; doesn&rsquo;t really lend itself to a short url.</p>
+
+<p>I saved this for the final step, but after the app (ok, version 1) was up and running, I went through the process of redirecting the Heroku default domain to my newly acquired, shorter Mongolian domain name, klei.mn.</p>
+
+<p>Just want to give a shoutout here to <a href="http://dnsimple.com">DNSimple</a> for making the redirect process really painless. Initially, I tried to mess around with the records that tell any requests from the browser where to go for the page you want on the site where I bought the domain name. It was a mess.</p>
+
+<p>Fortunately, DNSimple has an easy process for redirecting and within minutes, the app was running from Heroku on klei.mn. Really Simple!</p>
+
+<p>The only other hiccup I encountered in deployment was that the free Redis database I was using kept timing out with the number of requests the app was making, even for some simple testing. Since we had moved on to Postgres in class, I rewrote the app to use that instead. As it turns out, the data structure in Postgres was much easier to use anyway, even if it was probably overkill, with a single table in this case.</p>
+
+<p>I hope to come back to the differences in working with these two databases, but that&rsquo;s for another time and post.</p>
+
+<h2>Building the URL Shortner in Sinatra</h2>
+
+<p>At Launch Academy, we&rsquo;ve been following a really neat learning progression, where we&rsquo;re building up gradually to the complexity of a full stack web application, specifially built with Ruby on Rails.</p>
+
+<p>While we&rsquo;ve been working on our Ruby fundamentals all along, there are at least three other areas that can be broken down into simpler steps:</p>
+
+<ul>
+<li>The Framework that integrates what the user sees with the information stored in the database.</li>
+<li>The Database, in terms of its organization and how the application interacts with data.</li>
+<li>The Front-End interaction for the user.</li>
+</ul>
+
+
+<p>For this project, I&rsquo;m going to explain where we&rsquo;re at mainly regarding the framework.</p>
+
+<p>We started out with the simplest way to run a Ruby program, executing a Ruby file from the command line.</p>
+
+<p>When we were just learning Ruby, this was fine. We didn&rsquo;t have a lots of data and the programs were simple enough that all of the logic could easily fit in one file. Plus, the interface was bare bones, just the simple, elegant command line (I&rsquo;ll probably write more about falling in love the command line later, ha!).</p>
+
+<p>And even when we wanted to use more complex data, we learned how to read and write with local files or even pull in data from APIs.</p>
+
+<p>To persist information and access it more dynamically, though, we quickly ran up against the limits of our CSV files and started to need to query databases.</p>
+
+<p>Interacting with a database leads to moving dynamic information around between all your different files, selectively displaying it to you user.</p>
+
+<p>To control the data this way, you need an extra layer, between the user and the database, essentially to direct all this traffic and figure out what to do next. Enter, &ldquo;the framework.&rdquo; In this case, we started out with a simple one (I&rsquo;m told) called Sinatra.</p>
+
+<p>In production, your Sinatra app likely includes the following files:</p>
+
+<ul>
+<li>A file to tell the server how to being your program.</li>
+<li>A &ldquo;server&rdquo; file that the program runs from, directing traffic, executing program logic, and interacting with the database.</li>
+<li>&ldquo;Views&rdquo; that dictate what gets displayed on each page the application serves up.</li>
+<li>In Ruby, &ldquo;Gemfiles&rdquo; that tell the server what Ruby Gems will be needed to perform specific tasks in the application.</li>
+</ul>
+
+
+<p>From what I understand, compared to a more robust framework like Rails, Sinatra&rsquo;s simplicity lies in the way all of your routes (links between the data and the views) live in a single file.</p>
+
+<p>At least for us, at this stage, it made sorting out all the program logic easier, since you only have to look in one place. One the flip side, I can see how this gets messy as you go up in complexity, but that&rsquo;s what&rsquo;s cool about our curriculum: when increased complexity/difficult necessitates new tools to handle the issue, we are introduced to them, <em>but not before</em>.</p>
+
+<h2>And Now for Some Code</h2>
+
+<p>There are two operations at the heart of this project: <strong>creating short urls and redirection</strong>.</p>
+
+<p>I want to turn the long url that you give me into a short one AND every time you visit the short one, I want to send you to the long one.</p>
+
+<p>Along the way, if I can <a href="http://klei.mn/stats">track how often this is happening for each short url</a>, that will be cool too.</p>
+
+<p>When you visit <a href="http://klei.mn">klei.mn</a>, hopefully, the action is clear: give me a url to shorten.</p>
+
+<p>Here&rsquo;s what the shortening code looks like:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>post '/new' do
+</span><span class='line'>  url = params[:url]
+</span><span class='line'>  @errors = []
+</span><span class='line'>  @errors = valid_url(url)
+</span><span class='line'>  if @errors.empty?
+</span><span class='line'>    long_url = check_long_url(url).to_a
+</span><span class='line'>    if long_url.empty?
+</span><span class='line'>      short_url = get_short(url)
+</span><span class='line'>      save_link(url, short_url)
+</span><span class='line'>    else
+</span><span class='line'>      short_url = long_url[0]["short_url"]
+</span><span class='line'>    end
+</span><span class='line'>    redirect "/links/#{short_url}"
+</span><span class='line'>  else
+</span><span class='line'>    erb :index
+</span><span class='line'>  end
+</span><span class='line'>end
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here&rsquo;s what it does:</p>
+
+<ul>
+<li>Once you hit &ldquo;Shorten&rdquo; on the main page, you send the server the &ldquo;post&rdquo; request.</li>
+<li>First, I&rsquo;m going to make sure what you put in the form is a valid url.</li>
+<li>Then, I want to check and make sure that the url you sent me isn&rsquo;t already in the database.</li>
+<li>If it is, I will send you to the page that already exists for that link: klei.mn/links/(some short url), that shows the full url, the short url, and click stats.</li>
+<li>If it&rsquo;s not in the database, I create a new short url for it and insert that new info into the database with the &ldquo;save_link&rdquo; method.</li>
+</ul>
+
+
+<p>Check out the stats page for <a href="http://klei.mn">all shortened urls</a>.</p>
+
+<p>You&rsquo;ll notice that <a href="https://twitter.com/heroiceric">one clever person</a> I asked to test the site started by shortnening the main domain, then kept entering the returned short urls into the shortner. Now, every time you use the last link, it redirects you to the main page, <em>via all the other shortened urls and all their click stats go up</em>. (I&rsquo;ll likely disable the ability to submit urls with klei.mn as the domain by the time you read this.)</p>
+
+<p>Now that you&rsquo;ve created or retreived a short url for your long link, you&rsquo;ll want to use it.</p>
+
+<p>Here&rsquo;s what happens when you enter one of the short urls:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>get '/:short_url' do
+</span><span class='line'>  short_url = params[:short_url]
+</span><span class='line'>  if short_url == 'stats'
+</span><span class='line'>    @url_stats = get_all_url_stats
+</span><span class='line'>    erb :'stats'
+</span><span class='line'>  elsif short_url == 'about'
+</span><span class='line'>    erb :'about'
+</span><span class='line'>  else
+</span><span class='line'>    add_clicks(short_url)
+</span><span class='line'>    outgoing_link_data = get_long_url(short_url)
+</span><span class='line'>    outgoing_link = outgoing_link_data[0]["long_url"]
+</span><span class='line'>    redirect "#{outgoing_link}"
+</span><span class='line'>  end
+</span><span class='line'>end
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here&rsquo;s what&rsquo;s going on in the code:</p>
+
+<ul>
+<li>First, I grab the slug, or the part of the url after &ldquo;klei.mn/&rdquo;, from the &ldquo;get&rdquo; request.</li>
+<li>Since all the short urls are klei.mn/something, there have to be a few exceptions for any other page I want to have on the site, like &ldquo;klei.mn/stats&rdquo; or &ldquo;klei.mn/about&rdquo;. <em>Maybe there&rsquo;s another way to do this?</em></li>
+<li>Once I&rsquo;ve determined that it&rsquo;s one of the short urls, I want to send you to the url you&rsquo;re actually looking for. But first, I want to increase the click count for that url. The first method, &ldquo;add_clicks&rdquo;, adds a click to the counter for that url. Yay, semantic naming conventions!</li>
+<li>Next, we need to go get the corresponding long url from the database, so we know where to send you.</li>
+<li>Finally, we redirect to the long url.</li>
+</ul>
+
+
+<p>Before I really knew how servers sent and received information, this whole redirecttion process seemed like a little bit of magic.</p>
+
+<p>Writing this up, now, though, it all feels pretty straightforward, don&rsquo;t you think?</p>
+
+<p>You ask me to go somewhere. I look up directions and send you on your way to the destination you actually want. Maybe this is a version of &ldquo;give them what they want in the hope that they&rsquo;ll want what they need?&rdquo;</p>
+
+<p>Which leads me to a more dilemma about shortening urls&hellip;.is it really what we want to be doing?</p>
+
+<h2>The Problem with URL Shortnening</h2>
+
+<p>I mentioned this project to a former board member of the [Web Foundation](<a href="http://webfoundation.org,">http://webfoundation.org,</a> whose mission is to &ldquo;establish the open Web as a global public good and a basic right, ensuring that everyone can access and use it freely.&rdquo; and he said &ldquo;you know that&rsquo;s not a good idea, right?&rdquo;</p>
+
+<p>It&rsquo;s not that he&rsquo;s against me learning to code. He&rsquo;s been very supportive. ;&ndash;)</p>
+
+<p>But what he and his colleagues do is think about the world wide web on a much longer time scale that most people typically do.</p>
+
+<p>Our use case for the short url is really about convenience. They think about persistence, connectivity, and meaning.</p>
+
+<p>By inserting short urls all over the place to direct connections around the web, we are potentially creating a lot of dead-ends if the short url domains go away.</p>
+
+<p>From what I gathered from him, there is also a semantic isssue, when you compare short urls and their longer parents.</p>
+
+<p>The short links posted everywhere won&rsquo;t really mean anything, compared to the more detailed long urls they are derived from.</p>
+
+<p>Wikipedia has more on the shortcomings of URL shortnening <a href="http://en.wikipedia.org/wiki/URL_shortening#Shortcomings">here</a>.</p>
+
+<p>Can you make the case either way? Does it make sense in a more closed ecosystem like Twitter? Am I being an irresponsible citizen of the net by introducing short urls for vanity and convenience?</p>
+
+<p>These all seem like interesting questions!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Dan Kleiman</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-30T09:17:22-04:00" pubdate data-updated="true">May 30<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2014/05/30/buying-a-mongolian-website/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2014/05/30/buying-a-mongolian-website/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/05/25/building-a-learning-tool-for-compound-data-structures/" title="Previous Post: Building a Learning Tool for Compound Data Structures">&laquo; Building a Learning Tool for Compound Data Structures</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+  <aside class="sidebar">
+   
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dankleiman.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+  
+    <section>
+  <h1>Connect with Me</h1>
+  <div class="sidebar-connect">
+    <a class="sidebar-icon" href="https://github.com/dankleiman"><img src="https://raw.githubusercontent.com/adamfairhead/webicons/master/webicons/webicon-github.png" alt="image courtesy of fairheadcreative"></a>
+    <a class="sidebar-icon" href="https://twitter.com/dan_kleiman"><img src="https://raw.githubusercontent.com/adamfairhead/webicons/master/webicons/webicon-twitter.png" alt="image courtesy of fairheadcreative"></a>
+    <a class="sidebar-icon" href="https://www.linkedin.com/in/dlkleiman"><img src="https://raw.githubusercontent.com/adamfairhead/webicons/master/webicons/webicon-linkedin.png" alt="image courtesy of fairheadcreative"></a><br/><br/>
+    <p><strong><a href="http://klei.mn/uIpmel">Try my custom URL shortner</a></strong></p>
+  </div>
+
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/05/30/buying-a-mongolian-website/">Buying a Mongolian Website for My URL Shortner</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/25/building-a-learning-tool-for-compound-data-structures/">Building a Learning Tool for Compound Data Structures</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/21/day-10-the-dreams-continue/">Day 10: The Dreams Continue</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/17/launch-academy-week-1-reflections/">Launch Academy: Week 1 Reflections</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/09/this-is-new-post/">Reflections on Pre-Work: Balancing Theory and Practice</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>Treehouse Badges</h1>
+  <div class="badges-box"></div>
+</section>
+
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Dan Kleiman -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Site Theme by Fellow Launcher <a href="https://github.com/johnkeith/boldandblue">John Keith</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+<script>
+  $(document).ready(function() {  
+  var stickyNavTop = $('nav').offset().top;  
+    
+  var stickyNav = function(){  
+  var scrollTop = $(window).scrollTop();  
+         
+  if (scrollTop > stickyNavTop) {   
+      $('nav').addClass('sticky');  
+  } else {  
+      $('nav').removeClass('sticky');   
+  }  
+  };  
+    
+  stickyNav();  
+    
+  $(window).scroll(function() {  
+      stickyNav();  
+  });  
+  });  
+</script>
+<script>
+th_username = "dankleiman";
+th_show_all_badges = false;
+th_number_badges_visible = (9 - 1);
+
+$(document).ready(function() {
+
+  if(th_username == "" || th_show_all_badges == false && th_number_badges_visible == -1){
+    $(".badges-box").hide();
+  } else {
+
+  $.getJSON("http://teamtreehouse.com/" + th_username +".json", function(data) {
+    var items = [];
+    var number_of_badges = data.badges.length;
+    var total_points = data.points.total;
+    $.each(data.badges, function(k, v) {
+       items.push( "<a href='" + v.url + "'><img src='" + v.icon_url + "' alt='" + v.name + "' title='" + v.name + "'/></a>");
+    });
+   
+    $(".badges-box").append("<p>I've earned <strong>" + number_of_badges + " badges</strong> for a total of <strong>" + total_points + " points</strong> at <a href='http://www.teamtreehouse.com'>Treehouse!</a></p>");
+   
+    $( "<ul/>", {
+      "class": "badge-image-list",
+      html: items.reverse().join( "" )
+    }).appendTo( ".badges-box" ).hide().fadeIn(500);
+   
+    if(th_show_all_badges == false) {
+      $( ".badge-image-list img:gt(" + th_number_badges_visible + ")").hide();
+
+      $(".badges-box").append("<button id='show-all'>See all badges</button>");
+
+      $("#show-all").click(function() {
+        $( ".badge-image-list img:gt(" + th_number_badges_visible + ")").toggle(0, "linear");
+        if($("#show-all").html() == "See all badges") {
+          $("#show-all").html("Hide badges");
+          $("#show-all").blur();
+        } else {
+          $("#show-all").html("See all badges");
+          $("#show-all").blur();
+        };
+      });
+    };
+  });
+ };
+});
+</script>
+
+
+</body>
+</html>
