@@ -91,35 +91,56 @@
 <!-- more -->
 
 
-<p>For example:
-<code></p>
+<p>For example:</p>
 
-<pre><code>movie = {
-  title: 'The Nutty Professor',
-  cast: [
-    {
-      name: 'Eddie Murphy',
-      characters: [
-        'Sherman Klump',
-        'Buddy Love',
-        'Lance Perkins',
-        'Papa Klump',
-        'Mama Klump',
-        'Grandma Klump',
-        'Ernie Klump'
-      ]
-    },
-    {
-      name: 'Jada Pinkett Smith',
-      characters: [
-        'Carla Purty'
-      ]
-    }
-  ]
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>    <span class="n">movie</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>      <span class="ss">title</span><span class="p">:</span> <span class="s1">&#39;The Nutty Professor&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="ss">cast</span><span class="p">:</span> <span class="o">[</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;Eddie Murphy&#39;</span><span class="p">,</span>
+</span><span class='line'>          <span class="ss">characters</span><span class="p">:</span> <span class="o">[</span>
+</span><span class='line'>            <span class="s1">&#39;Sherman Klump&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;Buddy Love&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;Lance Perkins&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;Papa Klump&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;Mama Klump&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;Grandma Klump&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;Ernie Klump&#39;</span>
+</span><span class='line'>          <span class="o">]</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;Jada Pinkett Smith&#39;</span><span class="p">,</span>
+</span><span class='line'>          <span class="ss">characters</span><span class="p">:</span> <span class="o">[</span>
+</span><span class='line'>            <span class="s1">&#39;Carla Purty&#39;</span>
+</span><span class='line'>          <span class="o">]</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="o">]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p></code></p>
 
 <p>If I want to find a character, I have to reference an array inside a hash inside an array inside a hash&hellip;I think. Even that last sentence was difficult to write.</p>
 
@@ -166,25 +187,29 @@
 
 <p>Finally, (in the shower, of course!) I realized that adding to the path should happen just before the recursive call AND if the call came back &ldquo;false&rdquo;, we should strip out the path identifier right after the call came back.</p>
 
-<p>Adding to the path:
-<code></p>
+<p>Adding to the path:</p>
 
-<pre><code>if !path.include?(true)
-  path &lt;&lt; i
-end
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="o">!</span><span class="n">path</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">path</span> <span class="o">&lt;&lt;</span> <span class="n">i</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p></code>
-Removing the &ldquo;wrong branch&rdquo; from the path after the recursive call:
-<code></p>
 
-<pre><code>path = path_finder(value, element, path)
-if !path.include?(true)
-  path.pop
-end
-</code></pre>
+<p>Removing the &ldquo;wrong branch&rdquo; from the path after the recursive call:</p>
 
-<p></code></p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">path</span> <span class="o">=</span> <span class="n">path_finder</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">element</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+</span><span class='line'><span class="k">if</span> <span class="o">!</span><span class="n">path</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">path</span><span class="o">.</span><span class="n">pop</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>In other words, a &ldquo;not-true&rdquo; return would tell us that we went down the wrong branch and so we should erase that branch and start going down the next possible branch.</p>
 
@@ -268,6 +293,10 @@ end
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/06/08/asking-questions-the-holy-grail-of-oop/">Asking Questions: The Holy Grail of OOP</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/05/30/buying-a-mongolian-website/">Buying a Mongolian Website for My URL Shortner</a>
       </li>
     
@@ -281,10 +310,6 @@ end
     
       <li class="post">
         <a href="/blog/2014/05/17/launch-academy-week-1-reflections/">Launch Academy: Week 1 Reflections</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/05/09/this-is-new-post/">Reflections on Pre-Work: Balancing Theory and Practice</a>
       </li>
     
   </ul>

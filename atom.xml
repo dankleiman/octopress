@@ -4,7 +4,7 @@
   <title><![CDATA[Dan Kleiman]]></title>
   <link href="http://dankleiman.github.io/atom.xml" rel="self"/>
   <link href="http://dankleiman.github.io/"/>
-  <updated>2014-05-30T11:32:56-04:00</updated>
+  <updated>2014-06-08T21:08:14-04:00</updated>
   <id>http://dankleiman.github.io/</id>
   <author>
     <name><![CDATA[Dan Kleiman]]></name>
@@ -12,6 +12,127 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Asking Questions: The Holy Grail of OOP]]></title>
+    <link href="http://dankleiman.github.io/blog/2014/06/08/asking-questions-the-holy-grail-of-oop/"/>
+    <updated>2014-06-08T20:32:17-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2014/06/08/asking-questions-the-holy-grail-of-oop</id>
+    <content type="html"><![CDATA[<p>This week at Launch Academy, we started working on Object Oriented Programming (OOP).</p>
+
+<p>We&rsquo;ve been guided by the conceptual model that objects, which can have state and defined behavoirs, respond to methods the same way that you would respond to a question.</p>
+
+<p>Of course, a week of asking my objects questions made me think of this:</p>
+
+<!-- more -->
+
+
+
+
+<iframe width="640" height="480" src="//www.youtube.com/embed/pWS8Mg-JWSg" frameborder="0" allowfullscreen></iframe>
+
+
+<p>And the more I thought about The Bridge of Death, the more the Bridgekeeper&rsquo;s questions made a lot of sense in our OOP world.</p>
+
+<p>Really, we&rsquo;ve got a collection of Knights and each one responds to a series of questions. If we coded that up, it would look something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Knight</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:quest</span><span class="p">,</span> <span class="ss">:favorite_color</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">intialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">quest</span><span class="p">,</span> <span class="n">favorite_color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+</span><span class='line'>    <span class="vi">@quest</span> <span class="o">=</span> <span class="n">quest</span>
+</span><span class='line'>    <span class="vi">@favorite_color</span> <span class="o">=</span> <span class="n">favorite_color</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Our knights, Sir Lancelot, King Arthur, or Sir Galahad, are all instances of the class &ldquo;Knight.&rdquo; They are objects with contain a state (their specific names, quests, etc) and behaviors.</p>
+
+<p>When it comes to behaviors, they can inherit them in some cases, or the behaviors have to be explicitly defined within the class.</p>
+
+<p>In the clip above, we can see how the knights know how to answer the questions about their names and quests&hellip;they respond to the name and quest methods defined in their class.</p>
+
+<p>But we also see something else.</p>
+
+<p>When Robin approaches the bride, the Bridgekeeper asks him his name and quest:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">robin</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'><span class="n">robin</span><span class="o">.</span><span class="n">quest</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And that produces the answers we&rsquo;d expect:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="s2">&quot;Robin of Camelot&quot;</span>
+</span><span class='line'><span class="s2">&quot;To seek the Holy Grail&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But then the Bridgekeeper throws a curveball. He calls</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">robin</span><span class="o">.</span><span class="n">capital_of_assyria</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When Robin is asked what the capital of Assyria is, he literally blows up. From an OOP perspective, we know it was because this behavior was never defined for the class Knight:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">capital_of_assyria</span>
+</span><span class='line'>  <span class="sc">????</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Of course, there&rsquo;s a further twist when the Bridgekeeper tries to call</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">airspeed_velocity_of_an_unladen_swallow</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>on King Arthur, but really, you should watch the clip if you don&rsquo;t already know what happens.</p>
+
+<h2>Asking Questions, Building Objects</h2>
+
+<p>So, now we know that you have to define the behaviors you want to utilize to do effective object-oriented programming.</p>
+
+<p>But why? What&rsquo;s the point? Or more importantly, what&rsquo;s the advantage of writing code this way.</p>
+
+<p>I&rsquo;m sure there are bigger implications of taking this approach, but I can tell you that right away, my experience of writing simple code is completely different.</p>
+
+<p>When you set out to build classes and objects, you actually don&rsquo;t need to know everything about how your program works right away to make progress.</p>
+
+<p>Instead of figuring out every detail of every loop, calculation, and variable, <strong>you can assume that the classes and methods you create will give you the answer you want.</strong></p>
+
+<p>You are free to write more semantic, flowing code from the beginning, without having to stop and figure out the nitty-gritty.</p>
+
+<p>Even in my limited experience taking this approach, I can tell you that it lets you think at a high level about your problem, sketching out the logic, flow, and just marking out the big areas you know you&rsquo;ll tackle later on.</p>
+
+<p>Gradually, layer-by-layer, you go deeper and work out the details.</p>
+
+<p>I wish I had had a clear top-down model like this to solve problems in the past. Here&rsquo;s to applying it going forward!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Buying a Mongolian Website for My URL Shortner]]></title>
@@ -128,7 +249,7 @@
 
 <p>Here&rsquo;s what the shortening code looks like:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -145,23 +266,23 @@
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>post '/new' do
-</span><span class='line'>  url = params[:url]
-</span><span class='line'>  @errors = []
-</span><span class='line'>  @errors = valid_url(url)
-</span><span class='line'>  if @errors.empty?
-</span><span class='line'>    long_url = check_long_url(url).to_a
-</span><span class='line'>    if long_url.empty?
-</span><span class='line'>      short_url = get_short(url)
-</span><span class='line'>      save_link(url, short_url)
-</span><span class='line'>    else
-</span><span class='line'>      short_url = long_url[0]["short_url"]
-</span><span class='line'>    end
-</span><span class='line'>    redirect "/links/#{short_url}"
-</span><span class='line'>  else
-</span><span class='line'>    erb :index
-</span><span class='line'>  end
-</span><span class='line'>end
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">post</span> <span class="s1">&#39;/new&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">url</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:url</span><span class="o">]</span>
+</span><span class='line'>  <span class="vi">@errors</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="vi">@errors</span> <span class="o">=</span> <span class="n">valid_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@errors</span><span class="o">.</span><span class="n">empty?</span>
+</span><span class='line'>    <span class="n">long_url</span> <span class="o">=</span> <span class="n">check_long_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">long_url</span><span class="o">.</span><span class="n">empty?</span>
+</span><span class='line'>      <span class="n">short_url</span> <span class="o">=</span> <span class="n">get_short</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">save_link</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">short_url</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">short_url</span> <span class="o">=</span> <span class="n">long_url</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="s2">&quot;short_url&quot;</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">redirect</span> <span class="s2">&quot;/links/</span><span class="si">#{</span><span class="n">short_url</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:index</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -184,7 +305,7 @@
 
 <p>Here&rsquo;s what happens when you enter one of the short urls:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -198,20 +319,20 @@
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>get '/:short_url' do
-</span><span class='line'>  short_url = params[:short_url]
-</span><span class='line'>  if short_url == 'stats'
-</span><span class='line'>    @url_stats = get_all_url_stats
-</span><span class='line'>    erb :'stats'
-</span><span class='line'>  elsif short_url == 'about'
-</span><span class='line'>    erb :'about'
-</span><span class='line'>  else
-</span><span class='line'>    add_clicks(short_url)
-</span><span class='line'>    outgoing_link_data = get_long_url(short_url)
-</span><span class='line'>    outgoing_link = outgoing_link_data[0]["long_url"]
-</span><span class='line'>    redirect "#{outgoing_link}"
-</span><span class='line'>  end
-</span><span class='line'>end
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/:short_url&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">short_url</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:short_url</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">short_url</span> <span class="o">==</span> <span class="s1">&#39;stats&#39;</span>
+</span><span class='line'>    <span class="vi">@url_stats</span> <span class="o">=</span> <span class="n">get_all_url_stats</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:&#39;stats&#39;</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">short_url</span> <span class="o">==</span> <span class="s1">&#39;about&#39;</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:&#39;about&#39;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">add_clicks</span><span class="p">(</span><span class="n">short_url</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">outgoing_link_data</span> <span class="o">=</span> <span class="n">get_long_url</span><span class="p">(</span><span class="n">short_url</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">outgoing_link</span> <span class="o">=</span> <span class="n">outgoing_link_data</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="s2">&quot;long_url&quot;</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">redirect</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">outgoing_link</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -268,35 +389,56 @@
 <!-- more -->
 
 
-<p>For example:
-<code></p>
+<p>For example:</p>
 
-<pre><code>movie = {
-  title: 'The Nutty Professor',
-  cast: [
-    {
-      name: 'Eddie Murphy',
-      characters: [
-        'Sherman Klump',
-        'Buddy Love',
-        'Lance Perkins',
-        'Papa Klump',
-        'Mama Klump',
-        'Grandma Klump',
-        'Ernie Klump'
-      ]
-    },
-    {
-      name: 'Jada Pinkett Smith',
-      characters: [
-        'Carla Purty'
-      ]
-    }
-  ]
-}
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>    <span class="n">movie</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>      <span class="ss">title</span><span class="p">:</span> <span class="s1">&#39;The Nutty Professor&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="ss">cast</span><span class="p">:</span> <span class="o">[</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;Eddie Murphy&#39;</span><span class="p">,</span>
+</span><span class='line'>          <span class="ss">characters</span><span class="p">:</span> <span class="o">[</span>
+</span><span class='line'>            <span class="s1">&#39;Sherman Klump&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;Buddy Love&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;Lance Perkins&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;Papa Klump&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;Mama Klump&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;Grandma Klump&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;Ernie Klump&#39;</span>
+</span><span class='line'>          <span class="o">]</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;Jada Pinkett Smith&#39;</span><span class="p">,</span>
+</span><span class='line'>          <span class="ss">characters</span><span class="p">:</span> <span class="o">[</span>
+</span><span class='line'>            <span class="s1">&#39;Carla Purty&#39;</span>
+</span><span class='line'>          <span class="o">]</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="o">]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p></code></p>
 
 <p>If I want to find a character, I have to reference an array inside a hash inside an array inside a hash&hellip;I think. Even that last sentence was difficult to write.</p>
 
@@ -343,25 +485,29 @@
 
 <p>Finally, (in the shower, of course!) I realized that adding to the path should happen just before the recursive call AND if the call came back &ldquo;false&rdquo;, we should strip out the path identifier right after the call came back.</p>
 
-<p>Adding to the path:
-<code></p>
+<p>Adding to the path:</p>
 
-<pre><code>if !path.include?(true)
-  path &lt;&lt; i
-end
-</code></pre>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="o">!</span><span class="n">path</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">path</span> <span class="o">&lt;&lt;</span> <span class="n">i</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p></code>
-Removing the &ldquo;wrong branch&rdquo; from the path after the recursive call:
-<code></p>
 
-<pre><code>path = path_finder(value, element, path)
-if !path.include?(true)
-  path.pop
-end
-</code></pre>
+<p>Removing the &ldquo;wrong branch&rdquo; from the path after the recursive call:</p>
 
-<p></code></p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">path</span> <span class="o">=</span> <span class="n">path_finder</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">element</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+</span><span class='line'><span class="k">if</span> <span class="o">!</span><span class="n">path</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">path</span><span class="o">.</span><span class="n">pop</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>In other words, a &ldquo;not-true&rdquo; return would tell us that we went down the wrong branch and so we should erase that branch and start going down the next possible branch.</p>
 

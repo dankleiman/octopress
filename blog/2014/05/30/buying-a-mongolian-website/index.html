@@ -196,7 +196,7 @@
 
 <p>Here&rsquo;s what the shortening code looks like:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -213,23 +213,23 @@
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>post '/new' do
-</span><span class='line'>  url = params[:url]
-</span><span class='line'>  @errors = []
-</span><span class='line'>  @errors = valid_url(url)
-</span><span class='line'>  if @errors.empty?
-</span><span class='line'>    long_url = check_long_url(url).to_a
-</span><span class='line'>    if long_url.empty?
-</span><span class='line'>      short_url = get_short(url)
-</span><span class='line'>      save_link(url, short_url)
-</span><span class='line'>    else
-</span><span class='line'>      short_url = long_url[0]["short_url"]
-</span><span class='line'>    end
-</span><span class='line'>    redirect "/links/#{short_url}"
-</span><span class='line'>  else
-</span><span class='line'>    erb :index
-</span><span class='line'>  end
-</span><span class='line'>end
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">post</span> <span class="s1">&#39;/new&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">url</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:url</span><span class="o">]</span>
+</span><span class='line'>  <span class="vi">@errors</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="vi">@errors</span> <span class="o">=</span> <span class="n">valid_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@errors</span><span class="o">.</span><span class="n">empty?</span>
+</span><span class='line'>    <span class="n">long_url</span> <span class="o">=</span> <span class="n">check_long_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">long_url</span><span class="o">.</span><span class="n">empty?</span>
+</span><span class='line'>      <span class="n">short_url</span> <span class="o">=</span> <span class="n">get_short</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">save_link</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">short_url</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">short_url</span> <span class="o">=</span> <span class="n">long_url</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="s2">&quot;short_url&quot;</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">redirect</span> <span class="s2">&quot;/links/</span><span class="si">#{</span><span class="n">short_url</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:index</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -252,7 +252,7 @@
 
 <p>Here&rsquo;s what happens when you enter one of the short urls:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -266,20 +266,20 @@
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>get '/:short_url' do
-</span><span class='line'>  short_url = params[:short_url]
-</span><span class='line'>  if short_url == 'stats'
-</span><span class='line'>    @url_stats = get_all_url_stats
-</span><span class='line'>    erb :'stats'
-</span><span class='line'>  elsif short_url == 'about'
-</span><span class='line'>    erb :'about'
-</span><span class='line'>  else
-</span><span class='line'>    add_clicks(short_url)
-</span><span class='line'>    outgoing_link_data = get_long_url(short_url)
-</span><span class='line'>    outgoing_link = outgoing_link_data[0]["long_url"]
-</span><span class='line'>    redirect "#{outgoing_link}"
-</span><span class='line'>  end
-</span><span class='line'>end
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/:short_url&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">short_url</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:short_url</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">short_url</span> <span class="o">==</span> <span class="s1">&#39;stats&#39;</span>
+</span><span class='line'>    <span class="vi">@url_stats</span> <span class="o">=</span> <span class="n">get_all_url_stats</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:&#39;stats&#39;</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">short_url</span> <span class="o">==</span> <span class="s1">&#39;about&#39;</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:&#39;about&#39;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">add_clicks</span><span class="p">(</span><span class="n">short_url</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">outgoing_link_data</span> <span class="o">=</span> <span class="n">get_long_url</span><span class="p">(</span><span class="n">short_url</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">outgoing_link</span> <span class="o">=</span> <span class="n">outgoing_link_data</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="s2">&quot;long_url&quot;</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">redirect</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">outgoing_link</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -365,6 +365,8 @@
         <a class="basic-alignment left" href="/blog/2014/05/25/building-a-learning-tool-for-compound-data-structures/" title="Previous Post: Building a Learning Tool for Compound Data Structures">&laquo; Building a Learning Tool for Compound Data Structures</a>
       
       
+        <a class="basic-alignment right" href="/blog/2014/06/08/asking-questions-the-holy-grail-of-oop/" title="Next Post: Asking Questions: The Holy Grail of OOP">Asking Questions: The Holy Grail of OOP &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -396,6 +398,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/06/08/asking-questions-the-holy-grail-of-oop/">Asking Questions: The Holy Grail of OOP</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/05/30/buying-a-mongolian-website/">Buying a Mongolian Website for My URL Shortner</a>
       </li>
     
@@ -409,10 +415,6 @@
     
       <li class="post">
         <a href="/blog/2014/05/17/launch-academy-week-1-reflections/">Launch Academy: Week 1 Reflections</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/05/09/this-is-new-post/">Reflections on Pre-Work: Balancing Theory and Practice</a>
       </li>
     
   </ul>

@@ -1,0 +1,406 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Asking Questions: The Holy Grail of OOP - Dan Kleiman</title>
+  <meta name="author" content="Dan Kleiman">
+
+  
+  <meta name="description" content="This week at Launch Academy, we started working on Object Oriented Programming (OOP). We&rsquo;ve been guided by the conceptual model that objects, &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dankleiman.github.io/blog/2014/06/08/asking-questions-the-holy-grail-of-oop">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Dan Kleiman" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Dan Kleiman</a></h1>
+  
+    <h2>Adventures in Learning to Code</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/coding-resources">Coding Resources</a></li>
+  <li><a href="/about">About Me</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Asking Questions: The Holy Grail of OOP</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-08T20:32:17-04:00" pubdate data-updated="true">Jun 8<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>This week at Launch Academy, we started working on Object Oriented Programming (OOP).</p>
+
+<p>We&rsquo;ve been guided by the conceptual model that objects, which can have state and defined behavoirs, respond to methods the same way that you would respond to a question.</p>
+
+<p>Of course, a week of asking my objects questions made me think of this:</p>
+
+<!-- more -->
+
+
+
+
+<iframe width="640" height="480" src="//www.youtube.com/embed/pWS8Mg-JWSg" frameborder="0" allowfullscreen></iframe>
+
+
+<p>And the more I thought about The Bridge of Death, the more the Bridgekeeper&rsquo;s questions made a lot of sense in our OOP world.</p>
+
+<p>Really, we&rsquo;ve got a collection of Knights and each one responds to a series of questions. If we coded that up, it would look something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Knight</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:quest</span><span class="p">,</span> <span class="ss">:favorite_color</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">intialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">quest</span><span class="p">,</span> <span class="n">favorite_color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+</span><span class='line'>    <span class="vi">@quest</span> <span class="o">=</span> <span class="n">quest</span>
+</span><span class='line'>    <span class="vi">@favorite_color</span> <span class="o">=</span> <span class="n">favorite_color</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Our knights, Sir Lancelot, King Arthur, or Sir Galahad, are all instances of the class &ldquo;Knight.&rdquo; They are objects with contain a state (their specific names, quests, etc) and behaviors.</p>
+
+<p>When it comes to behaviors, they can inherit them in some cases, or the behaviors have to be explicitly defined within the class.</p>
+
+<p>In the clip above, we can see how the knights know how to answer the questions about their names and quests&hellip;they respond to the name and quest methods defined in their class.</p>
+
+<p>But we also see something else.</p>
+
+<p>When Robin approaches the bride, the Bridgekeeper asks him his name and quest:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">robin</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'><span class="n">robin</span><span class="o">.</span><span class="n">quest</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And that produces the answers we&rsquo;d expect:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="s2">&quot;Robin of Camelot&quot;</span>
+</span><span class='line'><span class="s2">&quot;To seek the Holy Grail&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But then the Bridgekeeper throws a curveball. He calls</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">robin</span><span class="o">.</span><span class="n">capital_of_assyria</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When Robin is asked what the capital of Assyria is, he literally blows up. From an OOP perspective, we know it was because this behavior was never defined for the class Knight:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">capital_of_assyria</span>
+</span><span class='line'>  <span class="sc">????</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Of course, there&rsquo;s a further twist when the Bridgekeeper tries to call</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">airspeed_velocity_of_an_unladen_swallow</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>on King Arthur, but really, you should watch the clip if you don&rsquo;t already know what happens.</p>
+
+<h2>Asking Questions, Building Objects</h2>
+
+<p>So, now we know that you have to define the behaviors you want to utilize to do effective object-oriented programming.</p>
+
+<p>But why? What&rsquo;s the point? Or more importantly, what&rsquo;s the advantage of writing code this way.</p>
+
+<p>I&rsquo;m sure there are bigger implications of taking this approach, but I can tell you that right away, my experience of writing simple code is completely different.</p>
+
+<p>When you set out to build classes and objects, you actually don&rsquo;t need to know everything about how your program works right away to make progress.</p>
+
+<p>Instead of figuring out every detail of every loop, calculation, and variable, <strong>you can assume that the classes and methods you create will give you the answer you want.</strong></p>
+
+<p>You are free to write more semantic, flowing code from the beginning, without having to stop and figure out the nitty-gritty.</p>
+
+<p>Even in my limited experience taking this approach, I can tell you that it lets you think at a high level about your problem, sketching out the logic, flow, and just marking out the big areas you know you&rsquo;ll tackle later on.</p>
+
+<p>Gradually, layer-by-layer, you go deeper and work out the details.</p>
+
+<p>I wish I had had a clear top-down model like this to solve problems in the past. Here&rsquo;s to applying it going forward!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Dan Kleiman</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-08T20:32:17-04:00" pubdate data-updated="true">Jun 8<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2014/06/08/asking-questions-the-holy-grail-of-oop/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2014/06/08/asking-questions-the-holy-grail-of-oop/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/05/30/buying-a-mongolian-website/" title="Previous Post: Buying a Mongolian Website for my URL Shortner">&laquo; Buying a Mongolian Website for my URL Shortner</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+  <aside class="sidebar">
+   
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dankleiman.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+  
+    <section>
+  <h1>Connect with Me</h1>
+  <div class="sidebar-connect">
+    <a class="sidebar-icon" href="https://github.com/dankleiman"><img src="https://raw.githubusercontent.com/adamfairhead/webicons/master/webicons/webicon-github.png" alt="image courtesy of fairheadcreative"></a>
+    <a class="sidebar-icon" href="https://twitter.com/dan_kleiman"><img src="https://raw.githubusercontent.com/adamfairhead/webicons/master/webicons/webicon-twitter.png" alt="image courtesy of fairheadcreative"></a>
+    <a class="sidebar-icon" href="https://www.linkedin.com/in/dlkleiman"><img src="https://raw.githubusercontent.com/adamfairhead/webicons/master/webicons/webicon-linkedin.png" alt="image courtesy of fairheadcreative"></a><br/><br/>
+    <p><strong><a href="http://klei.mn/uIpmel">Try my custom URL shortner</a></strong></p>
+  </div>
+
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/08/asking-questions-the-holy-grail-of-oop/">Asking Questions: The Holy Grail of OOP</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/30/buying-a-mongolian-website/">Buying a Mongolian Website for My URL Shortner</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/25/building-a-learning-tool-for-compound-data-structures/">Building a Learning Tool for Compound Data Structures</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/21/day-10-the-dreams-continue/">Day 10: The Dreams Continue</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/05/17/launch-academy-week-1-reflections/">Launch Academy: Week 1 Reflections</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>Treehouse Badges</h1>
+  <div class="badges-box"></div>
+</section>
+
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Dan Kleiman -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Site Theme by Fellow Launcher <a href="https://github.com/johnkeith/boldandblue">John Keith</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+<script>
+  $(document).ready(function() {  
+  var stickyNavTop = $('nav').offset().top;  
+    
+  var stickyNav = function(){  
+  var scrollTop = $(window).scrollTop();  
+         
+  if (scrollTop > stickyNavTop) {   
+      $('nav').addClass('sticky');  
+  } else {  
+      $('nav').removeClass('sticky');   
+  }  
+  };  
+    
+  stickyNav();  
+    
+  $(window).scroll(function() {  
+      stickyNav();  
+  });  
+  });  
+</script>
+<script>
+th_username = "dankleiman";
+th_show_all_badges = false;
+th_number_badges_visible = (9 - 1);
+
+$(document).ready(function() {
+
+  if(th_username == "" || th_show_all_badges == false && th_number_badges_visible == -1){
+    $(".badges-box").hide();
+  } else {
+
+  $.getJSON("http://teamtreehouse.com/" + th_username +".json", function(data) {
+    var items = [];
+    var number_of_badges = data.badges.length;
+    var total_points = data.points.total;
+    $.each(data.badges, function(k, v) {
+       items.push( "<a href='" + v.url + "'><img src='" + v.icon_url + "' alt='" + v.name + "' title='" + v.name + "'/></a>");
+    });
+   
+    $(".badges-box").append("<p>I've earned <strong>" + number_of_badges + " badges</strong> for a total of <strong>" + total_points + " points</strong> at <a href='http://www.teamtreehouse.com'>Treehouse!</a></p>");
+   
+    $( "<ul/>", {
+      "class": "badge-image-list",
+      html: items.reverse().join( "" )
+    }).appendTo( ".badges-box" ).hide().fadeIn(500);
+   
+    if(th_show_all_badges == false) {
+      $( ".badge-image-list img:gt(" + th_number_badges_visible + ")").hide();
+
+      $(".badges-box").append("<button id='show-all'>See all badges</button>");
+
+      $("#show-all").click(function() {
+        $( ".badge-image-list img:gt(" + th_number_badges_visible + ")").toggle(0, "linear");
+        if($("#show-all").html() == "See all badges") {
+          $("#show-all").html("Hide badges");
+          $("#show-all").blur();
+        } else {
+          $("#show-all").html("See all badges");
+          $("#show-all").blur();
+        };
+      });
+    };
+  });
+ };
+});
+</script>
+
+
+</body>
+</html>
