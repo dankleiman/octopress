@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Launch Academy: Week 1 Reflections - Dan Kleiman</title>
+  <title>The Race to Hello World: Rails vs. Sinatra - Dan Kleiman</title>
   <meta name="author" content="Dan Kleiman">
 
   
-  <meta name="description" content="So, all this week, I&rsquo;ve been experiencing the Tetris effect and I&rsquo;ve come to appreciate the beauty, and the painlessness, of learning how &hellip;">
+  <meta name="description" content="Earlier, I explained how I built my personalized url shortner in Sinatra. This past week, we&rsquo;ve been spinning up demo apps in Rails instead, so &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://dankleiman.github.io/blog/2014/05/17/launch-academy-week-1-reflections">
+  <link rel="canonical" href="http://dankleiman.github.io/blog/2014/06/23/the-race-to-hello-world-rails-vs-sinatra">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Dan Kleiman" type="application/atom+xml">
@@ -63,7 +63,7 @@
   
   <header>
     
-      <h1 class="entry-title">Launch Academy: Week 1 Reflections</h1>
+      <h1 class="entry-title">The Race to Hello World: Rails vs. Sinatra</h1>
     
     
       <p class="meta">
@@ -79,53 +79,90 @@
   
 
 
-<time datetime="2014-05-17T09:32:59-04:00" pubdate data-updated="true">May 17<span>th</span>, 2014</time>
+<time datetime="2014-06-23T08:11:28-04:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>So, all this week, I&rsquo;ve been experiencing the Tetris effect and I&rsquo;ve come to appreciate the beauty, and the painlessness, of learning how to break down a problem.</p>
+<div class="entry-content"><p>Earlier, I explained how I built <a href="/blog/2014/05/30/buying-a-mongolian-website/">my personalized url shortner</a> in Sinatra.</p>
 
-<p>Let me explain&hellip;.</p>
+<p>This past week, we&rsquo;ve been spinning up demo apps in Rails instead, so I wanted to walk through a little comparison of the two frameworks.</p>
+
+<p>As <a href="https://github.com/radavis">one of our instructors</a> said, &ldquo;Sinatra is like a stripped-down muscle car and Rails is like an RV.&rdquo;</p>
+
+<p>Here&rsquo;s how setting up a simple &ldquo;Hello, World!&rdquo; app breaks down between the two.</p>
 
 <!-- more -->
 
 
-<h2>The Tetris Effect</h2>
+<h2>Sinatra Set-Up</h2>
 
-<p>According to <a href="http://www.scientificamerican.com/article/tetris-dreams/">the study from Harvard Medical School</a>, games like Tetris can reveal the way our brain integrates new information.</p>
+<p>To set up, &ldquo;Hello, Sinatra&rdquo; from the command line, follow these steps:</p>
 
-<blockquote>In fact, the game Tetris has proved to be just that. Robert Stickgold and his colleagues at Harvard Medical School recently conducted a clever set of experiments in which they used the game to guide the content of people¿s dreams: among 17 subjects they trained to play Tetris, more than 60 percent reported dreaming of images associated with the game. </blockquote>
+<ol>
+<li>$mkdir sinatra_hello</li>
+<li>$cd sinatra_hello</li>
+<li>$gem install sinatra</li>
+<li>$touch app.rb</li>
+<li>In your app.rb file, add:</li>
+</ol>
 
 
-<p>I&rsquo;ve been having similar dreams about coding all week, especially as I&rsquo;m falling asleep.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;sinatra&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="s2">&quot;Hello, Sinatra!&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>In fact, I&rsquo;ve had to resist the urge to jump out of bed and grab my laptop to finish coding problems that plagued me during the day.</p>
 
-<p>What&rsquo;s so cool is that my instructors at Launch Academy have been talking from the beginning about the way coding &mdash; and more generally the brain &mdash; works. They&rsquo;ve been extremely clear about the value of stepping away from the computer to actually find the solution.</p>
+<p>To see the locally running version, start the app with ruby app.rb and visit <a href="http://localhost:4567.">http://localhost:4567.</a></p>
 
-<p>I love being immersed in this environment where the answers to &ldquo;my work&rdquo; pour in at night, or on breaks, and more importantly, these down moments are treated as equally valuable as work time.</p>
+<h2>Rails Set-Up</h2>
 
-<h2>Shoring Up Fundamentals</h2>
+<p>From the same directory we started in, instead of creating the new directory like we did for sinatra, we will follow these steps:</p>
 
-<p>All week, we&rsquo;ve been reviewing pre-work and solidifying our Ruby basics.</p>
+<ol>
+<li>$rails new rails_hello</li>
+<li>$cd rails_hello</li>
+<li>$rails generate controller Posts</li>
+<li>Add an index method to posts_controller.rb</li>
+<li>define the root path in config/routes.rb to be &lsquo;posts#index&rsquo;</li>
+<li>create a view for the root route that says &lsquo;Hello, Rails!&rsquo;</li>
+</ol>
 
-<p>Specifically, here&rsquo;s what we&rsquo;ve been covering:</p>
 
-<p><em>Ruby fundamentals
-</em>Hashes, arrays, and compound data structures
-<em>Iteration
-</em>File IO</p>
+<p>Now, when we start up the rails server from the command line, we can visit <a href="http://localhost:3000">http://localhost:3000</a> and see our &lsquo;Hello, Rails!&rsquo; message.</p>
 
-<p>Launch Academy has some pretty cool custom tools to help us do this work. I&rsquo;m sure you&rsquo;ve seen things like CodeAcademy or RubyMonk.</p>
+<h2>Simplicity vs. Structure</h2>
 
-<p>At Launch Academy, we have internal tools that integrate shell commands to download, test, and submit practice problems. What I love about this is that not only are we honing our Ruby fundamentals, but we&rsquo;re integrating other skills, like command line basics, git, and a broader understanding of how to navigate the file system.</p>
+<p>As you can see from the code above, you need to install one gem and edit one file in your Sinatra version to get the basics working.</p>
 
-<p>Next week, I think we&rsquo;re going to expand this work to include remote repositories.</p>
+<p>In that one file, you tell the server what to do with one HTTP &lsquo;GET&rsquo; request: where to go and what to display.</p>
 
-<p>Even though it&rsquo;s been a few days, it feels like it&rsquo;s been months of immersion and I can&rsquo;t wait to get back to work on Monday!</p>
+<p>In contrast, in Rails, directing the request and displaying the response are delegate to different areas of the application:</p>
+
+<ul>
+<li>routes.rb interprets the &lsquo;GET&rsquo; request and sends us to the Posts Controller</li>
+<li>inside the controller, there are instructions for what to do with the request for &ldquo;index&rdquo;</li>
+<li>a specific view file (app/views/posts/index.html.erb) finally configures the response: &ldquo;Hello, Rails&rdquo; printed to the page.</li>
+</ul>
+
+
+<p>We were fortunate to work with HTTP requests a little more directly in Sinatra first, before we started relying on the conventions of Rails to more &ldquo;magically&rdquo; handle them for us.</p>
+
+<p>At first, learning Rails feels like learning what files to put where to make the right thing happen.</p>
+
+<p>When we worked out of a single server file in Sinatra, in contrast, we were tracking the different components of HTTP requests and responses more directly.</p>
+
+<p>Coming away from these last two weeks of playing with Sinatra and Rails, I&rsquo;m glad we started with Sinatra for the directness, but I can also see, as our projects get bigger, how the conventions and structures of Rails will allow us to maintain clear, organized code.</p>
 </div>
 
 
@@ -148,7 +185,7 @@
   
 
 
-<time datetime="2014-05-17T09:32:59-04:00" pubdate data-updated="true">May 17<span>th</span>, 2014</time>
+<time datetime="2014-06-23T08:11:28-04:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2014</time>
       
 
 
@@ -156,7 +193,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2014/05/17/launch-academy-week-1-reflections/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2014/05/17/launch-academy-week-1-reflections/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2014/06/23/the-race-to-hello-world-rails-vs-sinatra/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2014/06/23/the-race-to-hello-world-rails-vs-sinatra/" >Tweet</a>
   
   
   
@@ -165,10 +202,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/05/09/this-is-new-post/" title="Previous Post: Reflections on Pre-Work: Balancing Theory and Practice">&laquo; Reflections on Pre-Work: Balancing Theory and Practice</a>
+        <a class="basic-alignment left" href="/blog/2014/06/15/launch-academy-5-weeks-in-or-5-weeks-left/" title="Previous Post: Launch Academy: 5 Weeks In or 5 Weeks Left?">&laquo; Launch Academy: 5 Weeks In or 5 Weeks Left?</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/05/21/day-10-the-dreams-continue/" title="Next Post: Day 10: The Dreams Continue">Day 10: The Dreams Continue &raquo;</a>
       
     </p>
   </footer>
