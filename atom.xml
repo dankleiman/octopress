@@ -4,7 +4,7 @@
   <title><![CDATA[Dan Kleiman]]></title>
   <link href="http://dankleiman.github.io/atom.xml" rel="self"/>
   <link href="http://dankleiman.github.io/"/>
-  <updated>2014-06-23T09:03:46-04:00</updated>
+  <updated>2014-07-02T21:45:59-04:00</updated>
   <id>http://dankleiman.github.io/</id>
   <author>
     <name><![CDATA[Dan Kleiman]]></name>
@@ -12,6 +12,46 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Launching Datastroyer]]></title>
+    <link href="http://dankleiman.github.io/blog/2014/07/02/launching-datastroyer/"/>
+    <updated>2014-07-02T21:29:17-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2014/07/02/launching-datastroyer</id>
+    <content type="html"><![CDATA[<p>I&rsquo;m very excited to announce that <a href="https://github.com/craigmcginley">Craig McGinley</a> and I have launched <a href="http://datastroyer.herokuapp.com/">Datastroyer</a>.</p>
+
+<p>Datastroyer is our online tool for searching JSON objects and returning the correct path to any value.</p>
+
+<!--more-->
+
+
+<p>Previously, I wrote about the <a href="http://dankleiman.github.io/blog/2014/05/25/building-a-learning-tool-for-compound-data-structures/">challenges of parsing compound data structures</a>. For someone just learning to code and work with data, one of the biggest challenges was learning to read syntax.</p>
+
+<p>One particularly challenging &ldquo;reading problem&rdquo; is figuring out how to reference a specific value nested inside a tangle of hashes and arrays. Not knowing how the object is structured, in terms of size, layers of nesting, or type of nested objects initially made this problem really confusing!</p>
+
+<p>Eventually we learned how to traverse the whole structure and efficiently store the path we were going down as we went.</p>
+
+<p>Craig and I have talked about many different use cases for the method we coded up, but in this case we have released the code embedded in a web application that searches JSON objects for you. If you&rsquo;ve been working with API and trying to make sense of your queries, we hope this helps!</p>
+
+<p>Here&rsquo;s what you do:</p>
+
+<ol>
+<li><p>Copy your entire JSON object.</p></li>
+<li><p>Visit <a href="http://datastroyer.herokuapp.com/">Datastroyer</a>.</p></li>
+<li><p>Paste the JSON into the search box.</p></li>
+<li><p>On the next screen, enter the search value you are looking for.</p></li>
+</ol>
+
+
+<p>Datastroyer will return all of the possible paths to this search value inside of the JSON.</p>
+
+<p>If you don&rsquo;t have some JSON to search, you can <a href="http://datastroyer.herokuapp.com/data">try a sample search</a> with the data we&rsquo;ve provided.</p>
+
+<p>At the end of the day, we think this is a learning tool to help you get more familiar with the structure of compound objects.</p>
+
+<p>We hope you learn like we have!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The Race to Hello World: Rails vs. Sinatra]]></title>
