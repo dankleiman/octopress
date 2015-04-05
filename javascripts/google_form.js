@@ -15,26 +15,13 @@
       })
       .addClass('required');
 
-    //validate the form
-    $('.google-form-wrapper form').validate({
-      submitHandler: function(form) {
-        $(form)
-          .ajaxSubmit({
-            success: function(data) {
-              if (data) {
-                $(form)
-                .hide(200, function() {
-                  $(this)
-                    .prev('.success-msg')
-                    .fadeIn('slow')
-                })
-              }
-            },
-            error : function (data) {
-              console.error(data);
-            }
-          })
-      }
+    $('.google-form-wrapper form').submit(function(event){
+      event.preventDefault();
+      $(this).ajaxSubmit();
+      $(this).hide();
+      $('.success-msg').fadeIn('slow');
     });
   });
 })(jQuery);
+
+
