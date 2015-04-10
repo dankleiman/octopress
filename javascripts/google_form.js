@@ -6,6 +6,8 @@
         return $(this).html() == '';
       })
       .remove();
+    $('div.ss-password-warning').remove();
+    $('div.required-message').remove();
 
     //add required class to required elements
     $('.google-form-wrapper form')
