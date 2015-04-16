@@ -70,7 +70,7 @@
     </url>
     <url>
         <loc>http://dankleiman.github.io/about/</loc>
-        <lastmod>2015-04-06T21:07:15-04:00</lastmod>
+        <lastmod>2015-04-15T21:37:11-04:00</lastmod>
     </url>
     <url>
         <loc>http://dankleiman.github.io/blog/archives/</loc>
@@ -95,6 +95,10 @@
     <url>
         <loc>http://dankleiman.github.io/rails-freelancer/</loc>
         <lastmod>2015-04-09T22:42:34-04:00</lastmod>
+    </url>
+    <url>
+        <loc>http://dankleiman.github.io/resume/</loc>
+        <lastmod>2015-04-15T21:50:49-04:00</lastmod>
     </url>
     <url>
         <loc>http://dankleiman.github.io/robots.txt</loc>
