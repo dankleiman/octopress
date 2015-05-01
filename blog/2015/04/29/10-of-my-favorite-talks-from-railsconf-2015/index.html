@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Launch Academy: 5 Weeks in or 5 Weeks Left? - Dan Kleiman</title>
+  <title>10 of My Favorite Talks From RailsConf 2015 - Dan Kleiman</title>
   <meta name="author" content="Dan Kleiman">
 
   
-  <meta name="description" content="This past week marks the end of Week 5 at Launch Academy. My head hurts a little bit when I try to give a quick summary of all we&rsquo;ve worked on &hellip;">
+  <meta name="description" content="RailsConf 2015 was a blast. There were talks on a such a wide range of topics, that I wanted to capture some of my favorites here. Here&rsquo;s my &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://dankleiman.github.io/blog/2014/06/15/launch-academy-5-weeks-in-or-5-weeks-left">
+  <link rel="canonical" href="http://dankleiman.github.io/blog/2015/04/29/10-of-my-favorite-talks-from-railsconf-2015">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Dan Kleiman" type="application/atom+xml">
@@ -74,7 +74,7 @@
   
   <header>
     
-      <h1 class="entry-title">Launch Academy: 5 Weeks in or 5 Weeks Left?</h1>
+      <h1 class="entry-title">10 of My Favorite Talks From RailsConf 2015</h1>
     
     
       <p class="meta">
@@ -90,71 +90,95 @@
   
 
 
-<time datetime="2014-06-15T18:05:41-04:00" pubdate data-updated="true">Jun 15<span>th</span>, 2014</time>
+<time datetime="2015-04-29T20:47:31-04:00" pubdate data-updated="true">Apr 29<span>th</span>, 2015</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>This past week marks the end of Week 5 at Launch Academy.</p>
+<div class="entry-content"><p>RailsConf 2015 was a blast. There were talks on a such a wide range of topics, that I wanted to capture some of my favorites here.</p>
 
-<p>My head hurts a little bit when I try to give a quick summary of all we&rsquo;ve worked on. There&rsquo;s so much!</p>
+<p>Here&rsquo;s my Top 10 Countdown from the conference:</p>
 
-<p>At the same time, I see the runway towards the end of the program getting shorter and shorter&hellip;</p>
-
-<p>So are we 5 weeks in? Or do we only have 5 weeks left?</p>
-
-<!-- more -->
+<!--more-->
 
 
-<h2>Immersive Learning in the Short Term</h2>
+<p>I&rsquo;ll try to update as many of these as possible with video if/when they become available. For now, I&rsquo;ve tried to gather as many slide decks as possible.</p>
 
-<p>I&rsquo;m constantly weighing my learning experience here at Launch Academy &mdash; 10 weeks of coding &mdash; against my past immersive learning experiences in Tai Chi.</p>
+<ol reversed>
+  <li>
+    <strong>Designing a Great Ruby API - How We&#8217;re Simplifying Rails 5</strong>
+    <p>At times this one was over my head technically, but it was awesome to see a core contributor breaking down the process of how the inner workings of Rails are built.</p>
+    <p>Sean is a presenter and was hanging out between talks fielding questions too.</p>
+    <script async class="speakerdeck-embed" data-id="2a56dba370414cd1a48d1aa43d8fffab" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+  </li>
+  <li>
+    <strong>Playing Games in the Clouds</strong>
+    <p><a href="https://twitter.com/nodunayo">Nadia Odunayo</a> gets my award for Best Explanation by Analogy. Her talk captured at a high level how concepts from Game Theory concepts can be applied to allocating resources in distributed systems</p>
+    <p>Very cool!</p>
+    <script async class="speakerdeck-embed" data-id="46080b095191416dbc21ba9e9ec8084e" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+  </li>
+  <li>
+     <strong>What&#8217;s Happening in Your Rails App?</strong>
+     <p>Introduction to Introspection Features of Ruby</p>
+     <p>Koichi Sasada is a member of the Ruby core team and works on &#8220;Matz&#8217;s Team&#8221; at Heroku. He said, &#8220;I&#8217;m not actually a Rails developer, but my wife is, so she&#8217;s my customer.&#8221;</p>
+     <p>This was another talk where the inner workings of technology we use every day are exposed&#8230;by the people actively maintaining them. I think that&#8217;s so cool to see.</p>
+     <p>Also, check out his definition of Event Driven Development.</p>
+     <iframe width="815" height="458" src="https://www.youtube.com/embed/4YtBS0tvkjw" frameborder="0" allowfullscreen></iframe>
+  </li>
+  <li>
+    <strong>The World of Rails Security</strong>
+    <p>When <a href="https://twitter.com/presidentbeef">Justin Collins</a> broke down Rails security into &#8220;What Rails Provides,&#8221; &#8220;What Rails Doesn&#8217;t Provide,&#8221; and &#8220;What to Do About It.&#8221; Security seems like a Rubik&#8217;s cube issue. You can look at it, and try to break it, from so many different angles.</p>
+    <script async class="speakerdeck-embed" data-id="05e09bab40404a61a4d6b844109d84f3" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+  </li>
+  <li>
+    <strong>Processes and Threads - Resque vs. Sidekiq</strong>
+    <p><a href="http://jdabbs.com/">James Dabbs</a> gave an awesome live demo of the internals of Resque vs. Sidekiq. Not only was it a pleasure to watch him fly through the code and take us right in to key points that differentiate these two job enqueing tools, but if you head over to his Gitub, you can actually run the same tests that he demoed in the talk:</p>
+    <p><a href="https://github.com/jamesdabbs/railsconf-2015">Code</a></p>
+    <p><a href="https://github.com/jamesdabbs/railsconf-2015/blob/master/slides.md">Slides</a></p>
+  </li>
+  <li>
+    <strong>Why Your New API Product Will Fail</strong>
+    <p>Despite evidence to the contrary, this talk was not about writing your API at the last minute:</p>
+    <blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr">Probably about time I wrote this talk&#8230;</p>&mdash; Scott Feinberg (@scottefein) <a href="https://twitter.com/scottefein/status/590878954568974336">April 22, 2015</a></blockquote>
+  <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <p>I&#8217;ll be thrilled to link to the video or slides if they get published, but my big takeaway from Scott&#8217;s was very simple: your API is an interface that other developers will use AND so is <strong>your API documentation</strong>. When these suck, user experience, and user happiness really suffers too.</p>
 
-<p>In 2011, I wrote <a href="http://imos-journal.net/work-rest-integration-%E2%80%9Csurviving-a-month-long-tai-chi-intensive-%E2%80%9D/">this piece for a Tai Chi blog</a> about the different cycles embedded in a month of Tai Chi Immersion.</p>
+    <p>Scott dove into a lot of the tooling he&#8217;s used to automate API documentation, but to think it can be automated and done is another pitfall. You should care about every place people interact with your application. Even his automated solutions, he said, began with a lot of manual trial and error.</p>
+  </li>
+  <li>
+    <strong>Keynote by Aaron Patterson</strong>
+    <p>From a man who really doesn&#8217;t need an introduction to be worth watching:</p>
+    <iframe width="815" height="458" src="https://www.youtube.com/embed/B3gYklsN9uc" frameborder="0" allowfullscreen></iframe>
+    <p>I just want to know if that part in the middle was staged or not.</p>
+  </li>
+  <li>
+    <strong>Keynote by DHH</strong>
+    <p><em>This video is almost 9 hours long, capturing the whole first day of the conference in the main room. Jump to about 24 minutes to catch the beginning of DHH&#8217;s Keynote</em></p>
+    <p>What I found most inspiring about this talk was the attitude that Rails can provide leverage. As a framework, a set of tools, individuals and small groups can write applications at web scale that do amazing things.</p>
+    <iframe width="815" height="458" src="https://www.youtube.com/embed/oMlX9i9Icno" frameborder="0" allowfullscreen></iframe>
+  </li>
+  <li>
+    <strong>Voila, Indexes!</strong>
+    <p>A Look at Some Simple Preventative Magick</p>
+    <p>This talk is a real treat. Not only does <a href="https://twitter.com/jamis">Jamis Buck</a> explain difficult database concepts in simple language, he does it through telling a story, and illustrates it!</p>
+    <script async class="speakerdeck-embed" data-id="3b907bc997094b91ac9d578c41df8ce7" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+  </li>
+  <li>
+    <strong>Nothing is Something</strong>
+    <p><em>Here&#8217;s another long video from day 3. Jump to 7:34:00 to see the beginning of Sandi&#8217;s talk.</em></p>
 
-<p>Back then, one of the key takeaways for me was that you had to adop the right practice mindset.</p>
+    <iframe width="815" height="458" src="https://www.youtube.com/embed/LdWMcs9EEOE" frameborder="0" allowfullscreen></iframe>
 
-<blockquote><p>By finding the optimal daily training rhythm, you can begin to manage your energy over a month, though you will also need to adopt a particular mindset to apply the different facets of this new practice in succession.  How do you work on posture and alignment one minute and then flow the next?</p>
+    <p>I had the pleasure of seeing Sandi Metz speak at Burlington Ruby Conference in August, 2014 and I remember leaving pumped and inspired to code for the long haul. This time she was just as inspiring, but she also took us through some core object oriented programming concepts.</p>
 
-<p>The challenge of shifting gears like this is one thing I love about learning Tai Chi. Master Frantzis calls this process “separate and combine”. You have to train the first piece, without thinking about anything else, until it&rsquo;s totally integrated into how you move, then you work the second one. There&rsquo;s a leap of faith in between where you totally let go of the first piece before you switch to the second piece. In the moment, you can&rsquo;t worry about whether you will ever be able to do them both at the same time. “Separate” means really separate, physically and mentally. This method opens up the possibility for much deeper integration, but the tricky part is, you don&rsquo;t feel that way at first. The integration comes further down the road, in a place you can&rsquo;t see yet.</p></blockquote>
+    <p>But what I love about hearing Sandi speak is the way she imbues the teaching in her talks with a sense of purpose and urgency. Like DHH&#8217;s talk above, I felt fired up to code. Like Jamis&#8217; talk, she made it easy to absorb complex concepts. Most of all, though, she creates this powerful undercurrent of community and warmth that makes you feel like we&#8217;re all going to do this together. What an amazing teacher!</p>
+  </li>
+</ol>
 
-<p>At Launch Academy, we&rsquo;ve been working through similar cycles and I truly believe that my previous experience with Tai Chi Immersion has helped me prepare to manage the flow of these cycles.</p>
 
-<p>For example, we were writing database queries in SQL then ActiveRecord and you had to get your head around the right syntax and relationships between tables BUT THEN we would shift gears to Rails and focus on the structure of a web application.</p>
 
-<p>If you were still down in the details of how to write a query, you&rsquo;d miss the big picture differences between generating an output to the user, designing your database models, or directing traffic between them.</p>
-
-<p>And it&rsquo;s not just that you need to be able to hold a lot of layered concepts in your mind at once. That&rsquo;s complex enough.</p>
-
-<p><strong>The skill you need to master in an immersive learning environment is knowing when to let go, when to leave something alone, and when to spend more time on it.</strong></p>
-
-<p>I&rsquo;ve struggled with this a lot. Do I need to know this now? Should I work through a few more example problems on this topic?</p>
-
-<p>Or worse, you pick your head up from the weeds and realize that you haven&rsquo;t been productively working on this problem and the group has moved on.</p>
-
-<p>I find, that give my previous experience, I&rsquo;m much more willing to drop things and refocus to new problems, without worrying about what I&rsquo;ve left behind.</p>
-
-<h2>Long Term Payoff of Immersion</h2>
-
-<p>Maybe &ldquo;just dropping&rdquo; something isn&rsquo;t the right way to describe the immersive learning skill I&rsquo;m talking about.</p>
-
-<p>There&rsquo;s a stage between not knowing something and knowing it cold and due to the pace and duration of this program, we&rsquo;re swimming somewhere in between most of the time.</p>
-
-<p>What you have to figure out in each subdomain that we touch is this: <strong>For now, am I acquianted enough with this concept to fit it into my mental model of the big domain, and do I know how to go deeper when I return to it in the future?</strong></p>
-
-<p>Every fall, when I came back from 2, 3, or 4 weeks of Tai Chi, I would set out on the real learning process: slowly unpacking the immersive experience, and digesting the material in small, sustainable bites, over the next year or more.</p>
-
-<p>I was fortunate to have the structure of a teaching schedule and an audience to teach to, so I had to be deliberate about revisiting material and I had to articulate it clearly. Those constraints helped my practice grow enormously.</p>
-
-<p>Immersive bursts of training were the seeds of my practice and the school was a garden where they could grow.</p>
-
-<p>The big payoff of short term immersive learning doesn&rsquo;t happen in the short term at all. It happens when the seeds of learning are allowed to grow over many seasons.</p>
-
-<p>In Tai Chi terms, that was always clear to me. For coding? All I can tell you now is that I will have the chance to create the same garden, through a work environment, to let the seeds of immersion grow.</p>
-
-<p>What&rsquo;s exciting is that I don&rsquo;t quite know what these seeds will yield!</p>
 </div>
 
 
@@ -177,7 +201,7 @@
   
 
 
-<time datetime="2014-06-15T18:05:41-04:00" pubdate data-updated="true">Jun 15<span>th</span>, 2014</time>
+<time datetime="2015-04-29T20:47:31-04:00" pubdate data-updated="true">Apr 29<span>th</span>, 2015</time>
       
 
 
@@ -185,7 +209,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2014/06/15/launch-academy-5-weeks-in-or-5-weeks-left/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2014/06/15/launch-academy-5-weeks-in-or-5-weeks-left/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2015/04/29/10-of-my-favorite-talks-from-railsconf-2015/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2015/04/29/10-of-my-favorite-talks-from-railsconf-2015/" >Tweet</a>
   
   
   
@@ -216,10 +240,8 @@
     </p>
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/06/08/asking-questions-the-holy-grail-of-oop/" title="Previous Post: Asking Questions: The Holy Grail of OOP">&laquo; Asking Questions: The Holy Grail of OOP</a>
+        <a class="basic-alignment left" href="/blog/2015/01/11/parachuting-into-unfamilar-code/" title="Previous Post: Parachuting into Unfamilar Code">&laquo; Parachuting into Unfamilar Code</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/06/23/the-race-to-hello-world-rails-vs-sinatra/" title="Next Post: The Race to Hello World: Rails vs. Sinatra">The Race to Hello World: Rails vs. Sinatra &raquo;</a>
       
     </p>
   </footer>
