@@ -4,7 +4,7 @@
   <title><![CDATA[Dan Kleiman]]></title>
   <link href="http://dankleiman.github.io/atom.xml" rel="self"/>
   <link href="http://dankleiman.github.io/"/>
-  <updated>2015-05-01T07:50:16-04:00</updated>
+  <updated>2015-06-13T09:42:52-04:00</updated>
   <id>http://dankleiman.github.io/</id>
   <author>
     <name><![CDATA[Dan Kleiman]]></name>
@@ -90,9 +90,8 @@
   </li>
   <li>
     <strong>Nothing is Something</strong>
-    <p><em>Here&#8217;s another long video from day 3. Jump to 7:34:00 to see the beginning of Sandi&#8217;s talk.</em></p>
 
-    <iframe width="815" height="458" src="https://www.youtube.com/embed/LdWMcs9EEOE" frameborder="0" allowfullscreen></iframe>
+    <iframe width="815" height="458" src="https://www.youtube.com/embed/OMPfEXIlTVE" frameborder="0" allowfullscreen></iframe>
 
     <p>I had the pleasure of seeing Sandi Metz speak at Burlington Ruby Conference in August, 2014 and I remember leaving pumped and inspired to code for the long haul. This time she was just as inspiring, but she also took us through some core object oriented programming concepts.</p>
 
