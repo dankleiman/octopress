@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Response>
-    <Gather action="handle-screen-input.php" numDigits="1">
+    <Gather numDigits="1">
         <Say>You have an incoming call.</Say>
         <Say>To accept the call, press 1.</Say>
         <Say>To reject the call, press any other key.</Say>
