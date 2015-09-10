@@ -7,5 +7,5 @@
     </Gather>
     <!-- If customer doesn't input anything, prompt and try again. -->
     <Say>Sorry, I didn't get your response.</Say>
-    <Redirect>https://www.dropbox.com/s/lfsp7mejprkp05e/screen.xml</Redirect>
+    <Redirect>http://dankleiman.github.io/extras/screen-caller.xml</Redirect>
 </Response>
