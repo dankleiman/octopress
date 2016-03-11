@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[Dan Kleiman's Coding Blog]]></title>
   <link href="http://dankleiman.github.io/atom.xml" rel="self"/>
   <link href="http://dankleiman.github.io/"/>
   <updated>2014-03-18T22:29:56-04:00</updated>
   <id>http://dankleiman.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
-    
+    <name><![CDATA[Dan Kleiman]]></name>
+
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
+
   <entry>
     <title type="html"><![CDATA[Whoa! Octopress!]]></title>
     <link href="http://dankleiman.github.io/blog/2014/03/18/whoa-octopress/"/>
@@ -36,5 +36,5 @@
 <p>I&rsquo;m learning how to write this in <a href="http://http://daringfireball.net/projects/markdown/basics">Markdown</a> which is also pretty new to me. Right now it feels like a lazy version of html, so we&rsquo;ll see what&rsquo;s it like as I get used to it.</p>
 ]]></content>
   </entry>
-  
+
 </feed>
