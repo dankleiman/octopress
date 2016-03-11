@@ -92,7 +92,13 @@
     </url>
     <url>
         <loc>http://dankleiman.github.io/blog/2016/03/09/migrating-from-wordpress-to-jekyll/</loc>
-        <lastmod>2016-03-11T13:36:57-05:00</lastmod>
+        <lastmod>2016-03-11T13:59:23-05:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://dankleiman.github.io/blog/2016/03/11/migrating-posts-and-pages-from-wordpress-to-jekyll/
+        </loc>
+        <lastmod>2016-03-11T15:27:46-05:00</lastmod>
     </url>
     <url>
         <loc>http://dankleiman.github.io/about/</loc>
@@ -100,7 +106,7 @@
     </url>
     <url>
         <loc>http://dankleiman.github.io/blog/archives/</loc>
-        <lastmod>2016-03-11T13:36:57-05:00</lastmod>
+        <lastmod>2016-03-11T15:27:46-05:00</lastmod>
     </url>
     <url>
         <loc>http://dankleiman.github.io/coding-resources/</loc>
@@ -116,7 +122,7 @@
     </url>
     <url>
         <loc>http://dankleiman.github.io/</loc>
-        <lastmod>2016-03-11T13:36:57-05:00</lastmod>
+        <lastmod>2016-03-11T15:27:46-05:00</lastmod>
     </url>
     <url>
         <loc>http://dankleiman.github.io/projects/</loc>

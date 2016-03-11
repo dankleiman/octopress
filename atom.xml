@@ -4,7 +4,7 @@
   <title><![CDATA[Dan Kleiman Code]]></title>
   <link href="http://dankleiman.github.io/atom.xml" rel="self"/>
   <link href="http://dankleiman.github.io/"/>
-  <updated>2016-03-11T13:46:23-05:00</updated>
+  <updated>2016-03-11T15:30:12-05:00</updated>
   <id>http://dankleiman.github.io/</id>
   <author>
     <name><![CDATA[Dan Kleiman]]></name>
@@ -12,6 +12,66 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Migrating Posts and Pages From Wordpress to Jekyll]]></title>
+    <link href="http://dankleiman.github.io/blog/2016/03/11/migrating-posts-and-pages-from-wordpress-to-jekyll/"/>
+    <updated>2016-03-11T13:55:15-05:00</updated>
+    <id>http://dankleiman.github.io/blog/2016/03/11/migrating-posts-and-pages-from-wordpress-to-jekyll</id>
+    <content type="html"><![CDATA[<p><em>This is Part 1 in a series on <a href="http://dankleiman.github.io/blog/2016/03/09/migrating-from-wordpress-to-jekyll/">Migrating from Wordpress to Jekyll</a>.</em></p>
+
+<p>The documentation for <a href="https://jekyllrb.com/docs/quickstart/">getting started with Jekyll</a> is great. I&rsquo;m not going to rehash everything that&rsquo;s covered there.</p>
+
+<p>Instead, this post and the others in the series will be more like, &ldquo;here&rsquo;s the order I wish I had done things in&rdquo; or &ldquo;here&rsquo;s everything I ended up needing to pull together to get stuff working&rdquo;. I hope it helps you and saves you time if you ever decide to do a similar migration from a self-hosted Wordpress install to Jekyll.</p>
+
+<p>So here we go&hellip;.</p>
+
+<!--more-->
+
+
+<h2>Migrating Posts and Pages</h2>
+
+<p>To migrate your existing posts and pages from Wordpress, here&rsquo;s what you need to do:</p>
+
+<ol>
+<li><strong>Install Jekyll</strong> and create a new instance in the directory of your choice (follow the commands <a href="https://jekyllrb.com/docs/quickstart/">here</a> &mdash; you can even run <code>jekyll serve</code> to see the boilerplate of the site you just created).</li>
+<li><strong>Export a copy of your Wordpress database</strong> (I was on WPEngine and they have a good explanation of <a href="https://wpengine.com/support/exporting-database/">how to export from phpMyAdmin</a>).</li>
+<li>If you don&rsquo;t have it already, <strong>you will need mysql installed</strong> to work with the Wordpress database &mdash; using homebrew you can <code>brew install mysql</code>.</li>
+<li><strong>Create a new database</strong> through your mysql console and use the source command to load the .sql file you exported in step 2: that&rsquo;s <code>mysql -u root</code> to acces the console, then <code>CREATE DATABSE whatever_you_want_to_call_your_wordpress_db</code> to create a new database, <code>use whatever_you_want_to_call_your_wordpress_db</code> to start using the database, and finally, <code>source the_file_you_exported.sql</code> to load all the data.</li>
+<li>Now we&rsquo;re ready to use the <strong>Jekyll Importer for Wordpress</strong>. You&rsquo;ll need a few more gems installed to be able to read from mysql (<a href="http://import.jekyllrb.com/docs/wordpress/">see importer docs</a>), but then, with a local copy of your Wordpress database, the import will be pretty straightforward.</li>
+<li><strong>Inspect your new Jekyll posts and pages</strong>: the import will dump all your Wordpress posts into a directory called &lsquo;_posts&rsquo;. I don&rsquo;t know what this will look like if your Wordpress permalink structure does not have the YYYY-MM-DD-post-title format, but Jekyll relies on this date format when generating your site. In other words, an html file like this: &lsquo;/_posts/2016-03-11-migrating-wordpress-posts-and-pages.html&rsquo; will be turned into a page at <a href="http://your-domain.com/some-category/2016/03/11/migrating-wordpress-posts-and-pages.html.">http://your-domain.com/some-category/2016/03/11/migrating-wordpress-posts-and-pages.html.</a> You can ultimately tweak the permalinks, but the actually page generation seems to rely on the date format in the source post file name.</li>
+</ol>
+
+
+<h2>A Note about Pages</h2>
+
+<p>If you had a lot of pages in Wordpress, you will find that the import has created directories named after these pages in the root directory of your Jekyll install. Inside each of these directories is an index.html (or whatever you specified in the importer, i.e. md) file with the actual html content from your Wordpress site.</p>
+
+<p>I haven&rsquo;t completely decided what to do with these pages for my site yet. In some cases, they are no longer relevant because they reference features of the site I won&rsquo;t be supporting in this &ldquo;archive&rdquo; version of the old site.</p>
+
+<p>In other cases, though, they contain content that could have easily been a post. For these post-worthy pages, I am moving them to the &lsquo;_posts&rsquo; directory, changing the file name of the index.html file to use the date specificied in the YAML front matter generated by the importer (probably the published date of the page) and the name of the directory, so: index.html inside of &lsquo;/some-great-page&rsquo; that was published on 2014-05-31 becomes &lsquo;/_posts/2014-05-31-some-great-page.html&rsquo;. I like this approach because now when you build your site, Jekyll will automatically add this page to the list of posts in the correct chronological order.</p>
+
+<p>Either way, I plan to minimalize the number of &lsquo;page&rsquo; directories in the root of the site and use the conventions built up around posts in Jekyll to deliver as much of the content as possible (see below on categories and tags, for example).</p>
+
+<h2>Categories and Tags</h2>
+
+<p>Jekyll has some handy <a href="https://jekyllrb.com/docs/variables/">global variables</a> built in that allow you to group posts together and display them and generally reference attributes about your site and its contents.</p>
+
+<p>Specifically, as I was thinking about how to structure the new site, I was wondering about different ways to group posts together, based on the categories I had used in the Wordpress site, instead of just displaying one long reverse-chronological list.</p>
+
+<p>I found <a href="https://codinfox.github.io/dev/2015/03/06/use-tags-and-categories-in-your-jekyll-based-github-pages/">this excellent post on extending some basic layouts to take advantage of categories</a>. Incidentally, hosting on Github Pages, which I plan to do, limits the number of Jekyll plugins you can use, but that&rsquo;s fine with me.</p>
+
+<p>Taking the approach from the article above, if you want to show all Tai Chi posts on one page, you create a page called &lsquo;Tai Chi Articles&rsquo; and set its category as &lsquo;Tai Chi&rsquo;. You specify the layout as &lsquo;category&rsquo;, which you build in your &lsquo;_layouts&rsquo; directory.</p>
+
+<p>In the new layout, you are iterating through all the posts and checking for a match to the category specified on the page that uses that layout.</p>
+
+<p>In other words, on the &lsquo;Tai Chi Articles&rsquo; page, you are iterating through all posts that have the category &lsquo;Tai Chi&rsquo; and linking to them in this list. And I keep having to remind myself, this happens during the build, so you generate a nice, quick-loading page!</p>
+
+<p>With my categories set up and pages repurposed as posts or eliminated, I felt like I was making good progress on the migration.</p>
+
+<p>Of course, questions about redirection from the pages I converted or deleted and styling and layout started to fill my head&hellip;but we&rsquo;re going to get to that in future articles!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Migrating From Wordpress to Jekyll]]></title>
@@ -37,7 +97,7 @@
 <p>As I begin to play with the different components for the migration from Wordpress to Jekyll, it seems like the project will break down into the following areas:</p>
 
 <ol>
-<li>Migrating Posts and Pages</li>
+<li><a href="http://dankleiman.github.io/blog/2016/03/11/migrating-posts-and-pages-from-wordpress-to-jekyll/">Migrating Posts and Pages</a></li>
 <li>Migrating Assets</li>
 <li>Grooming/Revisiting Existing Content</li>
 <li>Site Look and Feel</li>
@@ -1760,33 +1820,6 @@ However, no matter how deeply theory believes this to be true, practice knows be
     <updated>2014-03-19T18:46:22-04:00</updated>
     <id>http://dankleiman.github.io/blog/2014/03/19/learning-more-about-octopress</id>
     <content type="html"><![CDATA[<p>Just running through a test post again to go over the process and remind myself how this works!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Whoa! Octopress!]]></title>
-    <link href="http://dankleiman.github.io/blog/2014/03/18/whoa-octopress/"/>
-    <updated>2014-03-18T21:28:17-04:00</updated>
-    <id>http://dankleiman.github.io/blog/2014/03/18/whoa-octopress</id>
-    <content type="html"><![CDATA[<p>So, I just launched this new blog using Octopress.</p>
-
-<p>Here are the steps I followed:</p>
-
-<ul>
-<li><a href="http://octopress.org/docs/setup/">Basics</a></li>
-<li><a href="http://octopress.org/docs/blogging/">How to Blog</a></li>
-<li><a href="http://octopress.org/docs/deploying/github/">Deploying on Github</a></li>
-</ul>
-
-
-<p>I need to dig into the <a href="http://octopress.org/docs/configuring/">configuration stuff</a> a little more.</p>
-
-<!-- more -->
-
-
-<h2>Writing This Post in Markdown</h2>
-
-<p>I&rsquo;m learning how to write this in <a href="http://http://daringfireball.net/projects/markdown/basics">Markdown</a> which is also pretty new to me. Right now it feels like a lazy version of html, so we&rsquo;ll see what&rsquo;s it like as I get used to it.</p>
 ]]></content>
   </entry>
   

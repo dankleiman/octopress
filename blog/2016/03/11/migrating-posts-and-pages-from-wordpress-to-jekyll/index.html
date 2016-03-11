@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Getting a Feel for It - Dan Kleiman Code</title>
+  <title>Migrating Posts and Pages From Wordpress to Jekyll - Dan Kleiman Code</title>
   <meta name="author" content="Dan Kleiman">
 
   
-  <meta name="description" content="&ldquo;I just want to get a feel for what I can change/do&hellip;&rdquo; Or &ldquo;I just wanted to see what I could do&hellip;&rdquo; In the middle &hellip;">
+  <meta name="description" content="This is Part 1 in a series on Migrating from Wordpress to Jekyll. The documentation for getting started with Jekyll is great. I&rsquo;m not going to &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://dankleiman.github.io/blog/2014/03/20/getting-a-feel-for-it">
+  <link rel="canonical" href="http://dankleiman.github.io/blog/2016/03/11/migrating-posts-and-pages-from-wordpress-to-jekyll">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Dan Kleiman Code" type="application/atom+xml">
@@ -72,7 +72,7 @@
   
   <header>
     
-      <h1 class="entry-title">Getting a Feel for It</h1>
+      <h1 class="entry-title">Migrating Posts and Pages From Wordpress to Jekyll</h1>
     
     
       <p class="meta">
@@ -88,44 +88,65 @@
   
 
 
-<time datetime="2014-03-20T08:59:31-04:00" pubdate data-updated="true">Mar 20<span>th</span>, 2014</time>
+<time datetime="2016-03-11T13:55:15-05:00" pubdate data-updated="true">Mar 11<span>th</span>, 2016</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>&ldquo;I just want to get a feel for what I can change/do&hellip;&rdquo;</p>
+<div class="entry-content"><p><em>This is Part 1 in a series on <a href="/blog/2016/03/09/migrating-from-wordpress-to-jekyll/">Migrating from Wordpress to Jekyll</a>.</em></p>
 
-<p>Or</p>
+<p>The documentation for <a href="https://jekyllrb.com/docs/quickstart/">getting started with Jekyll</a> is great. I&rsquo;m not going to rehash everything that&rsquo;s covered there.</p>
 
-<p>&ldquo;I just wanted to see what I could do&hellip;&rdquo;</p>
+<p>Instead, this post and the others in the series will be more like, &ldquo;here&rsquo;s the order I wish I had done things in&rdquo; or &ldquo;here&rsquo;s everything I ended up needing to pull together to get stuff working&rdquo;. I hope it helps you and saves you time if you ever decide to do a similar migration from a self-hosted Wordpress install to Jekyll.</p>
 
-<p>In the middle of launching this blog, I wanted to change some of the core settings and I wasn&rsquo;t sure what could safely be changed without breaking the whole thing.</p>
+<p>So here we go&hellip;.</p>
 
-<p>When I asked someone for help, I explained that I wanted to &ldquo;get a feel&rdquo; for what I could do without messing other things up.</p>
-
-<!-- more -->
+<!--more-->
 
 
-<h2>How Would You Have Phrased That?</h2>
+<h2>Migrating Posts and Pages</h2>
 
-<p>I didn&rsquo;t used to make a big distinction between these two ways of phrasing, but as I&rsquo;m reading <a href="http://pragprog.com/book/ahptl/pragmatic-thinking-and-learning">Pragmatic Thinking and Learning by Andy Hunt</a>, I&rsquo;m starting to become much more acutely aware of all these layers of filters, perspectives, and contexts that we each have for experiencing the world that influence what we see, say, and do.</p>
+<p>To migrate your existing posts and pages from Wordpress, here&rsquo;s what you need to do:</p>
 
-<p>For instance, what you value and how you communicate may be shaped by:
-&ndash; your personality type, notably your degree of introversion or extroversion (I love thinking of this as &ldquo;how you recharge your batteries &mdash; from the inside or from other people&rdquo;)
-&ndash; the generation you were born, even in the sense of how you see the role of institutions/companies that you interact with (need to read up on this more, but some people have theorized that there are only 4 generational archetypes that repeat over and over again, largely created and re-created in reference to the previous generation)
-&ndash; the primary senses you use to take information in (often described in an educational context as learning style, i.e. visual, auditory, or kinesthetic)</p>
+<ol>
+<li><strong>Install Jekyll</strong> and create a new instance in the directory of your choice (follow the commands <a href="https://jekyllrb.com/docs/quickstart/">here</a> &mdash; you can even run <code>jekyll serve</code> to see the boilerplate of the site you just created).</li>
+<li><strong>Export a copy of your Wordpress database</strong> (I was on WPEngine and they have a good explanation of <a href="https://wpengine.com/support/exporting-database/">how to export from phpMyAdmin</a>).</li>
+<li>If you don&rsquo;t have it already, <strong>you will need mysql installed</strong> to work with the Wordpress database &mdash; using homebrew you can <code>brew install mysql</code>.</li>
+<li><strong>Create a new database</strong> through your mysql console and use the source command to load the .sql file you exported in step 2: that&rsquo;s <code>mysql -u root</code> to acces the console, then <code>CREATE DATABSE whatever_you_want_to_call_your_wordpress_db</code> to create a new database, <code>use whatever_you_want_to_call_your_wordpress_db</code> to start using the database, and finally, <code>source the_file_you_exported.sql</code> to load all the data.</li>
+<li>Now we&rsquo;re ready to use the <strong>Jekyll Importer for Wordpress</strong>. You&rsquo;ll need a few more gems installed to be able to read from mysql (<a href="http://import.jekyllrb.com/docs/wordpress/">see importer docs</a>), but then, with a local copy of your Wordpress database, the import will be pretty straightforward.</li>
+<li><strong>Inspect your new Jekyll posts and pages</strong>: the import will dump all your Wordpress posts into a directory called &lsquo;_posts&rsquo;. I don&rsquo;t know what this will look like if your Wordpress permalink structure does not have the YYYY-MM-DD-post-title format, but Jekyll relies on this date format when generating your site. In other words, an html file like this: &lsquo;/_posts/2016-03-11-migrating-wordpress-posts-and-pages.html&rsquo; will be turned into a page at <a href="http://your-domain.com/some-category/2016/03/11/migrating-wordpress-posts-and-pages.html.">http://your-domain.com/some-category/2016/03/11/migrating-wordpress-posts-and-pages.html.</a> You can ultimately tweak the permalinks, but the actually page generation seems to rely on the date format in the source post file name.</li>
+</ol>
 
-<h2>Starting to Notice Filters and Cues</h2>
 
-<p>After reading the chapter on sensory filters, I spent the day trying to pick up on subtle language cues that people dropped as I talked to them.</p>
+<h2>A Note about Pages</h2>
 
-<p>Specificially, I was <a href="http://dankleiman.com">teaching Tai Chi lessons</a> that day, so once I heard a clear cue (&ldquo;I see what you&rsquo;re saying&hellip;&rdquo;), I tried to adapt the teaching to cater to that style.</p>
+<p>If you had a lot of pages in Wordpress, you will find that the import has created directories named after these pages in the root directory of your Jekyll install. Inside each of these directories is an index.html (or whatever you specified in the importer, i.e. md) file with the actual html content from your Wordpress site.</p>
 
-<p>My first attempt was too heavy-handed, though, and it just ended up confusing my student.</p>
+<p>I haven&rsquo;t completely decided what to do with these pages for my site yet. In some cases, they are no longer relevant because they reference features of the site I won&rsquo;t be supporting in this &ldquo;archive&rdquo; version of the old site.</p>
 
-<p>Fascinating to keep trying this approach, though!</p>
+<p>In other cases, though, they contain content that could have easily been a post. For these post-worthy pages, I am moving them to the &lsquo;_posts&rsquo; directory, changing the file name of the index.html file to use the date specificied in the YAML front matter generated by the importer (probably the published date of the page) and the name of the directory, so: index.html inside of &lsquo;/some-great-page&rsquo; that was published on 2014-05-31 becomes &lsquo;/_posts/2014-05-31-some-great-page.html&rsquo;. I like this approach because now when you build your site, Jekyll will automatically add this page to the list of posts in the correct chronological order.</p>
+
+<p>Either way, I plan to minimalize the number of &lsquo;page&rsquo; directories in the root of the site and use the conventions built up around posts in Jekyll to deliver as much of the content as possible (see below on categories and tags, for example).</p>
+
+<h2>Categories and Tags</h2>
+
+<p>Jekyll has some handy <a href="https://jekyllrb.com/docs/variables/">global variables</a> built in that allow you to group posts together and display them and generally reference attributes about your site and its contents.</p>
+
+<p>Specifically, as I was thinking about how to structure the new site, I was wondering about different ways to group posts together, based on the categories I had used in the Wordpress site, instead of just displaying one long reverse-chronological list.</p>
+
+<p>I found <a href="https://codinfox.github.io/dev/2015/03/06/use-tags-and-categories-in-your-jekyll-based-github-pages/">this excellent post on extending some basic layouts to take advantage of categories</a>. Incidentally, hosting on Github Pages, which I plan to do, limits the number of Jekyll plugins you can use, but that&rsquo;s fine with me.</p>
+
+<p>Taking the approach from the article above, if you want to show all Tai Chi posts on one page, you create a page called &lsquo;Tai Chi Articles&rsquo; and set its category as &lsquo;Tai Chi&rsquo;. You specify the layout as &lsquo;category&rsquo;, which you build in your &lsquo;_layouts&rsquo; directory.</p>
+
+<p>In the new layout, you are iterating through all the posts and checking for a match to the category specified on the page that uses that layout.</p>
+
+<p>In other words, on the &lsquo;Tai Chi Articles&rsquo; page, you are iterating through all posts that have the category &lsquo;Tai Chi&rsquo; and linking to them in this list. And I keep having to remind myself, this happens during the build, so you generate a nice, quick-loading page!</p>
+
+<p>With my categories set up and pages repurposed as posts or eliminated, I felt like I was making good progress on the migration.</p>
+
+<p>Of course, questions about redirection from the pages I converted or deleted and styling and layout started to fill my head&hellip;but we&rsquo;re going to get to that in future articles!</p>
 </div>
 
 
@@ -148,7 +169,7 @@
   
 
 
-<time datetime="2014-03-20T08:59:31-04:00" pubdate data-updated="true">Mar 20<span>th</span>, 2014</time>
+<time datetime="2016-03-11T13:55:15-05:00" pubdate data-updated="true">Mar 11<span>th</span>, 2016</time>
       
 
 
@@ -156,7 +177,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2014/03/20/getting-a-feel-for-it/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2014/03/20/getting-a-feel-for-it/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2016/03/11/migrating-posts-and-pages-from-wordpress-to-jekyll/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2016/03/11/migrating-posts-and-pages-from-wordpress-to-jekyll/" >Tweet</a>
   
   
   
@@ -187,10 +208,8 @@
     </p>
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/03/19/learning-more-about-octopress/" title="Previous Post: Learning more about Octopress">&laquo; Learning more about Octopress</a>
+        <a class="basic-alignment left" href="/blog/2016/03/09/migrating-from-wordpress-to-jekyll/" title="Previous Post: Migrating from Wordpress to Jekyll">&laquo; Migrating from Wordpress to Jekyll</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/05/09/this-is-new-post/" title="Next Post: Reflections on Pre-Work: Balancing Theory and Practice">Reflections on Pre-Work: Balancing Theory and Practice &raquo;</a>
       
     </p>
   </footer>
