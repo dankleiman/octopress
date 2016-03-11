@@ -5,13 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Whoa! Octopress! - Dan Kleiman Code</title>
+  <title>Launching Datastroyer - Dan Kleiman Code</title>
   <meta name="author" content="Dan Kleiman">
 
   
-  <meta name="description" content="So, I just launched this new blog using Octopress. Here are the steps I followed: Basics
-How to Blog
-Deploying on Github I need to dig into the &hellip;">
+  <meta name="description" content="I&rsquo;m very excited to announce that Craig McGinley and I have launched Datastroyer. Datastroyer is our online tool for searching JSON objects and &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +18,7 @@ Deploying on Github I need to dig into the &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://dankleiman.github.io/blog/2014/03/18/whoa-octopress">
+  <link rel="canonical" href="http://dankleiman.github.io/blog/2014/07/02/launching-datastroyer">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Dan Kleiman Code" type="application/atom+xml">
@@ -74,7 +72,7 @@ Deploying on Github I need to dig into the &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Whoa! Octopress!</h1>
+      <h1 class="entry-title">Launching Datastroyer</h1>
     
     
       <p class="meta">
@@ -90,32 +88,45 @@ Deploying on Github I need to dig into the &hellip;">
   
 
 
-<time datetime="2014-03-18T21:28:17-04:00" pubdate data-updated="true">Mar 18<span>th</span>, 2014</time>
+<time datetime="2014-07-02T21:29:17-04:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>So, I just launched this new blog using Octopress.</p>
+<div class="entry-content"><p>I&rsquo;m very excited to announce that <a href="https://github.com/craigmcginley">Craig McGinley</a> and I have launched <a href="http://datastroyer.herokuapp.com/">Datastroyer</a>.</p>
 
-<p>Here are the steps I followed:</p>
+<p>Datastroyer is our online tool for searching JSON objects and returning the correct path to any value.</p>
 
-<ul>
-<li><a href="http://octopress.org/docs/setup/">Basics</a></li>
-<li><a href="http://octopress.org/docs/blogging/">How to Blog</a></li>
-<li><a href="http://octopress.org/docs/deploying/github/">Deploying on Github</a></li>
-</ul>
+<!--more-->
 
 
-<p>I need to dig into the <a href="http://octopress.org/docs/configuring/">configuration stuff</a> a little more.</p>
+<p>Previously, I wrote about the <a href="/blog/2014/05/25/building-a-learning-tool-for-compound-data-structures/">challenges of parsing compound data structures</a>. For someone just learning to code and work with data, one of the biggest challenges was learning to read syntax.</p>
 
-<!-- more -->
+<p>One particularly challenging &ldquo;reading problem&rdquo; is figuring out how to reference a specific value nested inside a tangle of hashes and arrays. Not knowing how the object is structured, in terms of size, layers of nesting, or type of nested objects initially made this problem really confusing!</p>
+
+<p>Eventually we learned how to traverse the whole structure and efficiently store the path we were going down as we went.</p>
+
+<p>Craig and I have talked about many different use cases for the method we coded up, but in this case we have released the code embedded in a web application that searches JSON objects for you. If you&rsquo;ve been working with API and trying to make sense of your queries, we hope this helps!</p>
+
+<p>Here&rsquo;s what you do:</p>
+
+<ol>
+<li><p>Copy your entire JSON object.</p></li>
+<li><p>Visit <a href="http://datastroyer.herokuapp.com/">Datastroyer</a>.</p></li>
+<li><p>Paste the JSON into the search box.</p></li>
+<li><p>On the next screen, enter the search value you are looking for.</p></li>
+</ol>
 
 
-<h2>Writing This Post in Markdown</h2>
+<p>Datastroyer will return all of the possible paths to this search value inside of the JSON.</p>
 
-<p>I&rsquo;m learning how to write this in <a href="http://http://daringfireball.net/projects/markdown/basics">Markdown</a> which is also pretty new to me. Right now it feels like a lazy version of html, so we&rsquo;ll see what&rsquo;s it like as I get used to it.</p>
+<p>If you don&rsquo;t have some JSON to search, you can <a href="http://datastroyer.herokuapp.com/data">try a sample search</a> with the data we&rsquo;ve provided.</p>
+
+<p>At the end of the day, we think this is a learning tool to help you get more familiar with the structure of compound objects.</p>
+
+<p>We hope you learn like we have!</p>
 </div>
 
 
@@ -138,7 +149,7 @@ Deploying on Github I need to dig into the &hellip;">
   
 
 
-<time datetime="2014-03-18T21:28:17-04:00" pubdate data-updated="true">Mar 18<span>th</span>, 2014</time>
+<time datetime="2014-07-02T21:29:17-04:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2014</time>
       
 
 
@@ -146,7 +157,7 @@ Deploying on Github I need to dig into the &hellip;">
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2014/03/18/whoa-octopress/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2014/03/18/whoa-octopress/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2014/07/02/launching-datastroyer/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2014/07/02/launching-datastroyer/" >Tweet</a>
   
   
   
@@ -177,8 +188,10 @@ Deploying on Github I need to dig into the &hellip;">
     </p>
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2014/06/23/the-race-to-hello-world-rails-vs-sinatra/" title="Previous Post: The Race to Hello World: Rails vs. Sinatra">&laquo; The Race to Hello World: Rails vs. Sinatra</a>
       
-        <a class="basic-alignment right" href="/blog/2014/03/19/learning-more-about-octopress/" title="Next Post: Learning more about Octopress">Learning more about Octopress &raquo;</a>
+      
+        <a class="basic-alignment right" href="/blog/2014/08/03/burlington-ruby-conference-2014/" title="Next Post: Burlington Ruby Conference 2014">Burlington Ruby Conference 2014 &raquo;</a>
       
     </p>
   </footer>

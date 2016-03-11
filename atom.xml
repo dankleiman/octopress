@@ -1,17 +1,1767 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Dan Kleiman's Coding Blog]]></title>
+
+  <title><![CDATA[Dan Kleiman Code]]></title>
   <link href="http://dankleiman.github.io/atom.xml" rel="self"/>
   <link href="http://dankleiman.github.io/"/>
-  <updated>2014-03-18T22:29:56-04:00</updated>
+  <updated>2016-03-11T13:46:23-05:00</updated>
   <id>http://dankleiman.github.io/</id>
   <author>
     <name><![CDATA[Dan Kleiman]]></name>
-
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+
+  <entry>
+    <title type="html"><![CDATA[Migrating From Wordpress to Jekyll]]></title>
+    <link href="http://dankleiman.github.io/blog/2016/03/09/migrating-from-wordpress-to-jekyll/"/>
+    <updated>2016-03-09T13:09:18-05:00</updated>
+    <id>http://dankleiman.github.io/blog/2016/03/09/migrating-from-wordpress-to-jekyll</id>
+    <content type="html"><![CDATA[<p>So, I&rsquo;ve decided to migrate my <a href="http://dankleiman.com">Tai Chi site at dankleiman.com</a> from Wordpress to a new static site using Jekyll.</p>
+
+<p>Since I haven&rsquo;t posted there in almost two years, but I get a steady stream of new subscribers who want to learn about Tai Chi, qigong, and meditation, I thought it would be good to give the 300+ pages and posts a more evergreen feel.</p>
+
+<!--more-->
+
+
+<p>The switch from Wordpress to Jekyll is exciting for me because:</p>
+
+<ul>
+<li>I get to learn a new framework that&rsquo;s in line with tools I use every day, like Ruby and git.</li>
+<li>I can deliver existing content to new users quickly and easily with plain html.</li>
+<li>The content on the site deserves a fresh coat of paint and likely some re-writing.</li>
+</ul>
+
+
+<p>As I begin to play with the different components for the migration from Wordpress to Jekyll, it seems like the project will break down into the following areas:</p>
+
+<ol>
+<li>Migrating Posts and Pages</li>
+<li>Migrating Assets</li>
+<li>Grooming/Revisiting Existing Content</li>
+<li>Site Look and Feel</li>
+<li>Handling Form Submission</li>
+<li>DNS and Redirection</li>
+</ol>
+
+
+<p>I plan to write about each of these areas and link to each topic as I publish more about the different decisions and steps that go into each part of the migration process.</p>
+]]></content>
+  </entry>
+
+  <entry>
+    <title type="html"><![CDATA[I Hate Voicemail: Straight to SMS With Twilio]]></title>
+    <link href="http://dankleiman.github.io/blog/2015/09/15/i-hate-voicemail-straight-to-sms-with-twilio/"/>
+    <updated>2015-09-15T08:02:19-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2015/09/15/i-hate-voicemail-straight-to-sms-with-twilio</id>
+    <content type="html"><![CDATA[<p>I hate checking my voicemail. I hate the nagging voicemail icon on my phone that won&rsquo;t be dismissed unless I actually check my voicemail. I hate how listening to a voicemail, capturing relevant information from it, and calling someone back breaks up the normal flow of how I communicate with people all day long: asynchronously, via written communication like email or text.</p>
+
+<p>These days, when I want to talk to someone, we plan a time to talk and that&rsquo;s fine. But some people still call and leave me a black-box-of-a-voicemail that I have to wade into.</p>
+
+<p>I needed some way to cut voicemail out of my life&hellip;so I hooked up a Twilio app to handle it for me.</p>
+
+<!--more-->
+
+
+<h2>No More Voicemail: Basic Flow</h2>
+
+<p>Instead of having to call in to my voicemail, what if I could get as much relevant info as possible sent right to my phone, right away? There are probably times when actually listening to the message is necessary, so that has to be factored in too.</p>
+
+<p>Here&rsquo;s the basic flow I set out to create:</p>
+
+<ul>
+<li>Someone calls and I don&rsquo;t answer.</li>
+<li>They are prompted to leave a message as they would normally expect to do.</li>
+<li>The message is recorded.</li>
+<li>The recording is transcribed.</li>
+<li>The transcription is sent to me as a text message, with a link to the recording.</li>
+</ul>
+
+
+<p>Now I am happy, because I get just about all the information I need from a text. Plus, I have the assurance that if the transcription is incomplete, because voice-to-text is still not perfect, I can listen to the recording.</p>
+
+<h2>Twilio and Sinatra for Message Flow</h2>
+
+<p>To code this up, I used a similar set up to the <a href="http://dankleiman.github.io/blog/2015/08/13/sms-to-do-list-with-twilio/">To Do List app</a> I built earlier.</p>
+
+<p>There are three main controller actions in the Sinatra app that the handle an incoming call, record the message, and then send it to me as a text:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># incoming forwarded call</span>
+</span><span class='line'><span class="n">post</span> <span class="s1">&#39;/calls&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_by_phone_number!</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:ForwardedFrom</span><span class="o">]</span> <span class="o">||</span> <span class="n">params</span><span class="o">[</span><span class="ss">:CalledVia</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="ss">Twilio</span><span class="p">:</span><span class="ss">:TwiML</span><span class="o">::</span><span class="no">Response</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">r</span><span class="o">|</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">greeting</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">current_greeting</span>
+</span><span class='line'>      <span class="n">r</span><span class="o">.</span><span class="n">Play</span> <span class="n">greeting</span><span class="o">.</span><span class="n">recording_url</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">r</span><span class="o">.</span><span class="n">Say</span> <span class="s1">&#39;Please leave a message after the beep.&#39;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">r</span><span class="o">.</span><span class="n">Redirect</span> <span class="s1">&#39;/record_message&#39;</span>
+</span><span class='line'>  <span class="k">end</span><span class="o">.</span><span class="n">text</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># record incoming message</span>
+</span><span class='line'><span class="n">post</span> <span class="s1">&#39;/record_message&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="ss">Twilio</span><span class="p">:</span><span class="ss">:TwiML</span><span class="o">::</span><span class="no">Response</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">r</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">r</span><span class="o">.</span><span class="n">Record</span> <span class="ss">transcribeCallback</span><span class="p">:</span> <span class="s1">&#39;/messages&#39;</span><span class="p">,</span> <span class="ss">timeout</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="ss">playBeep</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="k">end</span><span class="o">.</span><span class="n">text</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># callback for incoming forwared call</span>
+</span><span class='line'><span class="n">post</span> <span class="s1">&#39;/messages&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_by_phone_number!</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:ForwardedFrom</span><span class="o">]</span> <span class="o">||</span> <span class="n">params</span><span class="o">[</span><span class="ss">:CalledVia</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># save recording url, generate pin for message</span>
+</span><span class='line'>    <span class="n">message</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">pin</span><span class="p">:</span> <span class="no">Message</span><span class="o">.</span><span class="n">generate_pin_for</span><span class="p">(</span><span class="n">user</span><span class="p">),</span> <span class="n">recording_url</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:RecordingUrl</span><span class="o">]</span><span class="p">,</span> <span class="n">recording_sid</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:RecordingSid</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">text</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:TranscriptionText</span><span class="o">]</span> <span class="o">||</span> <span class="s1">&#39;Unable to transcribe message&#39;</span>
+</span><span class='line'>    <span class="n">body</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;FROM: </span><span class="si">#{</span><span class="n">params</span><span class="o">[</span><span class="ss">:Caller</span><span class="o">]</span> <span class="o">||</span> <span class="n">params</span><span class="o">[</span><span class="ss">:From</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s2">&quot;MSG: </span><span class="si">#{</span><span class="n">text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s2">&quot;CALL TO LISTEN: +18001231234&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s2">&quot;MSG PIN: </span><span class="si">#{</span><span class="n">message</span><span class="o">.</span><span class="n">pin</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">client</span> <span class="o">=</span> <span class="ss">Twilio</span><span class="p">:</span><span class="ss">:REST</span><span class="o">::</span><span class="no">Client</span><span class="o">.</span><span class="n">new</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;TWILIO_ACCOUNT_ID&#39;</span><span class="o">]</span><span class="p">,</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;TWILIO_AUTH&#39;</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">client</span><span class="o">.</span><span class="n">account</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">body</span><span class="p">:</span> <span class="n">body</span><span class="p">,</span> <span class="ss">to</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">phone_number</span><span class="p">,</span> <span class="ss">from</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:To</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s it. Calls get recorded and forwarded to me and the caller leaves a voicemail just like they intended to do.</p>
+
+<p>Here are a few things I learned with this new Twilio use case.</p>
+
+<h2>Leave a Greeting</h2>
+
+<p>In the &lsquo;/calls&rsquo; block, instead of just the robo-voice that Twilio defaults to prompting the caller to leave a message, I wanted to be able to play a custom greeting.</p>
+
+<p>When you use the Record verb in Twilio, they will save the recording for you, so I just needed to save the url that points to that resource and the unique id of the recording, in case I want to go back and clean it up later.</p>
+
+<p>To allow for a custom greeting, I built a separate flow to actually record the outgoing greeting. When I call to check my message, I get a prompt that allows me to record a new greeting.</p>
+
+<p>To play the greeting to my callers, I then looking up the number the call has been forwarded from and play the custom greeting if there is one.</p>
+
+<h2>Skinny Controllers, Really Skinny</h2>
+
+<p>As I was building out the custom greeting, I ran into a timeout issue when playing the greeting and recording the call in the same action.</p>
+
+<p>I have to look into this more, but Twilio seems to have a really small size limit on the response. Super small controller actions as a constraint makes me think that any complex application logic is going to lots of extra controller actions.</p>
+
+<p>Whatever my next project is, I&rsquo;ll need to think about the best design to keep the Sinatra app from being tons of seeming unrelated actions.</p>
+
+<h2>Transcription Callback</h2>
+
+<p>The &lsquo;/messages&rsquo; action, where the app actually sends me the text, is hit as a callback from the transcribeCallback option on Record.</p>
+
+<p>This is pretty cool, because once the caller records their message, their interaction with the app is done. Twilio then takes the recording, runs the voice-to-text transcription, and posts the attributes of the transcription to &lsquo;/messages&rsquo;.</p>
+
+<p>From the <a href="https://www.twilio.com/docs/api/twiml/record">Twilio API Record docs</a>, you get the following parameters in the callback:</p>
+
+<ul>
+<li>TranscriptionSid: The unique 34 character ID of the transcription.</li>
+<li>TranscriptionText: Contains the text of the transcription.</li>
+<li>TranscriptionStatus: The status of the transcription attempt: either &lsquo;completed&rsquo; or &lsquo;failed&rsquo;.</li>
+<li>TranscriptionUrl: The URL for the transcription&rsquo;s REST API resource.</li>
+<li>RecordingSid: The unique 34 character ID of the recording from which the transcription was generated.</li>
+<li>RecordingUrl: The URL for the transcription&rsquo;s source recording resource.</li>
+<li>CallSid: A unique identifier for this call, generated by Twilio.</li>
+<li>AccountSid: Your Twilio account id. It is 34 characters long, and always starts with the letters AC.</li>
+<li>From: The phone number or client identifier of the party that initiated the call. Phone numbers are formatted with a &lsquo;+&rsquo; and country code, e.g. +16175551212 ([E.164][e164] format). Client identifiers begin with the client: URI scheme; for example, for a call from a client named &lsquo;tommy&rsquo;, the From parameter will be client:tommy.</li>
+<li>To: The phone number or client identifier of the called party. Phone numbers are formatted with a &lsquo;+&rsquo; and country code, e.g. +16175551212 ([E.164][e164] format). Client identifiers begin with the client: URI scheme; for example, for a call to a client named &lsquo;jenny&rsquo;, the To parameter will be client:jenny.</li>
+<li>CallStatus: A descriptive status for the call. The value is one of queued, ringing, in-progress, completed, busy, failed or no-answer. See the CallStatus section for more details.</li>
+<li>ApiVersion: The version of the Twilio API used to handle this call. For incoming calls, this is determined by the API version set on the called number. For outgoing calls, this is the API version used by the outgoing call&rsquo;s REST API request.</li>
+<li>Direction: A string describing the direction of the call. inbound for inbound calls, outbound-api for calls initiated via the REST API or outbound-dial for calls initiated by a <Dial> verb.</li>
+<li>ForwardedFrom: This parameter is set only when Twilio receives a forwarded call, but its value depends on the caller&rsquo;s carrier including information when forwarding. Not all carriers support passing this information.</li>
+</ul>
+
+
+<h2>Checking Messages</h2>
+
+<p>Once the message comes through, I get a text with a (hopefully) coherent message, and a fallback option to call in and listen to the record.</p>
+
+<p>Right now, I have the very <em>cough cough</em> secure combination of a &ldquo;from&rdquo; phone number and &ldquo;message PIN&rdquo; to authenticate against in order to play the message.</p>
+
+<p>It&rsquo;s going to be interesting to think more about securing Twilio-related resources in future projects, but for now, this seems to work.</p>
+
+<p>So call me. Or don&rsquo;t. I can handle it either way now!</p>
+]]></content>
+  </entry>
+
+  <entry>
+    <title type="html"><![CDATA[Text Me When You're Done: Twilio for Notifications of Long-Running Dev Tasks]]></title>
+    <link href="http://dankleiman.github.io/blog/2015/08/29/text-me-when-youre-done-twilio-for-notifications-of-long-running-dev-tasks/"/>
+    <updated>2015-08-29T10:33:48-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2015/08/29/text-me-when-youre-done-twilio-for-notifications-of-long-running-dev-tasks</id>
+    <content type="html"><![CDATA[<p>This week at work, we ran into a slight hiccup with one of our larger third-party data syncs. Without going into too much detail, to fix the issue, we had to carefully reproduce data in various states and test fixes that would transform that data back to the correct state &mdash; or for the purpose of this post, <em>I spent a lot of time this week setting things up and waiting for them to run</em>.</p>
+
+<p>Outside of work I&rsquo;ve been continuing to play with Twilio and this morning, with hours of data prep still in front of me, I stumbled across this article on <a href="https://www.twilio.com/labs/bash/sms">Sending a Twilio SMS from the Shell</a>.</p>
+
+<!--more-->
+
+
+<p>Before I get into how this works and what I did, I was also reading some of Patrick McKenzie&rsquo;s old posts on his first Twilio apps. What got me excited this morning was <a href="http://www.kalzumeus.com/2011/12/19/productizing-twilio-applications/">something he wrote as an addendum to his TwilioConf talk</a>.</p>
+
+<p>I now consider it my mission statement for all my Twilio projects:</p>
+
+<blockquote><h2>Why I Think Twilio Will Take Over The World</h2>
+
+<p>(This was not actually in the presentation, because I didn’t have enough time for it, but I sincerely believe it and want to publish it somewhere.)</p>
+
+<p>I think Twilio is, far and away, the most exciting technology I’ve ever worked with. The world needs cat photos, local coupons, and mobifotosocial games, too, but it needs good telephony systems a lot more, as evidenced by companies paying billions of dollars for them.</p>
+
+<p>Additionally, Twilio is the nascent, embryonic form of the first Internet that a billion people are going to have access to, because <strong>Twilio turns every phone into a smartphone</strong>.  The end-game for Zynga’s take-over-the-world vision is the human race slaved to artificial dopamine treadmills.  The endgame for Twilio’s vision is that every $2 handset in Africa is the moral equivalent of an iPhone.  I know which future I want to support.</p>
+
+<p>Smartphones aren’t smart because of anything on the phones themselves, they’re smart because they speak HTTP and thus get always-on access to a universe of applications which are improving constantly.  Twilio radically reduces the amount of hardware support a phone needs to speak HTTP — it retroactively upgrades every phone in the world to do so.  After that, all you need is the application logic.  And what application logic there is — because the applications live on web servers, they have access to all the wonderful infrastructure built to run the Internet, from APIs that let you get Highly Consequential Data like e.g. weather reports or stock prices or whatever, to easy integration with systems which were never built to have a phone operating as part of them.</p>
+
+<p>You can’t swing a stick in a business without hitting a problem which a phone application makes great sense for.  I filled up three pages of a notebook with them in just a week after being exposed to Twilio for the first time.  Order status checking for phone/fax/mail orders.  Integrated CRMs for phone customer service representatives.  Flight information.  Bank balances.  Server monitoring.  Appointment reminders. Restaurant reservations.  Local search.  Loyalty programs.  Time card systems.  Retail/service employee support systems.  Shift management.  The list goes on and on and on.</p>
+
+<p>Seriously, <strong>start writing Twilio apps</strong>.</p></blockquote>
+
+<p>Thanks, Patrick!</p>
+
+<h2>Twilio SMS via Shell</h2>
+
+<p>Up to this point, I had been thinking of Twilio as a way to tie SMS, either as input or output, to web-based application logic. When I came across the shell script that would also hit Twilio to send SMS, though I realized that chaining a Twilio SMS to a long-running script would allow me to set up and job and just walk away. I&rsquo;ll get a text when it&rsquo;s done. Awesome!</p>
+
+<p>At it&rsquo;s core, the script is a curl request to the Twilio API:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">RESPONSE</span><span class="o">=</span><span class="sb">`</span>curl -fSs -u <span class="s2">&quot;$ACCOUNTSID:$AUTHTOKEN&quot;</span> -d <span class="s2">&quot;From=$CALLERID&quot;</span> -d <span class="s2">&quot;To=$PHONE&quot;</span> -d <span class="s2">&quot;Body=$MSG&quot;</span> <span class="s2">&quot;https://api.twilio.com/2010-04-01/Accounts/$ACCOUNTSID/SMS/Messages&quot;</span> 2&gt;&amp;1<span class="sb">`</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The rest of the script takes care of arguments and configuration &mdash; even allowing you to create a separate config file with your Twilio credentials. Pretty sweet to have such a nice neat package! <a href="https://www.twilio.com/labs/bash/sms">Here&rsquo;s everything you need to get it running</a></p>
+
+<h2>Integrating Tasks with the Script</h2>
+
+<p>I&rsquo;ve played with a few different alerts so far.</p>
+
+<p>When I had to load a large file full of sql data, a simple alert when the job was done did the trick:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mysql -u root databasename &lt; some/file.sql; <span class="nb">echo</span> <span class="s1">&#39;Your table is ready&#39;</span> | ~/twilio-sms 6178675309
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When I was deciding how to break up the file into more manageable smaller files to import, and running around doing errands and walking my dog, just calculating the number of lines took long enough that I piped the result out to the Twilio script and got a text that said 34218:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>wc -l &lt; some/file.sql | ~/twilio-sms 6178675309
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There&rsquo;s nothing earth-shatteringly-amazing technically here. It&rsquo;s really about peace of mind.</p>
+
+<p>Now, I don&rsquo;t have to keep looking over my shoulder to check if the task is done. Or waste time checking Twitter while I sit at my computer. I can go do more useful things, like finish this blog post, confident that the text notification will be enough to get my attention when the job is done running.</p>
+]]></content>
+  </entry>
+
+  <entry>
+    <title type="html"><![CDATA[SMS to Do List With Twilio]]></title>
+    <link href="http://dankleiman.github.io/blog/2015/08/13/sms-to-do-list-with-twilio/"/>
+    <updated>2015-08-13T19:45:40-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2015/08/13/sms-to-do-list-with-twilio</id>
+    <content type="html"><![CDATA[<p>The other day, I had the pleasure of talking to someone who builds mobile apps with people in developing countries so that community health workers can deliver medical information and collect data.</p>
+
+<p>As were talking about the technical challenges and logistical challenges (provisioning hundreds of mobile phones and numbers in one go in a country where you have no presence, e.g.), I have a pretty clear mental model of a basic CRUD app distilled down to Android&hellip;and then he said something that changed how I thought about the entire problem:</p>
+
+<p><strong>Some of their programs are limited to SMS-only communication.</strong> No smartphones, no apps, just text.</p>
+
+<!--more-->
+
+
+<p>How do you go about guiding someone through a decision tree or collecting form submissions via SMS?</p>
+
+<p>By coincidence, I had just started reading <a href="https://pragprog.com/book/dccar2/build-awesome-command-line-applications-in-ruby-2">a book about building command line apps</a> and I think that&rsquo;s how the lightbulb went off for me.</p>
+
+<p>As a developer, I spend a lot of time in front of a command prompt. Many of the more experienced devs I know wouldn&rsquo;t want to touch anything other than the command line to do the bulk of their work &mdash; <strong>and they are navigating an application interface largely built around entering a single text command at a time</strong>, just like our SMS-constrained health workers.</p>
+
+<p>In <em>Build Awesome Command-Line Applications in Ruby 2</em>, one of the first sample projects is a to do list app, from the command line.</p>
+
+<p>Your basic set up allows you to add items to the list, retrieve the whole list, and mark items as complete. As I was building it out, I also wanted to delete things, because I found that more satisfying.</p>
+
+<p>Once the idea of an interactive SMS app and the command line to do list fused in my head, I thought it would be fun to write a simple, somewhat interactive program that was all SMS-based.</p>
+
+<h2>Twilio for Easy SMS Integration</h2>
+
+<p>Twilio is a service that allows you to send and receive voice and SMS through their API. They have awesome documentation for a bunch of different languages and great small project tutorials like the one I was about to tackle.</p>
+
+<p>I stumbled across <a href="https://www.twilio.com/blog/2014/10/broadcast-text-and-picture-messages-using-ruby-google-spreadsheets-twilio.html">this one about sending out baby announcements</a> as I was working and I found it very useful. I was all on board with the google-sheets-as-backend until I got past reading and started trying to write to the sheet. That was too complex for this little project!</p>
+
+<p><strong>Diving into Twilio, all I had to do was set up a web endpoint to receive messages and write some simple code to generate a reply.</strong> That&rsquo;s it, one controller action!</p>
+
+<p>Here&rsquo;s what I used:</p>
+
+<ul>
+<li><a href="https://www.twilio.com/blog/2014/02/twilio-on-rails-integrating-twilio-with-your-rails-4-app.html">Set up twilio and Rails</a></li>
+<li><a href="https://www.twilio.com/blog/2013/10/test-your-webhooks-locally-with-ngrok.html">Get your local endpoints online with Ngrok</a></li>
+<li>Write your application logic in the Rails app, just like you were receiving and responding to any normal web request</li>
+</ul>
+
+
+<p>It really is that easy to get started. In all honesty, I did try to poke at the problem from a non-Rails angle for a little bit at first, but I wanted to focus on the Twilio side of things instead. Note to self: I&rsquo;m getting too comfortable with Rails conventions!</p>
+
+<h2>One Web Endpoint</h2>
+
+<p>Here&rsquo;s the controller I wrote to handle incoming messages from the Twilio API and respond with TwiML, Twilio&rsquo;s own version of XML:</p>
+
+<figure class='code'><figcaption><span>Message Controller</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MessagesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>    <span class="n">initialize_command</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">twiml</span> <span class="o">=</span> <span class="ss">Twilio</span><span class="p">:</span><span class="ss">:TwiML</span><span class="o">::</span><span class="no">Response</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">r</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">r</span><span class="o">.</span><span class="n">Message</span> <span class="vi">@command</span><span class="o">.</span><span class="n">execute</span> <span class="p">?</span> <span class="vi">@command</span><span class="o">.</span><span class="n">response</span> <span class="p">:</span> <span class="s1">&#39;Sorry something went wrong&#39;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">text</span><span class="p">:</span> <span class="n">twiml</span><span class="o">.</span><span class="n">text</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># build a message and command from incoming params that can be executed to deliver the response</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize_command</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">message</span> <span class="o">=</span> <span class="no">Message</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@command</span> <span class="o">=</span> <span class="k">begin</span>
+</span><span class='line'>      <span class="s2">&quot;</span><span class="si">#{</span><span class="n">message</span><span class="o">.</span><span class="n">command</span><span class="o">.</span><span class="n">capitalize</span><span class="si">}</span><span class="s2">Command&quot;</span><span class="o">.</span><span class="n">constantize</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">rescue</span>
+</span><span class='line'>      <span class="no">HelpCommand</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The twilio-ruby gem give you wrappers for the response object, so there&rsquo;s not a lot of heavy lifting to be done.</p>
+
+<h2>Responding to Commands</h2>
+
+<p>In command line apps, you get a limited number of valid options and a rigid structure to follow when you&rsquo;re executing commands &mdash; something along the lines of [command] [flags] [arguments].</p>
+
+<p>Here, I wanted to follow a similar convention, at least as far as separating the commands from the message that was being sent.</p>
+
+<p>When I talked to app developer about SMS-based form submission, he said they basically rely on the same thing. <strong>You have to develop a convention for setting apart your commands or your form field identifiers from the data that is being sent.</strong></p>
+
+<p>We serialize data for web requests all the time, the only difference is that here we need to guide the user into compliance with those conventions because they just have a big text box.</p>
+
+<p>For starters, I decided that I would:</p>
+
+<ul>
+<li>adopt a convetion of commands coming first, surrounded by * characters on each side, followed by the message</li>
+<li>use &ldquo;help&rdquo; command as a catch-all to rescue any user input that didn&rsquo;t follow the command/message convention</li>
+<li>write helpful, specific prompts for each valid command to ensure that a user always gets a reply and that the reply to invalid commands leads them towards valid ones</li>
+</ul>
+
+
+<p>To model the command/response structure, I copied a pattern we&rsquo;ve used often at work: start with a base class that to initialize the command objects, then create subclasses for each command that all know how to &ldquo;execute&rdquo; and &ldquo;respond&rdquo;.</p>
+
+<p>Inside the &ldquo;execute&rdquo; and &ldquo;response&rdquo; methods, you can then define unique behavior for each command, but in the controller code above, for example, you simple have to make calls like &ldquo;command.execute&rdquo; and &ldquo;command.response.&rdquo;</p>
+
+<p>So, for example, when I parse a message that looks like this</p>
+
+<blockquote><p>*new* add something to the list</p></blockquote>
+
+<p>a NewCommand object is created. When it&rsquo;s executed, the new to do list item is saved to the database, and the response is returned, telling the user that their new to do list task has been added.</p>
+
+<figure class='code'><figcaption><span>New Command</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">NewCommand</span> <span class="o">&lt;</span> <span class="no">Command</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">execute</span>
+</span><span class='line'>   <span class="vi">@item</span> <span class="o">=</span> <span class="no">Item</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">item_options</span><span class="p">)</span>
+</span><span class='line'>   <span class="vi">@item</span><span class="o">.</span><span class="n">save!</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">response</span>
+</span><span class='line'>    <span class="s2">&quot;Task added: </span><span class="si">#{</span><span class="vi">@item</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If they want to see a list of all their items, they just need to text</p>
+
+<blockquote><p>*list*</p></blockquote>
+
+<p>and the ListCommand responds with a list of their items or a prompt to add something if there aren&rsquo;t any items:</p>
+
+<figure class='code'><figcaption><span>List Command</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ListCommand</span> <span class="o">&lt;</span> <span class="no">Command</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">execute</span>
+</span><span class='line'>    <span class="vi">@list</span> <span class="o">=</span> <span class="no">Item</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">from</span><span class="p">:</span> <span class="vi">@message</span><span class="o">.</span><span class="n">from</span><span class="p">)</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="ss">:created_at</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">response</span>
+</span><span class='line'>    <span class="k">if</span> <span class="vi">@list</span><span class="o">.</span><span class="n">empty?</span>
+</span><span class='line'>      <span class="s2">&quot;Looks like you haven&#39;t added anything yet. Create a new item with *new* followed by the item description.&quot;</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">items</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>      <span class="vi">@list</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">list</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">item</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">completed_at</span><span class="o">.</span><span class="n">present?</span>
+</span><span class='line'>          <span class="n">list</span> <span class="o">+=</span> <span class="s2">&quot;, (Completed: </span><span class="si">#{</span><span class="n">item</span><span class="o">.</span><span class="n">completed_at</span><span class="o">.</span><span class="n">to_date</span><span class="si">}</span><span class="s2">)&quot;</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>        <span class="n">items</span> <span class="o">&lt;&lt;</span> <span class="n">list</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="n">items</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I also built out commands to mark items as complete and remove them from your to do list. Both take integer messages that correspond to the number of the item you get back from the list command.</p>
+
+<p>So this command would remove the second item on your list:</p>
+
+<blockquote><p>*remove* 2</p></blockquote>
+
+<h2>Debugging Twilio Apps</h2>
+
+<p>One of the trickiest parts of even doing this simple app was figuring a good way to debug.</p>
+
+<p>I <em>think</em> Twilio has some sandbox features, but at $00.0075 per message, I wasn&rsquo;t too concerned about cost. It was more an issue of figuring out the best way to test input, return values from methods and objects, and visualize the whole request/response cycle, since it is different than the usual web flow I&rsquo;m used to.</p>
+
+<p>A couple of things I found helpful:</p>
+
+<ul>
+<li>Creating a view to render the response for the controller, so instead of sending the response back to the texter through Twilio, I could view and debug output locally in the browser</li>
+<li>Reading the Twilio error logs &mdash; they have very clear inbound and outbound message logs that give you insight into the headers, parameters, and bodies of the requests and responses in your app</li>
+<li><a href="http://apidock.com/rails/ActiveSupport/CoreExtensions/Hash/to_query">to_query</a> to turn params hashes into query strings that I could add to my urls in the browser during local testing, especially because this is a typical incoming request query string:</li>
+</ul>
+
+
+<blockquote><p>/messages?ToCountry=US&amp;ToState=MA&amp;SmsMessageSid=SMe40c71a5a09f1bad9ff702fce90b1d9d&amp;NumMedia=0&amp;ToCity=ROXBURY&amp;FromZip=1096&amp;SmsSid=SMe40c71a5a09f1bad9ff702fce90b1d9d&amp;FromState=MA&amp;SmsStatus=received&amp;FromCity=BOSTON&amp;Body=<em>list</em>FromCountry=US&amp;To=8573992266&amp;ToZip=1097&amp;NumSegments=1&amp;MessageSid=SMe40c71a5a09f1bad9ff702fce90b1d9d&amp;AccountSid=AC428abc24c52ac55ff5cd98b68bd6a5e7&amp;From=7811234567&amp;ApiVersion=2010-04-01</p></blockquote>
+
+<h2>Check out the Code</h2>
+
+<p>If you want to see more, <a href="https://github.com/dankleiman/sms_todo">here&rsquo;s the code</a>.</p>
+]]></content>
+  </entry>
+
+  <entry>
+    <title type="html"><![CDATA[10 of My Favorite Talks From RailsConf 2015]]></title>
+    <link href="http://dankleiman.github.io/blog/2015/04/29/10-of-my-favorite-talks-from-railsconf-2015/"/>
+    <updated>2015-04-29T20:47:31-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2015/04/29/10-of-my-favorite-talks-from-railsconf-2015</id>
+    <content type="html"><![CDATA[<p>RailsConf 2015 was a blast. There were talks on a such a wide range of topics, that I wanted to capture some of my favorites here.</p>
+
+<p>Here&rsquo;s my Top 10 Countdown from the conference:</p>
+
+<!--more-->
+
+
+<p>I&rsquo;ll try to update as many of these as possible with video if/when they become available. For now, I&rsquo;ve tried to gather as many slide decks as possible.</p>
+
+<ol reversed>
+  <li>
+    <strong>Designing a Great Ruby API - How We&#8217;re Simplifying Rails 5</strong>
+    <p>At times this one was over my head technically, but it was awesome to see a core contributor breaking down the process of how the inner workings of Rails are built.</p>
+    <p>Sean is a presenter and was hanging out between talks fielding questions too.</p>
+    <script async class="speakerdeck-embed" data-id="2a56dba370414cd1a48d1aa43d8fffab" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+  </li>
+  <li>
+    <strong>Playing Games in the Clouds</strong>
+    <p><a href="https://twitter.com/nodunayo">Nadia Odunayo</a> gets my award for Best Explanation by Analogy. Her talk captured at a high level how concepts from Game Theory concepts can be applied to allocating resources in distributed systems</p>
+    <p>Very cool!</p>
+    <script async class="speakerdeck-embed" data-id="46080b095191416dbc21ba9e9ec8084e" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+  </li>
+  <li>
+     <strong>What&#8217;s Happening in Your Rails App?</strong>
+     <p>Introduction to Introspection Features of Ruby</p>
+     <p>Koichi Sasada is a member of the Ruby core team and works on &#8220;Matz&#8217;s Team&#8221; at Heroku. He said, &#8220;I&#8217;m not actually a Rails developer, but my wife is, so she&#8217;s my customer.&#8221;</p>
+     <p>This was another talk where the inner workings of technology we use every day are exposed&#8230;by the people actively maintaining them. I think that&#8217;s so cool to see.</p>
+     <p>Also, check out his definition of Event Driven Development.</p>
+     <iframe width="815" height="458" src="https://www.youtube.com/embed/4YtBS0tvkjw" frameborder="0" allowfullscreen></iframe>
+  </li>
+  <li>
+    <strong>The World of Rails Security</strong>
+    <p>When <a href="https://twitter.com/presidentbeef">Justin Collins</a> broke down Rails security into &#8220;What Rails Provides,&#8221; &#8220;What Rails Doesn&#8217;t Provide,&#8221; and &#8220;What to Do About It.&#8221; Security seems like a Rubik&#8217;s cube issue. You can look at it, and try to break it, from so many different angles.</p>
+    <script async class="speakerdeck-embed" data-id="05e09bab40404a61a4d6b844109d84f3" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+  </li>
+  <li>
+    <strong>Processes and Threads - Resque vs. Sidekiq</strong>
+    <p><a href="http://jdabbs.com/">James Dabbs</a> gave an awesome live demo of the internals of Resque vs. Sidekiq. Not only was it a pleasure to watch him fly through the code and take us right in to key points that differentiate these two job enqueing tools, but if you head over to his Gitub, you can actually run the same tests that he demoed in the talk:</p>
+    <p><a href="https://github.com/jamesdabbs/railsconf-2015">Code</a></p>
+    <p><a href="https://github.com/jamesdabbs/railsconf-2015/blob/master/slides.md">Slides</a></p>
+  </li>
+  <li>
+    <strong>Why Your New API Product Will Fail</strong>
+    <p>Despite evidence to the contrary, this talk was not about writing your API at the last minute:</p>
+    <blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr">Probably about time I wrote this talk&#8230;</p>&mdash; Scott Feinberg (@scottefein) <a href="https://twitter.com/scottefein/status/590878954568974336">April 22, 2015</a></blockquote>
+  <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <p>Update: Here are Scott&#8217;s slides:</p>
+    <script async class="speakerdeck-embed" data-id="045b214b36734c1f8d2bd90396059073" data-ratio="1.29456384323641" src="//speakerdeck.com/assets/embed.js"></script>
+    <p>The big takeaway from Scott&#8217;s talk was very simple: your API is an interface that other developers will use AND so is <strong>your API documentation</strong>. When these suck, user experience, and user happiness, really suffers too.</p>
+
+    <p>Scott dove into a lot of the tooling he&#8217;s used to automate API documentation, but to think the job is just about tooling is another pitfall. You should care about every place people interact with your application. Even his automated solutions, he said, began with a lot of manual trial and error.</p>
+  </li>
+  <li>
+    <strong>Keynote by Aaron Patterson</strong>
+    <p>From a man who really doesn&#8217;t need an introduction to be worth watching:</p>
+    <iframe width="815" height="458" src="https://www.youtube.com/embed/B3gYklsN9uc" frameborder="0" allowfullscreen></iframe>
+    <p>I just want to know if that part in the middle was staged or not.</p>
+  </li>
+  <li>
+    <strong>Keynote by DHH</strong>
+    <p><em>This video is almost 9 hours long, capturing the whole first day of the conference in the main room. Jump to about 24 minutes to catch the beginning of DHH&#8217;s Keynote</em></p>
+    <p>What I found most inspiring about this talk was the attitude that Rails can provide leverage. As a framework, a set of tools, individuals and small groups can write applications at web scale that do amazing things.</p>
+    <iframe width="815" height="458" src="https://www.youtube.com/embed/oMlX9i9Icno" frameborder="0" allowfullscreen></iframe>
+  </li>
+  <li>
+    <strong>Voila, Indexes!</strong>
+    <p>A Look at Some Simple Preventative Magick</p>
+    <p>This talk is a real treat. Not only does <a href="https://twitter.com/jamis">Jamis Buck</a> explain difficult database concepts in simple language, he does it through telling a story, and illustrates it!</p>
+    <script async class="speakerdeck-embed" data-id="3b907bc997094b91ac9d578c41df8ce7" data-ratio="1.33333333333333" src="//speakerdeck.com/assets/embed.js"></script>
+  </li>
+  <li>
+    <strong>Nothing is Something</strong>
+
+    <iframe width="815" height="458" src="https://www.youtube.com/embed/OMPfEXIlTVE" frameborder="0" allowfullscreen></iframe>
+
+    <p>I had the pleasure of seeing Sandi Metz speak at Burlington Ruby Conference in August, 2014 and I remember leaving pumped and inspired to code for the long haul. This time she was just as inspiring, but she also took us through some core object oriented programming concepts.</p>
+
+    <p>But what I love about hearing Sandi speak is the way she imbues the teaching in her talks with a sense of purpose and urgency. Like DHH&#8217;s talk above, I felt fired up to code. Like Jamis&#8217; talk, she made it easy to absorb complex concepts. Most of all, though, she creates this powerful undercurrent of community and warmth that makes you feel like we&#8217;re all going to do this together. What an amazing teacher!</p>
+  </li>
+</ol>
+
+
+
+]]></content>
+  </entry>
+
+  <entry>
+    <title type="html"><![CDATA[Parachuting Into Unfamilar Code]]></title>
+    <link href="http://dankleiman.github.io/blog/2015/01/11/parachuting-into-unfamilar-code/"/>
+    <updated>2015-01-11T20:15:27-05:00</updated>
+    <id>http://dankleiman.github.io/blog/2015/01/11/parachuting-into-unfamilar-code</id>
+    <content type="html"><![CDATA[<p>We have hundreds of models in our codebase at <a href="http://www.trialnetworks.com">TrialNetworks</a>.</p>
+
+<p>As a new developer, the first 12 features I was asked to work on didn’t touch the same parts of the code. In terms of learning our product, I think that was good, but without some serious “orienteering” practice, it was also confusing and frustrating.</p>
+
+<p>I felt like I was being pushed out of a plane in the middle of the night, with a backpack full of gear, a tiny map, and some night vision goggles, and I was told to rendezvous in 6 hours in a place I’d never heard of before.</p>
+
+<p>In fact, I still get this feeling, every time I’m asked to work on a new module in our platform.</p>
+
+<p>So when you jump out of the plane, how do you land, get your bearings, and complete the mission?</p>
+
+<!--more-->
+
+
+<p>I’m sure there are other ways to do it, but here’s my current strategy.</p>
+
+<h2>Start at the End</h2>
+
+<p>The paratrooper analogy is about to break down on us, but when I’m working on a feature, even if I somewhat understand what the problem is at the database level, or what new controller actions we will most likely create, I’ve found it easiest to get my bearings by <strong>starting with the view</strong> – or the interaction that the user will have.</p>
+
+<p>When you start with the view, you can:</p>
+
+<ul>
+<li>See how the software is currently functioning</li>
+<li>Note what additional screens, tabs, links, buttons, or data need to be rendered</li>
+<li>Break open the code and look at how the current interface is being generated</li>
+</ul>
+
+
+<p>Once you get to the last step, and you’re in the code, exploring how we are rendering something, you start to work up strategies for tackling the problem.</p>
+
+<p>In an existing codebase, other people have left clues. You see assumptions about how they arrived at generating the current behavior and your next steps are revealed.</p>
+
+<h2>Tracing Someone Else’s Path</h2>
+
+<p><strong>Start tracing the path backwards from the url.</strong> In Rails, there are strong conventions about which controllers and which actions are generating the view you are looking at.</p>
+
+<p>Armed with the url, you know which controller is routing data to the view you are working on. As you start to see which models are being used in the view, you can further construct the path.</p>
+
+<p>At this point, I like to change analogies again.</p>
+
+<p>Who (which models) showed up to the party (the view), and who’s throwing the party (which controller/action)?</p>
+
+<p>I build a sort of working guest list for the party and start to think about <strong>who I want to talk to and who I will ignore.</strong>  Narrowing in on the behavior you are going to modify or figuring out where you want to insert new behavior is like working the room until you find the right place to hang out.</p>
+
+<h2>What You Bring to the Party</h2>
+
+<p>At this point I really don’t know what analogy to go with, but once I’ve found my spot in the room, I can relax a little.</p>
+
+<p>See, I know I’ve ruled out 98% of the codebase in terms of things I will have to touch to get this feature done.</p>
+
+<p>Back when we were jumping out of the plane, I was worried. I didn’t know the terrain at all. Before I looked at the view, it could have been any of the tens of thousands of lines of code that needed to be touched to make it work.</p>
+
+<p>Now, I know where I am. I’m in the right room, in the right mansion, at the right party…<em>do the analogies hold together better if I had jumped out of the plane in a tuxedo, like some James Bond-esque super spy???</em></p>
+
+<p>In any case, now the focus is incredibly narrow. Most of the time, we’re not only in the right controller, but it becomes clear that a specific controller action needs to be tweaked, or a new one needs to be added.</p>
+
+<p>From here, I like to <strong>pseudo-code the behaviors I want.</strong> Pseudo-coding, as I learned it, was more or less writing a series of comments that kind of look like code, but act more like a step-by-step guide for what you want to accomplish.</p>
+
+<p>The benefits of pseudo-coding are:</p>
+
+<ul>
+<li>I can write it a lot faster than I can if I’m stopping to check if every line is working</li>
+<li>I can have a “complete thought” in the pseudo-code without stopping to dig around and see if a similar method has been implemented somewhere else</li>
+<li><strong>Bonus:</strong> completing the thought also acts like a sounding board. It either confirms that I am in the right place, taking the right approach, or gives me new insight into how to create the feature</li>
+</ul>
+
+
+<p>From pseudo-code, you can work out the nuts and bolts of implementing the feature, but the task is pretty well, i.e. narrowly, defined at that point and you usually only end up writing a few lines of code.</p>
+
+<p>In fact, I think I’m starting to see that if in the end you aren’t writing small amounts of code in a narrowly defined scope, you haven’t worked the room enough to find the right spot…but I have a feeling I’ll be arguing for or against that assertion more in future posts.</p>
+
+<h2>Hoofing it back to the Rendezvous Point</h2>
+
+<p>We got in, completely our mission, and got out. The final (haha!) stage of the process is the extraction moment. As you’re being plucked off the ground and back into the sky, you get a final bird’s-eye view of the code.</p>
+
+<p>Either this is a moment of satisfaction, as you survey your work, or someone comes along and pushes you out of the plane again, to redo the whole mission.</p>
+]]></content>
+  </entry>
+
+  <entry>
+    <title type="html"><![CDATA[Coding Bootcamp ROI 3 Weeks Later]]></title>
+    <link href="http://dankleiman.github.io/blog/2014/08/11/coding-bootcamp-roi-3-weeks-later/"/>
+    <updated>2014-08-11T10:39:58-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2014/08/11/coding-bootcamp-roi-3-weeks-later</id>
+    <content type="html"><![CDATA[<p>It&rsquo;s been 3 weeks since I graduated from <a href="http://www.launchacademy.com">Launch Academy</a> and I start work at a new job on Wednesday as a software developer.</p>
+
+<p>Obviously, I&rsquo;m thrilled with this whirlwind process, and coming off almost ten years in my last job, the pace of all this change is a little hard to grasp.</p>
+
+<p>In this post, I want to tell you why Launch was such a great investment for me. If you&rsquo;re considering doing something similar, I hope you find this helpful.</p>
+
+<!--more-->
+
+
+<p><strong>First Disclaimer:</strong> The opinions I am going to share about other bootcamps are all second or third hand accounts. I haven&rsquo;t researched them, but I will share them with as told to me.</p>
+
+<p><strong>Second Disclaimer:</strong> For perspective, Launch Academy has close to 100% placement rate for job seekers, on a 3-month timescale. I consider myself incredibly fortunate to have landed a job on a &ldquo;best case&rdquo; timeline. YMMV.</p>
+
+<h2>7 Reasons Launch Academy was a Great Investment</h2>
+
+<p>In no particular order, here&rsquo;s why it was a great investment for me to quit my job, change careers, and spend a large chunk of money on a coding bootcamp:</p>
+
+<p><strong> 1. Structured Curriculum</strong></p>
+
+<p>At every step of the process, the material was laid out incrementally. Nothing was introduced before we needed to use it &mdash; simple tools to match our stage of learning, more complex as the simple tools bumped up against their limitations.</p>
+
+<p>Here&rsquo;s where some of the rumors come into play. Several of the companies that have repeatedly hired from Launch Academy told me that, compared to other bootcamps they looked at, Launch had the more organized and structured curriculum. As an educator, this was really obvious to me, but if the hiring partners are noticing it too, clearly it has an impact on the skill level of the graduates.</p>
+
+<p><strong> 2. Andragogy</strong></p>
+
+<p>Pedagogy is for children. Andragogy is learning structured <em>for adults</em>. Our first books in the pre-work curriculum weren&rsquo;t about code, they were about learning. Studying the way our brain processes information was really informative. But even better than knowing about learning, the day at Launch was strucutured to match the cycles of cognitive work and rest (integration).</p>
+
+<p>I found just as important as what we were learning.</p>
+
+<p><strong> 3. Dedicated Instructors</strong></p>
+
+<p>Here&rsquo;s another one I was baffled by. In some places, the instructors rotate in and out after a single cohort.</p>
+
+<p>At Launch, the small group of instructors (one for every seven of us) has been together for several iterations and I didn&rsquo;t get the feeling anyone was going anywhere. Not only do they meet daily to reflect, tweak, and refine the curriculum, but there is a clear sense of ownership, from group to group.</p>
+
+<p>They want to improve how they teach and make the experience better for each group that comes through the program.</p>
+
+<p>How would you do that if there&rsquo;s constant staff turnover?</p>
+
+<p><strong>4. Caring Classmates</strong></p>
+
+<p>I don&rsquo;t know if we just got lucky or they have some magical formula for attracting awesome people, but the folks I went through the program with were consistently caring, interested in each other and each other&rsquo;s work, and hardworking.</p>
+
+<p>Plus, we had a lot of fun!</p>
+
+<p>There was never a moment was someone was too busy to help someone else or talk an idea through.</p>
+
+<p>It&rsquo;s so cool to think about the way I will likely cross paths again and again over the years with these people in the software world. I would work with any of them on tough projects.</p>
+
+<p><strong>5. Killer Career Services</strong></p>
+
+<p>Part of the business model is to get us jobs. To that end, we got coaching on everything from resumes, to interviews, assessing work culture, shaping our portfolio projects, and honing our presentation skills to become more effective job seekers.</p>
+
+<p>But that&rsquo;s kind of a narrow description of &ldquo;career services&rdquo; at Launch.</p>
+
+<p>Remember, coding bootcamps have emerged out of an industry need, in the short term, for junior-level talent.</p>
+
+<p>At Launch, they take a longer view and realize that they are creating a new pathway, outside of traditional educational models. Obviously that means explaining to hiring partners what graduates can do, but they are also working with companies to reshape how they see the lifetime of their employees&#8217; education.</p>
+
+<p>Apprenticeships, for example, are emerging as a natural next step to bootcamp immersion. Launch is actively advising companies about how to implement these kinds of programs.</p>
+
+<p><strong>6. Thriving (and Welcoming) Community</strong></p>
+
+<p>For almost a year now, I&rsquo;ve been attending <a href="http://bostonrb.org">Boston Ruby</a> meetings.</p>
+
+<p>Even before I was involved in Launch Academy, people were friendly and open to meeting someone with zero experience.</p>
+
+<p>You had to jump on the meetup tickets right away because they often sold out. I don&rsquo;t know how many people are actively involved, but I think they cap most events at 150.</p>
+
+<p>Between live meetings, a google group, and twitter, you can get all kinds of help, recommendations, and keep track of new developments if you want to lurk like I did.</p>
+
+<p>I <em>thought</em> I was lucky to be in Boston, but it turns out, I was lucky to find Ruby&hellip;where tons of interested people from all over want to make programming interesting and enjoyable. Case in point: my recent experience at <a href="http://dankleiman.github.io/blog/2014/08/03/burlington-ruby-conference-2014/">Burlington Ruby Conference</a>.</p>
+
+<p><strong>7. Established Network</strong></p>
+
+<p>This last one is really a combination of several of the earlier points.</p>
+
+<p>I was able to get a job right away because of the established network Launch Academy participates in.</p>
+
+<p>Here&rsquo;s what I mean by &ldquo;established network:&rdquo; The founders are avid Rubyists who worked for years to build the Boston Ruby community. Past alums have thrived in their jobs and companies are eager to hire more from the program. The staff is constantly forging new partnerships (close to 100 companies have hired from Launch at this point). And the instructors care about preparing us and seeing us succeed.</p>
+
+<p>The &ldquo;network&rdquo; is an ever-evolving, ever-expanding, thriving thing that I&rsquo;m proud to be part of in a whole new way now.</p>
+
+<h2>Multifaceted ROI</h2>
+
+<p>So, like I said at the beginning, I&rsquo;m writing this with a ton of bias, some second or third hand information, and I start my first job in two days. Just by the numbers, I will be earning more than I was before and my potential to earn more has risen dramatically. The ROI on this endeavor is solid.</p>
+
+<p>Most of all, though, I&rsquo;m still riding on the wave of being a student. I&rsquo;m in &ldquo;learning mode&rdquo; and I&rsquo;m thrilled to have found somewhere to work where this will be encouraged.</p>
+
+<p>I hope to report back here and share the upsides of ongoing learning and growth. Thanks for reading!</p>
+]]></content>
+  </entry>
+
+  <entry>
+    <title type="html"><![CDATA[Burlington Ruby Conference 2014]]></title>
+    <link href="http://dankleiman.github.io/blog/2014/08/03/burlington-ruby-conference-2014/"/>
+    <updated>2014-08-03T06:24:53-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2014/08/03/burlington-ruby-conference-2014</id>
+    <content type="html"><![CDATA[<p>It&rsquo;s 6:23 on Sunday morning, day 2 at <a href="http://burlingtonrubyconference.com/">Burlington Ruby</a>, so I thought I&rsquo;d take a few minutes and recap some of what I saw and learned yesterday.</p>
+
+<p>Everyone keeps talking about what an amazing community we have in the Ruby world and I guess I&rsquo;m spoiled since I don&rsquo;t have any other software communities to compare it to, but I can tell you that every talk has been thoughtful, curious, and in different ways caring: caring about the future of the language, caring about other people&rsquo;s growth and development, and caring even about novel, smarter, and more refined approaches to getting things done.</p>
+
+<!-- more -->
+
+
+<p>In his keynote to kick off the conference, <a href="http://erniemiller.org/">Ernie Miller</a> did a pretty amazing job capturing these core themes. I don&rsquo;t know how much people realized it, but he subtly set the tone for all the other talks too, both in terms of the human side of software development, but he also gave us context for all the non-Ruby or Ruby-divergent topics people were dying to discuss. Very impressive!</p>
+
+<p>Here are a few of the ideas from the talks that jumped out at me.</p>
+
+<h2>How You Work with Other People</h2>
+
+<p>Having just come out of Launch Academy, I was really interested to hear what <a href="http://jennifereliuk.com/about/">Jennifer Eliuk</a> had to say about apprenticeships.</p>
+
+<p>While her talk definitely resonanted with me and helped me see &ldquo;the next step&rdquo; in my coding journey, she made a strong case for the importance of apprenticeships for the community at large.</p>
+
+<p>Apprenticeships, for code school graduates or self-taught coders, have the potential to become a criticial rung on the software development ladder because:</p>
+
+<ul>
+<li>companies can groom and develop their junior talent, without all of the performance pressure of the day-to-day job.</li>
+<li>mentorship and teaching becomes a rewarding way for senior developers to grow in non-technical dimensions.</li>
+<li>a teaching culture also encourages learning &mdash; she cited cases where she and senior devs would tackle new technologies side by side where everyone was learning together.</li>
+</ul>
+
+
+<p>At Launch Academy, the staff and instructors were gradually and deliberately refining each piece of the learning process, not unlike the way they taught us to tackle complex software problems. Jennifer&rsquo;s talk was a perfect example of how to more broadly apply those same principles to the question: &ldquo;how do we cultivate developers.&rdquo;</p>
+
+<p>In fact, she argues, now that so much effort is being poured into the initial stage of learning, like code schools and weekend intro events or online curricula, we have to be more thoughtful about the next incremental step between kickoff and a dev career.</p>
+
+<h2>How You Write for Other People</h2>
+
+<p>Along the lines of incremental improvement and developing people, <a href="http://nicolefenton.com/">Nicole Fenton</a> pushed everyone think hard about how their apps get users what they need.</p>
+
+<p>Specifically, how do the &ldquo;strings&rdquo; or &ldquo;micro-copy&rdquo; or small cues and instructions that guide someone through a piece of software actually help them or are they just robotic, systems-focused, impersonal, confusing signposts.</p>
+
+<p>One example she shared was from Square, when you send someone money. The confirmation email you receive basically says &ldquo;You sent So-and-So $50.&rdquo; Simple, right?</p>
+
+<p>Well, she had plenty of counter-examples that would have been equivalent to &ldquo;We have received your request to transfer funds to user XXXX. We are accessing the database to store your request and &hellip;..typically processing time for this request&hellip;.&rdquo; Or something full of jargon and procedures that are necessary from the software&rsquo;s point of view but completely irrelevant to the goal the user is trying to accomplish.</p>
+
+<p>So, the next time you write copy for a button, an error message, or a confirmation, ask yourself, &ldquo;what was the user trying to do and where do they need/want to go next? Am I helping them along that path in a way they&rsquo;ll understand?&rdquo;</p>
+
+<h2>How You Build for Other People</h2>
+
+<p>Both <a href="http://danluchi.com/">Dan Luchi</a> and <a href="http://alanpeabody.com/">Alan Peabody</a> grappled with what I&rsquo;m coming to understand as the Rails identity crisis: <em>with an increase in mobile usage and connection speeds that enable heavier lifting client-side, what&rsquo;s a server-side web framework to do?</em></p>
+
+<p>The answer a lot of people are turning to, is that Rails is a powerful way to work with data and serve up an API that any front end view can consume.</p>
+
+<p>I&rsquo;ve even heard people advocating for further decoupling functionality within Rails apps, so that each service serves its own API to the others, which seems to have advantages for maintainability and deployment.</p>
+
+<p>In these talks, though, the focus was mostly on getting a Rails backend to support and interact smoothly (and quickly) with whatever frontend &mdash; mobile or web &mdash; the user chooses.</p>
+
+<p>Alan explained some of the challenges and solutions he&rsquo;s come up with for optimizing these connections and Dan gave us some great guidlines around functionality when deciding the best structure for building an app, like <a href="http://www.ticketzen.com/">Ticket Zen</a>, the parking ticket payment app I hope I never have to use.</p>
+]]></content>
+  </entry>
+
+  <entry>
+    <title type="html"><![CDATA[Launching Datastroyer]]></title>
+    <link href="http://dankleiman.github.io/blog/2014/07/02/launching-datastroyer/"/>
+    <updated>2014-07-02T21:29:17-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2014/07/02/launching-datastroyer</id>
+    <content type="html"><![CDATA[<p>I&rsquo;m very excited to announce that <a href="https://github.com/craigmcginley">Craig McGinley</a> and I have launched <a href="http://datastroyer.herokuapp.com/">Datastroyer</a>.</p>
+
+<p>Datastroyer is our online tool for searching JSON objects and returning the correct path to any value.</p>
+
+<!--more-->
+
+
+<p>Previously, I wrote about the <a href="http://dankleiman.github.io/blog/2014/05/25/building-a-learning-tool-for-compound-data-structures/">challenges of parsing compound data structures</a>. For someone just learning to code and work with data, one of the biggest challenges was learning to read syntax.</p>
+
+<p>One particularly challenging &ldquo;reading problem&rdquo; is figuring out how to reference a specific value nested inside a tangle of hashes and arrays. Not knowing how the object is structured, in terms of size, layers of nesting, or type of nested objects initially made this problem really confusing!</p>
+
+<p>Eventually we learned how to traverse the whole structure and efficiently store the path we were going down as we went.</p>
+
+<p>Craig and I have talked about many different use cases for the method we coded up, but in this case we have released the code embedded in a web application that searches JSON objects for you. If you&rsquo;ve been working with API and trying to make sense of your queries, we hope this helps!</p>
+
+<p>Here&rsquo;s what you do:</p>
+
+<ol>
+<li><p>Copy your entire JSON object.</p></li>
+<li><p>Visit <a href="http://datastroyer.herokuapp.com/">Datastroyer</a>.</p></li>
+<li><p>Paste the JSON into the search box.</p></li>
+<li><p>On the next screen, enter the search value you are looking for.</p></li>
+</ol>
+
+
+<p>Datastroyer will return all of the possible paths to this search value inside of the JSON.</p>
+
+<p>If you don&rsquo;t have some JSON to search, you can <a href="http://datastroyer.herokuapp.com/data">try a sample search</a> with the data we&rsquo;ve provided.</p>
+
+<p>At the end of the day, we think this is a learning tool to help you get more familiar with the structure of compound objects.</p>
+
+<p>We hope you learn like we have!</p>
+]]></content>
+  </entry>
+
+  <entry>
+    <title type="html"><![CDATA[The Race to Hello World: Rails vs. Sinatra]]></title>
+    <link href="http://dankleiman.github.io/blog/2014/06/23/the-race-to-hello-world-rails-vs-sinatra/"/>
+    <updated>2014-06-23T08:11:28-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2014/06/23/the-race-to-hello-world-rails-vs-sinatra</id>
+    <content type="html"><![CDATA[<p>Earlier, I explained how I built <a href="http://dankleiman.github.io/blog/2014/05/30/buying-a-mongolian-website/">my personalized url shortner</a> in Sinatra.</p>
+
+<p>This past week, we&rsquo;ve been spinning up demo apps in Rails instead, so I wanted to walk through a little comparison of the two frameworks.</p>
+
+<p>As <a href="https://github.com/radavis">one of our instructors</a> said, &ldquo;Sinatra is like a stripped-down muscle car and Rails is like an RV.&rdquo;</p>
+
+<p>Here&rsquo;s how setting up a simple &ldquo;Hello, World!&rdquo; app breaks down between the two.</p>
+
+<!-- more -->
+
+
+<h2>Sinatra Set-Up</h2>
+
+<p>To set up, &ldquo;Hello, Sinatra&rdquo; from the command line, follow these steps:</p>
+
+<ol>
+<li>$mkdir sinatra_hello</li>
+<li>$cd sinatra_hello</li>
+<li>$gem install sinatra</li>
+<li>$touch app.rb</li>
+<li>In your app.rb file, add:</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;sinatra&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="s2">&quot;Hello, Sinatra!&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To see the locally running version, start the app with ruby app.rb and visit <a href="http://localhost:4567.">http://localhost:4567.</a></p>
+
+<h2>Rails Set-Up</h2>
+
+<p>From the same directory we started in, instead of creating the new directory like we did for sinatra, we will follow these steps:</p>
+
+<ol>
+<li>$rails new rails_hello</li>
+<li>$cd rails_hello</li>
+<li>$rails generate controller Posts</li>
+<li>Add an index method to posts_controller.rb</li>
+<li>define the root path in config/routes.rb to be &lsquo;posts#index&rsquo;</li>
+<li>create a view for the root route that says &lsquo;Hello, Rails!&rsquo;</li>
+</ol>
+
+
+<p>Now, when we start up the rails server from the command line, we can visit <a href="http://localhost:3000">http://localhost:3000</a> and see our &lsquo;Hello, Rails!&rsquo; message.</p>
+
+<h2>Simplicity vs. Structure</h2>
+
+<p>As you can see from the code above, you need to install one gem and edit one file in your Sinatra version to get the basics working.</p>
+
+<p>In that one file, you tell the server what to do with one HTTP &lsquo;GET&rsquo; request: where to go and what to display.</p>
+
+<p>In contrast, in Rails, directing the request and displaying the response are delegate to different areas of the application:</p>
+
+<ul>
+<li>routes.rb interprets the &lsquo;GET&rsquo; request and sends us to the Posts Controller</li>
+<li>inside the controller, there are instructions for what to do with the request for &ldquo;index&rdquo;</li>
+<li>a specific view file (app/views/posts/index.html.erb) finally configures the response: &ldquo;Hello, Rails&rdquo; printed to the page.</li>
+</ul>
+
+
+<p>We were fortunate to work with HTTP requests a little more directly in Sinatra first, before we started relying on the conventions of Rails to more &ldquo;magically&rdquo; handle them for us.</p>
+
+<p>At first, learning Rails feels like learning what files to put where to make the right thing happen.</p>
+
+<p>When we worked out of a single server file in Sinatra, in contrast, we were tracking the different components of HTTP requests and responses more directly.</p>
+
+<p>Coming away from these last two weeks of playing with Sinatra and Rails, I&rsquo;m glad we started with Sinatra for the directness, but I can also see, as our projects get bigger, how the conventions and structures of Rails will allow us to maintain clear, organized code.</p>
+]]></content>
+  </entry>
+
+  <entry>
+    <title type="html"><![CDATA[Launch Academy: 5 Weeks in or 5 Weeks Left?]]></title>
+    <link href="http://dankleiman.github.io/blog/2014/06/15/launch-academy-5-weeks-in-or-5-weeks-left/"/>
+    <updated>2014-06-15T18:05:41-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2014/06/15/launch-academy-5-weeks-in-or-5-weeks-left</id>
+    <content type="html"><![CDATA[<p>This past week marks the end of Week 5 at Launch Academy.</p>
+
+<p>My head hurts a little bit when I try to give a quick summary of all we&rsquo;ve worked on. There&rsquo;s so much!</p>
+
+<p>At the same time, I see the runway towards the end of the program getting shorter and shorter&hellip;</p>
+
+<p>So are we 5 weeks in? Or do we only have 5 weeks left?</p>
+
+<!-- more -->
+
+
+<h2>Immersive Learning in the Short Term</h2>
+
+<p>I&rsquo;m constantly weighing my learning experience here at Launch Academy &mdash; 10 weeks of coding &mdash; against my past immersive learning experiences in Tai Chi.</p>
+
+<p>In 2011, I wrote <a href="http://imos-journal.net/work-rest-integration-%E2%80%9Csurviving-a-month-long-tai-chi-intensive-%E2%80%9D/">this piece for a Tai Chi blog</a> about the different cycles embedded in a month of Tai Chi Immersion.</p>
+
+<p>Back then, one of the key takeaways for me was that you had to adop the right practice mindset.</p>
+
+<blockquote><p>By finding the optimal daily training rhythm, you can begin to manage your energy over a month, though you will also need to adopt a particular mindset to apply the different facets of this new practice in succession.  How do you work on posture and alignment one minute and then flow the next?</p>
+
+<p>The challenge of shifting gears like this is one thing I love about learning Tai Chi. Master Frantzis calls this process “separate and combine”. You have to train the first piece, without thinking about anything else, until it&rsquo;s totally integrated into how you move, then you work the second one. There&rsquo;s a leap of faith in between where you totally let go of the first piece before you switch to the second piece. In the moment, you can&rsquo;t worry about whether you will ever be able to do them both at the same time. “Separate” means really separate, physically and mentally. This method opens up the possibility for much deeper integration, but the tricky part is, you don&rsquo;t feel that way at first. The integration comes further down the road, in a place you can&rsquo;t see yet.</p></blockquote>
+
+<p>At Launch Academy, we&rsquo;ve been working through similar cycles and I truly believe that my previous experience with Tai Chi Immersion has helped me prepare to manage the flow of these cycles.</p>
+
+<p>For example, we were writing database queries in SQL then ActiveRecord and you had to get your head around the right syntax and relationships between tables BUT THEN we would shift gears to Rails and focus on the structure of a web application.</p>
+
+<p>If you were still down in the details of how to write a query, you&rsquo;d miss the big picture differences between generating an output to the user, designing your database models, or directing traffic between them.</p>
+
+<p>And it&rsquo;s not just that you need to be able to hold a lot of layered concepts in your mind at once. That&rsquo;s complex enough.</p>
+
+<p><strong>The skill you need to master in an immersive learning environment is knowing when to let go, when to leave something alone, and when to spend more time on it.</strong></p>
+
+<p>I&rsquo;ve struggled with this a lot. Do I need to know this now? Should I work through a few more example problems on this topic?</p>
+
+<p>Or worse, you pick your head up from the weeds and realize that you haven&rsquo;t been productively working on this problem and the group has moved on.</p>
+
+<p>I find, that give my previous experience, I&rsquo;m much more willing to drop things and refocus to new problems, without worrying about what I&rsquo;ve left behind.</p>
+
+<h2>Long Term Payoff of Immersion</h2>
+
+<p>Maybe &ldquo;just dropping&rdquo; something isn&rsquo;t the right way to describe the immersive learning skill I&rsquo;m talking about.</p>
+
+<p>There&rsquo;s a stage between not knowing something and knowing it cold and due to the pace and duration of this program, we&rsquo;re swimming somewhere in between most of the time.</p>
+
+<p>What you have to figure out in each subdomain that we touch is this: <strong>For now, am I acquianted enough with this concept to fit it into my mental model of the big domain, and do I know how to go deeper when I return to it in the future?</strong></p>
+
+<p>Every fall, when I came back from 2, 3, or 4 weeks of Tai Chi, I would set out on the real learning process: slowly unpacking the immersive experience, and digesting the material in small, sustainable bites, over the next year or more.</p>
+
+<p>I was fortunate to have the structure of a teaching schedule and an audience to teach to, so I had to be deliberate about revisiting material and I had to articulate it clearly. Those constraints helped my practice grow enormously.</p>
+
+<p>Immersive bursts of training were the seeds of my practice and the school was a garden where they could grow.</p>
+
+<p>The big payoff of short term immersive learning doesn&rsquo;t happen in the short term at all. It happens when the seeds of learning are allowed to grow over many seasons.</p>
+
+<p>In Tai Chi terms, that was always clear to me. For coding? All I can tell you now is that I will have the chance to create the same garden, through a work environment, to let the seeds of immersion grow.</p>
+
+<p>What&rsquo;s exciting is that I don&rsquo;t quite know what these seeds will yield!</p>
+]]></content>
+  </entry>
+
+  <entry>
+    <title type="html"><![CDATA[Asking Questions: The Holy Grail of OOP]]></title>
+    <link href="http://dankleiman.github.io/blog/2014/06/08/asking-questions-the-holy-grail-of-oop/"/>
+    <updated>2014-06-08T20:32:17-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2014/06/08/asking-questions-the-holy-grail-of-oop</id>
+    <content type="html"><![CDATA[<p>This week at Launch Academy, we started working on Object Oriented Programming (OOP).</p>
+
+<p>We&rsquo;ve been guided by the conceptual model that objects, which can have state and defined behavoirs, respond to methods the same way that you would respond to a question.</p>
+
+<p>Of course, a week of asking my objects questions made me think of this:</p>
+
+<!-- more -->
+
+
+
+
+<iframe width="640" height="480" src="//www.youtube.com/embed/pWS8Mg-JWSg" frameborder="0" allowfullscreen></iframe>
+
+
+<p>And the more I thought about The Bridge of Death, the more the Bridgekeeper&rsquo;s questions made a lot of sense in our OOP world.</p>
+
+<p>Really, we&rsquo;ve got a collection of Knights and each one responds to a series of questions. If we coded that up, it would look something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Knight</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:quest</span><span class="p">,</span> <span class="ss">:favorite_color</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">intialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">quest</span><span class="p">,</span> <span class="n">favorite_color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+</span><span class='line'>    <span class="vi">@quest</span> <span class="o">=</span> <span class="n">quest</span>
+</span><span class='line'>    <span class="vi">@favorite_color</span> <span class="o">=</span> <span class="n">favorite_color</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Our knights, Sir Lancelot, King Arthur, or Sir Galahad, are all instances of the class &ldquo;Knight.&rdquo; They are objects with contain a state (their specific names, quests, etc) and behaviors.</p>
+
+<p>When it comes to behaviors, they can inherit them in some cases, or the behaviors have to be explicitly defined within the class.</p>
+
+<p>In the clip above, we can see how the knights know how to answer the questions about their names and quests&hellip;they respond to the name and quest methods defined in their class.</p>
+
+<p>But we also see something else.</p>
+
+<p>When Robin approaches the bride, the Bridgekeeper asks him his name and quest:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">robin</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'><span class="n">robin</span><span class="o">.</span><span class="n">quest</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And that produces the answers we&rsquo;d expect:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="s2">&quot;Robin of Camelot&quot;</span>
+</span><span class='line'><span class="s2">&quot;To seek the Holy Grail&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But then the Bridgekeeper throws a curveball. He calls</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">robin</span><span class="o">.</span><span class="n">capital_of_assyria</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When Robin is asked what the capital of Assyria is, he literally blows up. From an OOP perspective, we know it was because this behavior was never defined for the class Knight:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">capital_of_assyria</span>
+</span><span class='line'>  <span class="sc">????</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Of course, there&rsquo;s a further twist when the Bridgekeeper tries to call</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">airspeed_velocity_of_an_unladen_swallow</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>on King Arthur, but really, you should watch the clip if you don&rsquo;t already know what happens.</p>
+
+<h2>Asking Questions, Building Objects</h2>
+
+<p>So, now we know that you have to define the behaviors you want to utilize to do effective object-oriented programming.</p>
+
+<p>But why? What&rsquo;s the point? Or more importantly, what&rsquo;s the advantage of writing code this way.</p>
+
+<p>I&rsquo;m sure there are bigger implications of taking this approach, but I can tell you that right away, my experience of writing simple code is completely different.</p>
+
+<p>When you set out to build classes and objects, you actually don&rsquo;t need to know everything about how your program works right away to make progress.</p>
+
+<p>Instead of figuring out every detail of every loop, calculation, and variable, <strong>you can assume that the classes and methods you create will give you the answer you want.</strong></p>
+
+<p>You are free to write more semantic, flowing code from the beginning, without having to stop and figure out the nitty-gritty.</p>
+
+<p>Even in my limited experience taking this approach, I can tell you that it lets you think at a high level about your problem, sketching out the logic, flow, and just marking out the big areas you know you&rsquo;ll tackle later on.</p>
+
+<p>Gradually, layer-by-layer, you go deeper and work out the details.</p>
+
+<p>I wish I had had a clear top-down model like this to solve problems in the past. Here&rsquo;s to applying it going forward!</p>
+]]></content>
+  </entry>
+
+  <entry>
+    <title type="html"><![CDATA[Buying a Mongolian Website for My URL Shortner]]></title>
+    <link href="http://dankleiman.github.io/blog/2014/05/30/buying-a-mongolian-website/"/>
+    <updated>2014-05-30T09:17:22-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2014/05/30/buying-a-mongolian-website</id>
+    <content type="html"><![CDATA[<p>Ok, so technically I just purchased a Mongolian domain name: <a href="http://klei.mn">klei.mn</a>.</p>
+
+<p>Why, you might be wondering?</p>
+
+<!-- more -->
+
+
+<p>This week at Launch Academy we&rsquo;ve been building Sinatra applications with simple databases (Redis and Postgres) and deploying them to Heroku.</p>
+
+<p>One of the extra-credit projects was to build a url shortner and I thought it would be cool to hook mine up to a customized domain, kind of like a vanity plate for your car.</p>
+
+<p>In this post, I&rsquo;m going to explain why you might want a URL shortner and how I built and deployed my own custom version.</p>
+
+<h2>The Basic Logic of a URL Shortner</h2>
+
+<p>Sometimes, when you&rsquo;re sharing the url of a website, the address can be really, really long.</p>
+
+<p>This is problematic if you&rsquo;re trying to dictate the url to someone, have to write it out by hand for some reason, or if you want to share it somewhere with space constraints, like on Twitter.</p>
+
+<p>The idea behind a url shortner is that you can generate a shorter url whose sole purpose is to redirect to the longer url. Now, you can use a much shorter, more manageable set of characters to describe the same page.</p>
+
+<p>Often, the domain of the url itself is only a few characters long, further truncating the &ldquo;short url&rdquo; &mdash; examples include Twitters own service, t.co, or a free service anyone can access like bit.ly.</p>
+
+<p>Many sites like the New York Times have created prorietary domains just to shorten their own links, which is a combination of branding when the short domain resembles the name of the company or main site and a tracking tool, which I&rsquo;ll explain more further down this post.</p>
+
+<h2>My Mongolian Domain Name</h2>
+
+<p>So, when I said this was a bit of a vanity project for me, what I meant was, I took my last name &ldquo;Kleiman&rdquo; and tried to think of a way to shrink it down to fit a small domain name.</p>
+
+<p>Using something like &ldquo;DansShortUrlforShorteningLongUrls.com&rdquo; would totally defeat the purpose, right?</p>
+
+<p>I had seen the &ldquo;.mn&rdquo; Top Level Domain (TLD &ndash; that&rsquo;s the extension on any url, like .com), so I poked around a little to see about purchasing one.</p>
+
+<p>It turns out that the more obscure TLDs aren&rsquo;t for sale on all of the popular domain resellers, but after a little digging, I did <a href="http://domain.mn">find a site</a> that sells .mn domains &mdash; and it turns out that the country that owns that TLD is Mongolia.</p>
+
+<p>Nothing like starting your morning off with a little international commerce!</p>
+
+<h2>The Final Step: Deploying the App</h2>
+
+<p>So, last thing first, then we&rsquo;ll talk about the code.</p>
+
+<p>When you deploy an application to <a href="http://heroku.com">Heroku</a>, they host your code on a server and set you up with a subdomain.</p>
+
+<p>Their subdomains are pretty elegantly named. They always conjure dark, quiet, rustic imagery, like &ldquo;sleepy-journey&rdquo; or &ldquo;damp-retreat&rdquo;.</p>
+
+<p>Again, though, the problem is that &ldquo;stormy-stream-3295.herokuapp.com&rdquo; doesn&rsquo;t really lend itself to a short url.</p>
+
+<p>I saved this for the final step, but after the app (ok, version 1) was up and running, I went through the process of redirecting the Heroku default domain to my newly acquired, shorter Mongolian domain name, klei.mn.</p>
+
+<p>Just want to give a shoutout here to <a href="http://dnsimple.com">DNSimple</a> for making the redirect process really painless. Initially, I tried to mess around with the records that tell any requests from the browser where to go for the page you want on the site where I bought the domain name. It was a mess.</p>
+
+<p>Fortunately, DNSimple has an easy process for redirecting and within minutes, the app was running from Heroku on klei.mn. Really Simple!</p>
+
+<p>The only other hiccup I encountered in deployment was that the free Redis database I was using kept timing out with the number of requests the app was making, even for some simple testing. Since we had moved on to Postgres in class, I rewrote the app to use that instead. As it turns out, the data structure in Postgres was much easier to use anyway, even if it was probably overkill, with a single table in this case.</p>
+
+<p>I hope to come back to the differences in working with these two databases, but that&rsquo;s for another time and post.</p>
+
+<h2>Building the URL Shortner in Sinatra</h2>
+
+<p>At Launch Academy, we&rsquo;ve been following a really neat learning progression, where we&rsquo;re building up gradually to the complexity of a full stack web application, specifially built with Ruby on Rails.</p>
+
+<p>While we&rsquo;ve been working on our Ruby fundamentals all along, there are at least three other areas that can be broken down into simpler steps:</p>
+
+<ul>
+<li>The Framework that integrates what the user sees with the information stored in the database.</li>
+<li>The Database, in terms of its organization and how the application interacts with data.</li>
+<li>The Front-End interaction for the user.</li>
+</ul>
+
+
+<p>For this project, I&rsquo;m going to explain where we&rsquo;re at mainly regarding the framework.</p>
+
+<p>We started out with the simplest way to run a Ruby program, executing a Ruby file from the command line.</p>
+
+<p>When we were just learning Ruby, this was fine. We didn&rsquo;t have a lots of data and the programs were simple enough that all of the logic could easily fit in one file. Plus, the interface was bare bones, just the simple, elegant command line (I&rsquo;ll probably write more about falling in love the command line later, ha!).</p>
+
+<p>And even when we wanted to use more complex data, we learned how to read and write with local files or even pull in data from APIs.</p>
+
+<p>To persist information and access it more dynamically, though, we quickly ran up against the limits of our CSV files and started to need to query databases.</p>
+
+<p>Interacting with a database leads to moving dynamic information around between all your different files, selectively displaying it to you user.</p>
+
+<p>To control the data this way, you need an extra layer, between the user and the database, essentially to direct all this traffic and figure out what to do next. Enter, &ldquo;the framework.&rdquo; In this case, we started out with a simple one (I&rsquo;m told) called Sinatra.</p>
+
+<p>In production, your Sinatra app likely includes the following files:</p>
+
+<ul>
+<li>A file to tell the server how to being your program.</li>
+<li>A &ldquo;server&rdquo; file that the program runs from, directing traffic, executing program logic, and interacting with the database.</li>
+<li>&ldquo;Views&rdquo; that dictate what gets displayed on each page the application serves up.</li>
+<li>In Ruby, &ldquo;Gemfiles&rdquo; that tell the server what Ruby Gems will be needed to perform specific tasks in the application.</li>
+</ul>
+
+
+<p>From what I understand, compared to a more robust framework like Rails, Sinatra&rsquo;s simplicity lies in the way all of your routes (links between the data and the views) live in a single file.</p>
+
+<p>At least for us, at this stage, it made sorting out all the program logic easier, since you only have to look in one place. One the flip side, I can see how this gets messy as you go up in complexity, but that&rsquo;s what&rsquo;s cool about our curriculum: when increased complexity/difficult necessitates new tools to handle the issue, we are introduced to them, <em>but not before</em>.</p>
+
+<h2>And Now for Some Code</h2>
+
+<p>There are two operations at the heart of this project: <strong>creating short urls and redirection</strong>.</p>
+
+<p>I want to turn the long url that you give me into a short one AND every time you visit the short one, I want to send you to the long one.</p>
+
+<p>Along the way, if I can <a href="http://klei.mn/stats">track how often this is happening for each short url</a>, that will be cool too.</p>
+
+<p>When you visit <a href="http://klei.mn">klei.mn</a>, hopefully, the action is clear: give me a url to shorten.</p>
+
+<p>Here&rsquo;s what the shortening code looks like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">post</span> <span class="s1">&#39;/new&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">url</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:url</span><span class="o">]</span>
+</span><span class='line'>  <span class="vi">@errors</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="vi">@errors</span> <span class="o">=</span> <span class="n">valid_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@errors</span><span class="o">.</span><span class="n">empty?</span>
+</span><span class='line'>    <span class="n">long_url</span> <span class="o">=</span> <span class="n">check_long_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">long_url</span><span class="o">.</span><span class="n">empty?</span>
+</span><span class='line'>      <span class="n">short_url</span> <span class="o">=</span> <span class="n">get_short</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">save_link</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">short_url</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">short_url</span> <span class="o">=</span> <span class="n">long_url</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="s2">&quot;short_url&quot;</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">redirect</span> <span class="s2">&quot;/links/</span><span class="si">#{</span><span class="n">short_url</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:index</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here&rsquo;s what it does:</p>
+
+<ul>
+<li>Once you hit &ldquo;Shorten&rdquo; on the main page, you send the server the &ldquo;post&rdquo; request.</li>
+<li>First, I&rsquo;m going to make sure what you put in the form is a valid url.</li>
+<li>Then, I want to check and make sure that the url you sent me isn&rsquo;t already in the database.</li>
+<li>If it is, I will send you to the page that already exists for that link: klei.mn/links/(some short url), that shows the full url, the short url, and click stats.</li>
+<li>If it&rsquo;s not in the database, I create a new short url for it and insert that new info into the database with the &ldquo;save_link&rdquo; method.</li>
+</ul>
+
+
+<p>Check out the stats page for <a href="http://klei.mn">all shortened urls</a>.</p>
+
+<p>You&rsquo;ll notice that <a href="https://twitter.com/heroiceric">one clever person</a> I asked to test the site started by shortnening the main domain, then kept entering the returned short urls into the shortner. Now, every time you use the last link, it redirects you to the main page, <em>via all the other shortened urls and all their click stats go up</em>. (I&rsquo;ll likely disable the ability to submit urls with klei.mn as the domain by the time you read this.)</p>
+
+<p>Now that you&rsquo;ve created or retreived a short url for your long link, you&rsquo;ll want to use it.</p>
+
+<p>Here&rsquo;s what happens when you enter one of the short urls:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/:short_url&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">short_url</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:short_url</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">short_url</span> <span class="o">==</span> <span class="s1">&#39;stats&#39;</span>
+</span><span class='line'>    <span class="vi">@url_stats</span> <span class="o">=</span> <span class="n">get_all_url_stats</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:&#39;stats&#39;</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">short_url</span> <span class="o">==</span> <span class="s1">&#39;about&#39;</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:&#39;about&#39;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">add_clicks</span><span class="p">(</span><span class="n">short_url</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">outgoing_link_data</span> <span class="o">=</span> <span class="n">get_long_url</span><span class="p">(</span><span class="n">short_url</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">outgoing_link</span> <span class="o">=</span> <span class="n">outgoing_link_data</span><span class="o">[</span><span class="mi">0</span><span class="o">][</span><span class="s2">&quot;long_url&quot;</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">redirect</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">outgoing_link</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here&rsquo;s what&rsquo;s going on in the code:</p>
+
+<ul>
+<li>First, I grab the slug, or the part of the url after &ldquo;klei.mn/&rdquo;, from the &ldquo;get&rdquo; request.</li>
+<li>Since all the short urls are klei.mn/something, there have to be a few exceptions for any other page I want to have on the site, like &ldquo;klei.mn/stats&rdquo; or &ldquo;klei.mn/about&rdquo;. <em>Maybe there&rsquo;s another way to do this?</em></li>
+<li>Once I&rsquo;ve determined that it&rsquo;s one of the short urls, I want to send you to the url you&rsquo;re actually looking for. But first, I want to increase the click count for that url. The first method, &ldquo;add_clicks&rdquo;, adds a click to the counter for that url. Yay, semantic naming conventions!</li>
+<li>Next, we need to go get the corresponding long url from the database, so we know where to send you.</li>
+<li>Finally, we redirect to the long url.</li>
+</ul>
+
+
+<p>Before I really knew how servers sent and received information, this whole redirecttion process seemed like a little bit of magic.</p>
+
+<p>Writing this up, now, though, it all feels pretty straightforward, don&rsquo;t you think?</p>
+
+<p>You ask me to go somewhere. I look up directions and send you on your way to the destination you actually want. Maybe this is a version of &ldquo;give them what they want in the hope that they&rsquo;ll want what they need?&rdquo;</p>
+
+<p>Which leads me to a more dilemma about shortening urls&hellip;.is it really what we want to be doing?</p>
+
+<h2>The Problem with URL Shortnening</h2>
+
+<p>I mentioned this project to a former board member of the [Web Foundation](<a href="http://webfoundation.org,">http://webfoundation.org,</a> whose mission is to &ldquo;establish the open Web as a global public good and a basic right, ensuring that everyone can access and use it freely.&rdquo; and he said &ldquo;you know that&rsquo;s not a good idea, right?&rdquo;</p>
+
+<p>It&rsquo;s not that he&rsquo;s against me learning to code. He&rsquo;s been very supportive. ;&ndash;)</p>
+
+<p>But what he and his colleagues do is think about the world wide web on a much longer time scale that most people typically do.</p>
+
+<p>Our use case for the short url is really about convenience. They think about persistence, connectivity, and meaning.</p>
+
+<p>By inserting short urls all over the place to direct connections around the web, we are potentially creating a lot of dead-ends if the short url domains go away.</p>
+
+<p>From what I gathered from him, there is also a semantic isssue, when you compare short urls and their longer parents.</p>
+
+<p>The short links posted everywhere won&rsquo;t really mean anything, compared to the more detailed long urls they are derived from.</p>
+
+<p>Wikipedia has more on the shortcomings of URL shortnening <a href="http://en.wikipedia.org/wiki/URL_shortening#Shortcomings">here</a>.</p>
+
+<p>Can you make the case either way? Does it make sense in a more closed ecosystem like Twitter? Am I being an irresponsible citizen of the net by introducing short urls for vanity and convenience?</p>
+
+<p>These all seem like interesting questions!</p>
+]]></content>
+  </entry>
+
+  <entry>
+    <title type="html"><![CDATA[Building a Learning Tool for Compound Data Structures]]></title>
+    <link href="http://dankleiman.github.io/blog/2014/05/25/building-a-learning-tool-for-compound-data-structures/"/>
+    <updated>2014-05-25T09:07:15-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2014/05/25/building-a-learning-tool-for-compound-data-structures</id>
+    <content type="html"><![CDATA[<p>One of the most challenging things about learning to work with compound data structures has been reading the nested hashes and arrays and extracting the right set of brackets to use to identify a particular value in your code.</p>
+
+<!-- more -->
+
+
+<p>For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>    <span class="n">movie</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>      <span class="ss">title</span><span class="p">:</span> <span class="s1">&#39;The Nutty Professor&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="ss">cast</span><span class="p">:</span> <span class="o">[</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;Eddie Murphy&#39;</span><span class="p">,</span>
+</span><span class='line'>          <span class="ss">characters</span><span class="p">:</span> <span class="o">[</span>
+</span><span class='line'>            <span class="s1">&#39;Sherman Klump&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;Buddy Love&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;Lance Perkins&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;Papa Klump&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;Mama Klump&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;Grandma Klump&#39;</span><span class="p">,</span>
+</span><span class='line'>            <span class="s1">&#39;Ernie Klump&#39;</span>
+</span><span class='line'>          <span class="o">]</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;Jada Pinkett Smith&#39;</span><span class="p">,</span>
+</span><span class='line'>          <span class="ss">characters</span><span class="p">:</span> <span class="o">[</span>
+</span><span class='line'>            <span class="s1">&#39;Carla Purty&#39;</span>
+</span><span class='line'>          <span class="o">]</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="o">]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If I want to find a character, I have to reference an array inside a hash inside an array inside a hash&hellip;I think. Even that last sentence was difficult to write.</p>
+
+<p>So I started thinking&hellip;there must be a programmatic way to express finding the reference for any element of the compound data structure.</p>
+
+<h2>Decompose the Problem</h2>
+
+<p>Here&rsquo;s the problem statement:  <strong>Given a value and a compound data structure, return the position of the value in the strucure, formatted so you can referrence it in your code.</strong></p>
+
+<p>The first thing you realize is that searching through a hash and array will work slightly differently. On the advice of my instructors, I separated out these cases and got to work on the smallest case first.</p>
+
+<p>Breaking it down into steps looked something like this:</p>
+
+<ol>
+<li>Solve just the array case first.</li>
+<li>Start with the smallest possible array.</li>
+<li>Add layers of nesting and make sure it still works.</li>
+<li>Then, modify the searching for hashes.</li>
+<li>Combine.</li>
+</ol>
+
+
+<p>Most of the work happened in step 3, where we run into the problem of tracking the correct path to our value through recursive calls to the search method.</p>
+
+<p>Struggling through the recursion in this problem, I started to wonder if I had traded one problem, learning to read compound data structures, for another: <em>figuring out recursive searching!</em></p>
+
+<h2>Working through Search Recursively</h2>
+
+<p>Check out the suggested search for &ldquo;recursion&rdquo; when you Google it:</p>
+
+<p><a><img src="http://i.imgur.com/3rKK7mF.png" title="Hosted by imgur.com" /></a></p>
+
+<p>Ha! Yeah, I clicked on &ldquo;Did you mean? recursion&rdquo; a few times just to check.</p>
+
+<p>Anyway, since we don&rsquo;t know how big the data structure is, we have to keep searching through unknown elements, that could be value, hashes, or arrays that need to be looked through in turn as well.</p>
+
+<p>This is a job for recursion!</p>
+
+<p>Looking at <a href="http://en.wikipedia.org/wiki/Inorder_traversal#Depth-first">tree traversal search problems</a>, I realized I needed to move through a tree structure and needed to track where I was on the tree…but couldn&rsquo;t figure out at first how to track the path.</p>
+
+<p>The first pass at the problem returned an array of every endpoint of every possible path. Each element of the returned &ldquo;path&rdquo; array came back as true or false relative to the value we were searching for…but there were no breadcrumbs to know what the path was for the true version. <em>To solve the problem, we needed to return a path, not just know that the value was in the data structure</em></p>
+
+<p>To identify the path, we capturing the index of the current element we were testing in the array. We&rsquo;d add them once we new we had a true path on the way &ldquo;back up&rdquo; the recursion. This was messing with the order, though.</p>
+
+<p>Finally, (in the shower, of course!) I realized that adding to the path should happen just before the recursive call AND if the call came back &ldquo;false&rdquo;, we should strip out the path identifier right after the call came back.</p>
+
+<p>Adding to the path:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="o">!</span><span class="n">path</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">path</span> <span class="o">&lt;&lt;</span> <span class="n">i</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Removing the &ldquo;wrong branch&rdquo; from the path after the recursive call:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">path</span> <span class="o">=</span> <span class="n">path_finder</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">element</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+</span><span class='line'><span class="k">if</span> <span class="o">!</span><span class="n">path</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">path</span><span class="o">.</span><span class="n">pop</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In other words, a &ldquo;not-true&rdquo; return would tell us that we went down the wrong branch and so we should erase that branch and start going down the next possible branch.</p>
+
+<p>After I got the correct path to return, it was just a matter of cleaning it up and presenting it in a way that would let you &ldquo;copy and paste&rdquo; into your code for easy referrence.</p>
+
+<p>I hope this comes in handy when other people are learning to read compound data structures!</p>
+
+<p><a href="https://github.com/dankleiman/path_finder">Check out the repo on Github</a>.</p>
+]]></content>
+  </entry>
+
+  <entry>
+    <title type="html"><![CDATA[Day 10: The Dreams Continue]]></title>
+    <link href="http://dankleiman.github.io/blog/2014/05/21/day-10-the-dreams-continue/"/>
+    <updated>2014-05-21T08:02:38-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2014/05/21/day-10-the-dreams-continue</id>
+    <content type="html"><![CDATA[<p>It happened again.</p>
+
+<p>At 5:00am this morning I woke myself up&hellip;.talking through a solution to a coding problem I had at the end of the day yesterday.</p>
+
+<p>I was literally coding in my sleep.</p>
+
+<p>Remember the <a href="http://dankleiman.github.io/blog/2014/05/17/launch-academy-week-1-reflections/">Tetris Effect</a>? It&rsquo;s in full effect.</p>
+
+<p>But I&rsquo;ve seen this before and once I got over the shock of writing code in my sleep, I got pretty excited. It means some serious learning is going on.</p>
+
+<!-- more -->
+
+
+<h2>Intensive Learning and Brain Cycles</h2>
+
+<p>In 2004, I attended my first qigong (pronounce &ldquo;chee-gung,&rdquo; it&rsquo;s the Chinese practice of developing your natural internal energy. You can read more about my background in this practice <a href="http://dankleiman.com">here</a>) instructor training.</p>
+
+<p>We trained 8-10 hours a day and we were about 10 days in before we got a day off.</p>
+
+<p>It was July in Northern California and we decided to escape the heat by going to see a movie.</p>
+
+<p>I rememember sitting in the theatre and looking down at my hands. They were pulsing in and out, getting bigger and smaller&hellip;.and I wasn&rsquo;t doing anything.</p>
+
+<p>I should tell you that the main practice we were working on, called &ldquo;Opening and Closing&rdquo; involves manipulating the synovial fluids of the joints and the ligaments so that the joint spaces shrink and expand in a rhythm&hellip;but we do it under direct, conscious control.</p>
+
+<p>Sitting in the theatre, I was zoning out to Spider Man or some other summer blockbuster. In my tuned-out state, my body was going all by itself.</p>
+
+<p>Strange. Alien. And, as I later learned, a totally natural way to process new input, whether it&rsquo;s physical or mental.</p>
+
+<p>Our nervous systems need time to process new information and integrate it. <strong>It turns out that this kind of integration is best done unconscously.</strong></p>
+
+<p>In fact, I&rsquo;ve been experiencing less extreme examples too. Every time you get up, step away from the computer, and do a different activity, you give your unconscious mind a chance to catch up and process.</p>
+
+<p>So, bathroom trips, conversations in the kitchen, a run down the stairs and out onto the street &mdash; all these activities, or <em>un-activities</em> create an opportunity for passive processing.</p>
+
+<p>My goal is to keep up, as strange as it sounds, deliberate un-deliberate times to maximize learning and work, because the truth is, these things are circular &mdash; rest completes work &mdash; not linear.</p>
+
+<p>I&rsquo;ve written about how this works from a Tai Chi perspective too, <a href="http://dankleiman.com/2013/04/23/practice-rhythms-at-tai-chi-immersion-week/">if you&rsquo;re curious to read more</a>.</p>
+]]></content>
+  </entry>
+
+  <entry>
+    <title type="html"><![CDATA[Launch Academy: Week 1 Reflections]]></title>
+    <link href="http://dankleiman.github.io/blog/2014/05/17/launch-academy-week-1-reflections/"/>
+    <updated>2014-05-17T09:32:59-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2014/05/17/launch-academy-week-1-reflections</id>
+    <content type="html"><![CDATA[<p>So, all this week, I&rsquo;ve been experiencing the Tetris effect and I&rsquo;ve come to appreciate the beauty, and the painlessness, of learning how to break down a problem.</p>
+
+<p>Let me explain&hellip;.</p>
+
+<!-- more -->
+
+
+<h2>The Tetris Effect</h2>
+
+<p>According to <a href="http://www.scientificamerican.com/article/tetris-dreams/">the study from Harvard Medical School</a>, games like Tetris can reveal the way our brain integrates new information.</p>
+
+<blockquote>In fact, the game Tetris has proved to be just that. Robert Stickgold and his colleagues at Harvard Medical School recently conducted a clever set of experiments in which they used the game to guide the content of people¿s dreams: among 17 subjects they trained to play Tetris, more than 60 percent reported dreaming of images associated with the game. </blockquote>
+
+
+<p>I&rsquo;ve been having similar dreams about coding all week, especially as I&rsquo;m falling asleep.</p>
+
+<p>In fact, I&rsquo;ve had to resist the urge to jump out of bed and grab my laptop to finish coding problems that plagued me during the day.</p>
+
+<p>What&rsquo;s so cool is that my instructors at Launch Academy have been talking from the beginning about the way coding &mdash; and more generally the brain &mdash; works. They&rsquo;ve been extremely clear about the value of stepping away from the computer to actually find the solution.</p>
+
+<p>I love being immersed in this environment where the answers to &ldquo;my work&rdquo; pour in at night, or on breaks, and more importantly, these down moments are treated as equally valuable as work time.</p>
+
+<h2>Shoring Up Fundamentals</h2>
+
+<p>All week, we&rsquo;ve been reviewing pre-work and solidifying our Ruby basics.</p>
+
+<p>Specifically, here&rsquo;s what we&rsquo;ve been covering:</p>
+
+<p><em>Ruby fundamentals
+</em>Hashes, arrays, and compound data structures
+<em>Iteration
+</em>File IO</p>
+
+<p>Launch Academy has some pretty cool custom tools to help us do this work. I&rsquo;m sure you&rsquo;ve seen things like CodeAcademy or RubyMonk.</p>
+
+<p>At Launch Academy, we have internal tools that integrate shell commands to download, test, and submit practice problems. What I love about this is that not only are we honing our Ruby fundamentals, but we&rsquo;re integrating other skills, like command line basics, git, and a broader understanding of how to navigate the file system.</p>
+
+<p>Next week, I think we&rsquo;re going to expand this work to include remote repositories.</p>
+
+<p>Even though it&rsquo;s been a few days, it feels like it&rsquo;s been months of immersion and I can&rsquo;t wait to get back to work on Monday!</p>
+]]></content>
+  </entry>
+
+  <entry>
+    <title type="html"><![CDATA[Reflections on Pre-Work: Balancing Theory and Practice]]></title>
+    <link href="http://dankleiman.github.io/blog/2014/05/09/this-is-new-post/"/>
+    <updated>2014-05-09T12:18:25-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2014/05/09/this-is-new-post</id>
+    <content type="html"><![CDATA[<p>Preparing for <a href="http://www.launchacademy.com">Launch Academy</a>
+while finishing up work as the director <a href="http://www.brooklinetaichi.org">Brookline Tai Chi</a> has been a massive exercise in balancing &ldquo;theory and practice.&rdquo;</p>
+
+<p>This explanation from Practical Object-Oriented Design in Ruby by Sandi Metz perfectly captures the difference:</p>
+
+<!-- more -->
+
+
+
+
+<blockquote>What is the difference between theory and practice?
+In theory, there is none. If theory were practice you could learn the rules of OOD, apply them consistently, and create perfect code from this day forward; your work here would be done.
+
+However, no matter how deeply theory believes this to be true, practice knows better. Unlike theory, practice gets its hands dirty. It is practice that lays bricks, builds bridges, and writes code. Practice lives in the real world of change, confusion, and uncertainty.</blockquote>
+
+
+<p>I&rsquo;ve been straddling the worlds of theory and practice for months now.</p>
+
+<p><strong>Learning to Code <em>in Theory</em></strong></p>
+
+<p>Every book, online tutorial, and exercise that I&rsquo;ve been working on, in Ruby, HTML, CSS, MySQL, has been carefully selected by the instructors at Launch Academy to lead us step-by-step through the basics.</p>
+
+<p>The examples are clean.</p>
+
+<p>Instructions are clear.</p>
+
+<p>And when we get stuck, we can reach out for help and clarification.</p>
+
+<p>It&rsquo;s a pleasure to live in this world</p>
+
+<p><strong>Teaching Tai Chi <em>in Practice</em></strong></p>
+
+<p>For the last ten years, I&rsquo;ve been teaching Tai Chi, working with students who are brand new to the practice or who are gradually building new skills.</p>
+
+<p>Early on, I learned from my teaching mentor that you should only ever teach material that is well integrated into your own body, so that you can model it clearly, cleanly, and on demand.</p>
+
+<p>The process of translating Tai Chi theory, embodied principles, and new concepts to something that students can absorb is an exercise in moving from the clean world of theory to the messy realm of practice.</p>
+
+<p>How will they interpret a lesson?</p>
+
+<p>What else are they thinking about when they come to class at night?</p>
+
+<p>Is there something they&rsquo;d rather do with their time?</p>
+
+<p>How do we handle layers of old injuries?</p>
+
+<p>Being on the other side of the theory and practice dichotomy has its own rewards, <a href="http://dankleiman.com/about/">which I&rsquo;ve written about here</a>.</p>
+
+<p>Right now, though, I&rsquo;m enjoying being in both worlds simultaneously. I can appreciate all the work the staff at Launch Academy has done to present us with clean, clear instructions.</p>
+
+<p>I&rsquo;m also getting a little space from my own teaching, so I can appreciate the more abstract, theoretical questions of how, why, and what should be taught, unencumbered by a lot of practical constraints.</p>
+
+<p><strong>Balancing Theory and Practice in the Future</strong></p>
+
+<p>Going forward, months from now, when I&rsquo;m fully immersed in the world of web applications and my day-to-day will lean more to the &ldquo;practice&rdquo; end of the balance than the &ldquo;theory&rdquo; side, I hope I can remember this feeling of blending both worldviews.</p>
+
+<p>By creating space to find a clean &ldquo;theory&rdquo; mindset, you really do get more energy to implement the realities of &ldquo;practice.&rdquo;</p>
+
+<p>At the same time, the craftmanship of practice motivates you to explore and refine theory.</p>
+
+<p>If I can find the right balance, work life will be even more rewarding!</p>
+]]></content>
+  </entry>
+
+  <entry>
+    <title type="html"><![CDATA[Getting a Feel for It]]></title>
+    <link href="http://dankleiman.github.io/blog/2014/03/20/getting-a-feel-for-it/"/>
+    <updated>2014-03-20T08:59:31-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2014/03/20/getting-a-feel-for-it</id>
+    <content type="html"><![CDATA[<p>&ldquo;I just want to get a feel for what I can change/do&hellip;&rdquo;</p>
+
+<p>Or</p>
+
+<p>&ldquo;I just wanted to see what I could do&hellip;&rdquo;</p>
+
+<p>In the middle of launching this blog, I wanted to change some of the core settings and I wasn&rsquo;t sure what could safely be changed without breaking the whole thing.</p>
+
+<p>When I asked someone for help, I explained that I wanted to &ldquo;get a feel&rdquo; for what I could do without messing other things up.</p>
+
+<!-- more -->
+
+
+<h2>How Would You Have Phrased That?</h2>
+
+<p>I didn&rsquo;t used to make a big distinction between these two ways of phrasing, but as I&rsquo;m reading <a href="http://pragprog.com/book/ahptl/pragmatic-thinking-and-learning">Pragmatic Thinking and Learning by Andy Hunt</a>, I&rsquo;m starting to become much more acutely aware of all these layers of filters, perspectives, and contexts that we each have for experiencing the world that influence what we see, say, and do.</p>
+
+<p>For instance, what you value and how you communicate may be shaped by:
+&ndash; your personality type, notably your degree of introversion or extroversion (I love thinking of this as &ldquo;how you recharge your batteries &mdash; from the inside or from other people&rdquo;)
+&ndash; the generation you were born, even in the sense of how you see the role of institutions/companies that you interact with (need to read up on this more, but some people have theorized that there are only 4 generational archetypes that repeat over and over again, largely created and re-created in reference to the previous generation)
+&ndash; the primary senses you use to take information in (often described in an educational context as learning style, i.e. visual, auditory, or kinesthetic)</p>
+
+<h2>Starting to Notice Filters and Cues</h2>
+
+<p>After reading the chapter on sensory filters, I spent the day trying to pick up on subtle language cues that people dropped as I talked to them.</p>
+
+<p>Specificially, I was <a href="http://dankleiman.com">teaching Tai Chi lessons</a> that day, so once I heard a clear cue (&ldquo;I see what you&rsquo;re saying&hellip;&rdquo;), I tried to adapt the teaching to cater to that style.</p>
+
+<p>My first attempt was too heavy-handed, though, and it just ended up confusing my student.</p>
+
+<p>Fascinating to keep trying this approach, though!</p>
+]]></content>
+  </entry>
+
+  <entry>
+    <title type="html"><![CDATA[Learning More About Octopress]]></title>
+    <link href="http://dankleiman.github.io/blog/2014/03/19/learning-more-about-octopress/"/>
+    <updated>2014-03-19T18:46:22-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2014/03/19/learning-more-about-octopress</id>
+    <content type="html"><![CDATA[<p>Just running through a test post again to go over the process and remind myself how this works!</p>
+]]></content>
+  </entry>
 
   <entry>
     <title type="html"><![CDATA[Whoa! Octopress!]]></title>
@@ -30,6 +1780,9 @@
 
 
 <p>I need to dig into the <a href="http://octopress.org/docs/configuring/">configuration stuff</a> a little more.</p>
+
+<!-- more -->
+
 
 <h2>Writing This Post in Markdown</h2>
 

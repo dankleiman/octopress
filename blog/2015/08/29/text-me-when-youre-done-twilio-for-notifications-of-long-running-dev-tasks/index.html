@@ -5,13 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Whoa! Octopress! - Dan Kleiman Code</title>
+  <title>Text Me When You're Done: Twilio for Notifications of Long-Running Dev Tasks - Dan Kleiman Code</title>
   <meta name="author" content="Dan Kleiman">
 
   
-  <meta name="description" content="So, I just launched this new blog using Octopress. Here are the steps I followed: Basics
-How to Blog
-Deploying on Github I need to dig into the &hellip;">
+  <meta name="description" content="This week at work, we ran into a slight hiccup with one of our larger third-party data syncs. Without going into too much detail, to fix the issue, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +18,7 @@ Deploying on Github I need to dig into the &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://dankleiman.github.io/blog/2014/03/18/whoa-octopress">
+  <link rel="canonical" href="http://dankleiman.github.io/blog/2015/08/29/text-me-when-youre-done-twilio-for-notifications-of-long-running-dev-tasks">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Dan Kleiman Code" type="application/atom+xml">
@@ -74,7 +72,7 @@ Deploying on Github I need to dig into the &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Whoa! Octopress!</h1>
+      <h1 class="entry-title">Text Me When You're Done: Twilio for Notifications of Long-Running Dev Tasks</h1>
     
     
       <p class="meta">
@@ -90,32 +88,74 @@ Deploying on Github I need to dig into the &hellip;">
   
 
 
-<time datetime="2014-03-18T21:28:17-04:00" pubdate data-updated="true">Mar 18<span>th</span>, 2014</time>
+<time datetime="2015-08-29T10:33:48-04:00" pubdate data-updated="true">Aug 29<span>th</span>, 2015</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>So, I just launched this new blog using Octopress.</p>
+<div class="entry-content"><p>This week at work, we ran into a slight hiccup with one of our larger third-party data syncs. Without going into too much detail, to fix the issue, we had to carefully reproduce data in various states and test fixes that would transform that data back to the correct state &mdash; or for the purpose of this post, <em>I spent a lot of time this week setting things up and waiting for them to run</em>.</p>
 
-<p>Here are the steps I followed:</p>
+<p>Outside of work I&rsquo;ve been continuing to play with Twilio and this morning, with hours of data prep still in front of me, I stumbled across this article on <a href="https://www.twilio.com/labs/bash/sms">Sending a Twilio SMS from the Shell</a>.</p>
 
-<ul>
-<li><a href="http://octopress.org/docs/setup/">Basics</a></li>
-<li><a href="http://octopress.org/docs/blogging/">How to Blog</a></li>
-<li><a href="http://octopress.org/docs/deploying/github/">Deploying on Github</a></li>
-</ul>
+<!--more-->
 
 
-<p>I need to dig into the <a href="http://octopress.org/docs/configuring/">configuration stuff</a> a little more.</p>
+<p>Before I get into how this works and what I did, I was also reading some of Patrick McKenzie&rsquo;s old posts on his first Twilio apps. What got me excited this morning was <a href="http://www.kalzumeus.com/2011/12/19/productizing-twilio-applications/">something he wrote as an addendum to his TwilioConf talk</a>.</p>
 
-<!-- more -->
+<p>I now consider it my mission statement for all my Twilio projects:</p>
+
+<blockquote><h2>Why I Think Twilio Will Take Over The World</h2>
+
+<p>(This was not actually in the presentation, because I didn’t have enough time for it, but I sincerely believe it and want to publish it somewhere.)</p>
+
+<p>I think Twilio is, far and away, the most exciting technology I’ve ever worked with. The world needs cat photos, local coupons, and mobifotosocial games, too, but it needs good telephony systems a lot more, as evidenced by companies paying billions of dollars for them.</p>
+
+<p>Additionally, Twilio is the nascent, embryonic form of the first Internet that a billion people are going to have access to, because <strong>Twilio turns every phone into a smartphone</strong>.  The end-game for Zynga’s take-over-the-world vision is the human race slaved to artificial dopamine treadmills.  The endgame for Twilio’s vision is that every $2 handset in Africa is the moral equivalent of an iPhone.  I know which future I want to support.</p>
+
+<p>Smartphones aren’t smart because of anything on the phones themselves, they’re smart because they speak HTTP and thus get always-on access to a universe of applications which are improving constantly.  Twilio radically reduces the amount of hardware support a phone needs to speak HTTP — it retroactively upgrades every phone in the world to do so.  After that, all you need is the application logic.  And what application logic there is — because the applications live on web servers, they have access to all the wonderful infrastructure built to run the Internet, from APIs that let you get Highly Consequential Data like e.g. weather reports or stock prices or whatever, to easy integration with systems which were never built to have a phone operating as part of them.</p>
+
+<p>You can’t swing a stick in a business without hitting a problem which a phone application makes great sense for.  I filled up three pages of a notebook with them in just a week after being exposed to Twilio for the first time.  Order status checking for phone/fax/mail orders.  Integrated CRMs for phone customer service representatives.  Flight information.  Bank balances.  Server monitoring.  Appointment reminders. Restaurant reservations.  Local search.  Loyalty programs.  Time card systems.  Retail/service employee support systems.  Shift management.  The list goes on and on and on.</p>
+
+<p>Seriously, <strong>start writing Twilio apps</strong>.</p></blockquote>
+
+<p>Thanks, Patrick!</p>
+
+<h2>Twilio SMS via Shell</h2>
+
+<p>Up to this point, I had been thinking of Twilio as a way to tie SMS, either as input or output, to web-based application logic. When I came across the shell script that would also hit Twilio to send SMS, though I realized that chaining a Twilio SMS to a long-running script would allow me to set up and job and just walk away. I&rsquo;ll get a text when it&rsquo;s done. Awesome!</p>
+
+<p>At it&rsquo;s core, the script is a curl request to the Twilio API:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">RESPONSE</span><span class="o">=</span><span class="sb">`</span>curl -fSs -u <span class="s2">&quot;$ACCOUNTSID:$AUTHTOKEN&quot;</span> -d <span class="s2">&quot;From=$CALLERID&quot;</span> -d <span class="s2">&quot;To=$PHONE&quot;</span> -d <span class="s2">&quot;Body=$MSG&quot;</span> <span class="s2">&quot;https://api.twilio.com/2010-04-01/Accounts/$ACCOUNTSID/SMS/Messages&quot;</span> 2&gt;&amp;1<span class="sb">`</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>Writing This Post in Markdown</h2>
+<p>The rest of the script takes care of arguments and configuration &mdash; even allowing you to create a separate config file with your Twilio credentials. Pretty sweet to have such a nice neat package! <a href="https://www.twilio.com/labs/bash/sms">Here&rsquo;s everything you need to get it running</a></p>
 
-<p>I&rsquo;m learning how to write this in <a href="http://http://daringfireball.net/projects/markdown/basics">Markdown</a> which is also pretty new to me. Right now it feels like a lazy version of html, so we&rsquo;ll see what&rsquo;s it like as I get used to it.</p>
+<h2>Integrating Tasks with the Script</h2>
+
+<p>I&rsquo;ve played with a few different alerts so far.</p>
+
+<p>When I had to load a large file full of sql data, a simple alert when the job was done did the trick:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mysql -u root databasename &lt; some/file.sql; <span class="nb">echo</span> <span class="s1">&#39;Your table is ready&#39;</span> | ~/twilio-sms 6178675309
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When I was deciding how to break up the file into more manageable smaller files to import, and running around doing errands and walking my dog, just calculating the number of lines took long enough that I piped the result out to the Twilio script and got a text that said 34218:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>wc -l &lt; some/file.sql | ~/twilio-sms 6178675309
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There&rsquo;s nothing earth-shatteringly-amazing technically here. It&rsquo;s really about peace of mind.</p>
+
+<p>Now, I don&rsquo;t have to keep looking over my shoulder to check if the task is done. Or waste time checking Twitter while I sit at my computer. I can go do more useful things, like finish this blog post, confident that the text notification will be enough to get my attention when the job is done running.</p>
 </div>
 
 
@@ -138,7 +178,7 @@ Deploying on Github I need to dig into the &hellip;">
   
 
 
-<time datetime="2014-03-18T21:28:17-04:00" pubdate data-updated="true">Mar 18<span>th</span>, 2014</time>
+<time datetime="2015-08-29T10:33:48-04:00" pubdate data-updated="true">Aug 29<span>th</span>, 2015</time>
       
 
 
@@ -146,7 +186,7 @@ Deploying on Github I need to dig into the &hellip;">
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2014/03/18/whoa-octopress/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2014/03/18/whoa-octopress/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2015/08/29/text-me-when-youre-done-twilio-for-notifications-of-long-running-dev-tasks/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2015/08/29/text-me-when-youre-done-twilio-for-notifications-of-long-running-dev-tasks/" >Tweet</a>
   
   
   
@@ -177,8 +217,10 @@ Deploying on Github I need to dig into the &hellip;">
     </p>
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2015/08/13/sms-to-do-list-with-twilio/" title="Previous Post: SMS To Do List with Twilio">&laquo; SMS To Do List with Twilio</a>
       
-        <a class="basic-alignment right" href="/blog/2014/03/19/learning-more-about-octopress/" title="Next Post: Learning more about Octopress">Learning more about Octopress &raquo;</a>
+      
+        <a class="basic-alignment right" href="/blog/2015/09/15/i-hate-voicemail-straight-to-sms-with-twilio/" title="Next Post: I Hate Voicemail: Straight to SMS with Twilio">I Hate Voicemail: Straight to SMS with Twilio &raquo;</a>
       
     </p>
   </footer>

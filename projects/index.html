@@ -5,13 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Whoa! Octopress! - Dan Kleiman Code</title>
+  <title>Projects - Dan Kleiman Code</title>
   <meta name="author" content="Dan Kleiman">
 
   
-  <meta name="description" content="So, I just launched this new blog using Octopress. Here are the steps I followed: Basics
-How to Blog
-Deploying on Github I need to dig into the &hellip;">
+  <meta name="description" content="Projects Check out some of my recent coding projects. You can see more of my work on GitHub. Datastroyer Search tool for compound data structures &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +18,7 @@ Deploying on Github I need to dig into the &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://dankleiman.github.io/blog/2014/03/18/whoa-octopress">
+  <link rel="canonical" href="http://dankleiman.github.io/projects">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Dan Kleiman Code" type="application/atom+xml">
@@ -70,118 +68,86 @@ Deploying on Github I need to dig into the &hellip;">
   <div id="main">
     <div id="content">
       <div>
-<article class="hentry" role="article">
+<article role="article">
   
   <header>
+    <h1 class="entry-title">Projects</h1>
     
-      <h1 class="entry-title">Whoa! Octopress!</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-18T21:28:17-04:00" pubdate data-updated="true">Mar 18<span>th</span>, 2014</time>
-        
-      </p>
     
   </header>
+  
+  <p>Check out some of my recent coding projects. You can see more of my work <a href="http://github.com/dankleiman">on GitHub</a>.</p>
 
+<h2>Datastroyer</h2>
 
-<div class="entry-content"><p>So, I just launched this new blog using Octopress.</p>
+<p><em>Search tool for compound data structures built in Ruby using Sinatra</em></p>
 
-<p>Here are the steps I followed:</p>
+<p><img src="https://cloud.githubusercontent.com/assets/5974052/3552758/e4f93016-08fb-11e4-8710-38783f870f77.png" alt="datastroyer" /></p>
 
-<ul>
-<li><a href="http://octopress.org/docs/setup/">Basics</a></li>
-<li><a href="http://octopress.org/docs/blogging/">How to Blog</a></li>
-<li><a href="http://octopress.org/docs/deploying/github/">Deploying on Github</a></li>
-</ul>
+<p>As Junior Developers, we set out to learn about compound data structures.</p>
 
+<p>Quickly, we encountered hashes and arrays, and hashes inside arrays&hellip;inside of hashes and arrays of hashes with more hashes and arrays inside of them.</p>
 
-<p>I need to dig into the <a href="http://octopress.org/docs/configuring/">configuration stuff</a> a little more.</p>
+<p>When you want to identify a specific value inside of these compound structures, your head starts to spin as you keep track of all the nested keys and indexes.</p>
 
-<!-- more -->
+<p>Basically, we wanted to create an easier way to get the &ldquo;path&rdquo; of any value inside a compound data structure, so we could reference it in our code.</p>
 
+<p>Once our search tool was working in the command line, we deployed it to Heroku as a web app specifically geared to finding data in JSON objects.</p>
 
-<h2>Writing This Post in Markdown</h2>
+<p>Try out <a href="http://datastroyer.herokuapp.com/">Datastroyer</a></p>
 
-<p>I&rsquo;m learning how to write this in <a href="http://http://daringfireball.net/projects/markdown/basics">Markdown</a> which is also pretty new to me. Right now it feels like a lazy version of html, so we&rsquo;ll see what&rsquo;s it like as I get used to it.</p>
+<h2>Graff Mags</h2>
+
+<p><em>TDD Rails app to upload and display collection of 2000+ graffiti magazines</em></p>
+
+<p><img src="https://cloud.githubusercontent.com/assets/5974052/3553912/6965f58a-0908-11e4-8b2b-b14a91407f40.png" alt="Graff Mags" /></p>
+
+<p>While this site is designed to show off the images in a rare collection of magazines, the biggest challenge was actually creating a smooth, streamlined back-end entry UI with JavaScript and AJAX, since the collection had never before been catalogued.</p>
+
+<p>Over time, we will upload the entire collection, make it searchable/filterable based on where and when an issue was published, publisher, featured crews, and other physical dimensions (which helps curators choose issues for their exhibits).</p>
+
+<p>Check out <a href="http://graffmags.herokuapp.com">Graff Mags</a>.</p>
+
+<h2>klei.mn</h2>
+
+<p><em>Sinatra URL shortner on a custom domain</em></p>
+
+<p><img src="https://cloud.githubusercontent.com/assets/5974052/3552773/0d98248c-08fc-11e4-8457-0c3168613db8.png" alt="klei.mn url shortner" /></p>
+
+<p>At Launch Academy we’ve been building Sinatra applications with simple databases (Redis and Postgres) and deploying them to Heroku.</p>
+
+<p>One of the extra-credit projects was to build a url shortner and I thought it would be cool to hook mine up to a customized domain, kind of like a vanity plate for your car.</p>
+
+<p>The .mn TLD was available from Mongolia, so I bought &ldquo;klei.mn&rdquo; to shorten my last name. In the process, I learned a little more about the pros and cons of url shortnening and how HTTP requests, routing, and redirection work.</p>
+
+<p>Why not <a href="http://klei.mn">shorten a link</a>?</p>
+
+<h2>Neighborhoods</h2>
+
+<p><em>Review site built in Rails using TDD and lots of pair programming</em></p>
+
+<p>Our Launch Academy group project is a review site of Boston neighborhoods.</p>
+
+<p>This was an exercise in pair programming, project planning, and TDD, designed to get us more comfortable with slightly larger Rails apps.</p>
+
+<p>For me, the most interesting part was playing with building a seed file to make our demo app feel like a bigger site. I had to figure out how to generate users, reviews, comments, and votes, seeding from CSV data and looping through it to come up with varied and interesting combinations.</p>
+
+<p>Want to see what it&rsquo;s like to <a href="http://ancient-tor-3174.herokuapp.com/neighborhoods/2">live in Back Bay</a>?</p>
+
+  
+    <footer>
+      
+        <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/projects/index.html" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/projects/index.html" >Tweet</a>
+  
+  
+  
 </div>
 
-
-  <footer>
-    <p class="meta">
       
+    </footer>
   
-
-<span class="byline author vcard">Posted by <span class="fn">Dan Kleiman</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-18T21:28:17-04:00" pubdate data-updated="true">Mar 18<span>th</span>, 2014</time>
-      
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2014/03/18/whoa-octopress/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2014/03/18/whoa-octopress/" >Tweet</a>
-  
-  
-  
-</div>
-
-    
-     <p class="meta">
-      <section>
-  <div id="mc_embed_footer">
-    <form action="//dankleiman.us1.list-manage.com/subscribe/post?u=0e4a1aa488d23c693881caeec&amp;id=99d1412a0b" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-      <h1>Did You Enjoy This Post?</h1>
-      <p>Enter your email address below so you'll automatically receive updates about coding, work, community, and new things I've learned.</p>
-      <p>I promise to share as much useful info with you as possible...but I'll never share your email with anyone. It's free and you can easily unsubscribe at any time.</p>
-      <div class="mc-field-group">
-        <label for="mce-EMAIL">Enter Your Email Address:</label>
-        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
-      </div>
-      <div id="mce-responses" class="clear">
-        <div class="response" id="mce-error-response" style="display:none"></div>
-        <div class="response" id="mce-success-response" style="display:none"></div>
-      </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-        <div style="position: absolute; left: -5000px;"><input type="text" name="b_0e4a1aa488d23c693881caeec_99d1412a0b" tabindex="-1" value=""></div>
-        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
-    </form>
-  </div>
-</section>
-
-    </p>
-    <p class="meta">
-      
-      
-        <a class="basic-alignment right" href="/blog/2014/03/19/learning-more-about-octopress/" title="Next Post: Learning more about Octopress">Learning more about Octopress &raquo;</a>
-      
-    </p>
-  </footer>
 </article>
 
 </div>

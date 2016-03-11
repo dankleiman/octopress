@@ -5,13 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Whoa! Octopress! - Dan Kleiman Code</title>
+  <title>The Race to Hello World: Rails vs. Sinatra - Dan Kleiman Code</title>
   <meta name="author" content="Dan Kleiman">
 
   
-  <meta name="description" content="So, I just launched this new blog using Octopress. Here are the steps I followed: Basics
-How to Blog
-Deploying on Github I need to dig into the &hellip;">
+  <meta name="description" content="Earlier, I explained how I built my personalized url shortner in Sinatra. This past week, we&rsquo;ve been spinning up demo apps in Rails instead, so &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +18,7 @@ Deploying on Github I need to dig into the &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://dankleiman.github.io/blog/2014/03/18/whoa-octopress">
+  <link rel="canonical" href="http://dankleiman.github.io/blog/2014/06/23/the-race-to-hello-world-rails-vs-sinatra">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Dan Kleiman Code" type="application/atom+xml">
@@ -74,7 +72,7 @@ Deploying on Github I need to dig into the &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Whoa! Octopress!</h1>
+      <h1 class="entry-title">The Race to Hello World: Rails vs. Sinatra</h1>
     
     
       <p class="meta">
@@ -90,32 +88,90 @@ Deploying on Github I need to dig into the &hellip;">
   
 
 
-<time datetime="2014-03-18T21:28:17-04:00" pubdate data-updated="true">Mar 18<span>th</span>, 2014</time>
+<time datetime="2014-06-23T08:11:28-04:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>So, I just launched this new blog using Octopress.</p>
+<div class="entry-content"><p>Earlier, I explained how I built <a href="/blog/2014/05/30/buying-a-mongolian-website/">my personalized url shortner</a> in Sinatra.</p>
 
-<p>Here are the steps I followed:</p>
+<p>This past week, we&rsquo;ve been spinning up demo apps in Rails instead, so I wanted to walk through a little comparison of the two frameworks.</p>
 
-<ul>
-<li><a href="http://octopress.org/docs/setup/">Basics</a></li>
-<li><a href="http://octopress.org/docs/blogging/">How to Blog</a></li>
-<li><a href="http://octopress.org/docs/deploying/github/">Deploying on Github</a></li>
-</ul>
+<p>As <a href="https://github.com/radavis">one of our instructors</a> said, &ldquo;Sinatra is like a stripped-down muscle car and Rails is like an RV.&rdquo;</p>
 
-
-<p>I need to dig into the <a href="http://octopress.org/docs/configuring/">configuration stuff</a> a little more.</p>
+<p>Here&rsquo;s how setting up a simple &ldquo;Hello, World!&rdquo; app breaks down between the two.</p>
 
 <!-- more -->
 
 
-<h2>Writing This Post in Markdown</h2>
+<h2>Sinatra Set-Up</h2>
 
-<p>I&rsquo;m learning how to write this in <a href="http://http://daringfireball.net/projects/markdown/basics">Markdown</a> which is also pretty new to me. Right now it feels like a lazy version of html, so we&rsquo;ll see what&rsquo;s it like as I get used to it.</p>
+<p>To set up, &ldquo;Hello, Sinatra&rdquo; from the command line, follow these steps:</p>
+
+<ol>
+<li>$mkdir sinatra_hello</li>
+<li>$cd sinatra_hello</li>
+<li>$gem install sinatra</li>
+<li>$touch app.rb</li>
+<li>In your app.rb file, add:</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;sinatra&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="s2">&quot;Hello, Sinatra!&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To see the locally running version, start the app with ruby app.rb and visit <a href="http://localhost:4567.">http://localhost:4567.</a></p>
+
+<h2>Rails Set-Up</h2>
+
+<p>From the same directory we started in, instead of creating the new directory like we did for sinatra, we will follow these steps:</p>
+
+<ol>
+<li>$rails new rails_hello</li>
+<li>$cd rails_hello</li>
+<li>$rails generate controller Posts</li>
+<li>Add an index method to posts_controller.rb</li>
+<li>define the root path in config/routes.rb to be &lsquo;posts#index&rsquo;</li>
+<li>create a view for the root route that says &lsquo;Hello, Rails!&rsquo;</li>
+</ol>
+
+
+<p>Now, when we start up the rails server from the command line, we can visit <a href="http://localhost:3000">http://localhost:3000</a> and see our &lsquo;Hello, Rails!&rsquo; message.</p>
+
+<h2>Simplicity vs. Structure</h2>
+
+<p>As you can see from the code above, you need to install one gem and edit one file in your Sinatra version to get the basics working.</p>
+
+<p>In that one file, you tell the server what to do with one HTTP &lsquo;GET&rsquo; request: where to go and what to display.</p>
+
+<p>In contrast, in Rails, directing the request and displaying the response are delegate to different areas of the application:</p>
+
+<ul>
+<li>routes.rb interprets the &lsquo;GET&rsquo; request and sends us to the Posts Controller</li>
+<li>inside the controller, there are instructions for what to do with the request for &ldquo;index&rdquo;</li>
+<li>a specific view file (app/views/posts/index.html.erb) finally configures the response: &ldquo;Hello, Rails&rdquo; printed to the page.</li>
+</ul>
+
+
+<p>We were fortunate to work with HTTP requests a little more directly in Sinatra first, before we started relying on the conventions of Rails to more &ldquo;magically&rdquo; handle them for us.</p>
+
+<p>At first, learning Rails feels like learning what files to put where to make the right thing happen.</p>
+
+<p>When we worked out of a single server file in Sinatra, in contrast, we were tracking the different components of HTTP requests and responses more directly.</p>
+
+<p>Coming away from these last two weeks of playing with Sinatra and Rails, I&rsquo;m glad we started with Sinatra for the directness, but I can also see, as our projects get bigger, how the conventions and structures of Rails will allow us to maintain clear, organized code.</p>
 </div>
 
 
@@ -138,7 +194,7 @@ Deploying on Github I need to dig into the &hellip;">
   
 
 
-<time datetime="2014-03-18T21:28:17-04:00" pubdate data-updated="true">Mar 18<span>th</span>, 2014</time>
+<time datetime="2014-06-23T08:11:28-04:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2014</time>
       
 
 
@@ -146,7 +202,7 @@ Deploying on Github I need to dig into the &hellip;">
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2014/03/18/whoa-octopress/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2014/03/18/whoa-octopress/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2014/06/23/the-race-to-hello-world-rails-vs-sinatra/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2014/06/23/the-race-to-hello-world-rails-vs-sinatra/" >Tweet</a>
   
   
   
@@ -177,8 +233,10 @@ Deploying on Github I need to dig into the &hellip;">
     </p>
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2014/06/15/launch-academy-5-weeks-in-or-5-weeks-left/" title="Previous Post: Launch Academy: 5 Weeks In or 5 Weeks Left?">&laquo; Launch Academy: 5 Weeks In or 5 Weeks Left?</a>
       
-        <a class="basic-alignment right" href="/blog/2014/03/19/learning-more-about-octopress/" title="Next Post: Learning more about Octopress">Learning more about Octopress &raquo;</a>
+      
+        <a class="basic-alignment right" href="/blog/2014/07/02/launching-datastroyer/" title="Next Post: Launching Datastroyer">Launching Datastroyer &raquo;</a>
       
     </p>
   </footer>

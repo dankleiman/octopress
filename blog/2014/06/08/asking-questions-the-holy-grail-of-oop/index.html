@@ -5,13 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Whoa! Octopress! - Dan Kleiman Code</title>
+  <title>Asking Questions: The Holy Grail of OOP - Dan Kleiman Code</title>
   <meta name="author" content="Dan Kleiman">
 
   
-  <meta name="description" content="So, I just launched this new blog using Octopress. Here are the steps I followed: Basics
-How to Blog
-Deploying on Github I need to dig into the &hellip;">
+  <meta name="description" content="This week at Launch Academy, we started working on Object Oriented Programming (OOP). We&rsquo;ve been guided by the conceptual model that objects, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +18,7 @@ Deploying on Github I need to dig into the &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://dankleiman.github.io/blog/2014/03/18/whoa-octopress">
+  <link rel="canonical" href="http://dankleiman.github.io/blog/2014/06/08/asking-questions-the-holy-grail-of-oop">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Dan Kleiman Code" type="application/atom+xml">
@@ -74,7 +72,7 @@ Deploying on Github I need to dig into the &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Whoa! Octopress!</h1>
+      <h1 class="entry-title">Asking Questions: The Holy Grail of OOP</h1>
     
     
       <p class="meta">
@@ -90,32 +88,126 @@ Deploying on Github I need to dig into the &hellip;">
   
 
 
-<time datetime="2014-03-18T21:28:17-04:00" pubdate data-updated="true">Mar 18<span>th</span>, 2014</time>
+<time datetime="2014-06-08T20:32:17-04:00" pubdate data-updated="true">Jun 8<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>So, I just launched this new blog using Octopress.</p>
+<div class="entry-content"><p>This week at Launch Academy, we started working on Object Oriented Programming (OOP).</p>
 
-<p>Here are the steps I followed:</p>
+<p>We&rsquo;ve been guided by the conceptual model that objects, which can have state and defined behavoirs, respond to methods the same way that you would respond to a question.</p>
 
-<ul>
-<li><a href="http://octopress.org/docs/setup/">Basics</a></li>
-<li><a href="http://octopress.org/docs/blogging/">How to Blog</a></li>
-<li><a href="http://octopress.org/docs/deploying/github/">Deploying on Github</a></li>
-</ul>
-
-
-<p>I need to dig into the <a href="http://octopress.org/docs/configuring/">configuration stuff</a> a little more.</p>
+<p>Of course, a week of asking my objects questions made me think of this:</p>
 
 <!-- more -->
 
 
-<h2>Writing This Post in Markdown</h2>
 
-<p>I&rsquo;m learning how to write this in <a href="http://http://daringfireball.net/projects/markdown/basics">Markdown</a> which is also pretty new to me. Right now it feels like a lazy version of html, so we&rsquo;ll see what&rsquo;s it like as I get used to it.</p>
+
+<iframe width="640" height="480" src="//www.youtube.com/embed/pWS8Mg-JWSg" frameborder="0" allowfullscreen></iframe>
+
+
+<p>And the more I thought about The Bridge of Death, the more the Bridgekeeper&rsquo;s questions made a lot of sense in our OOP world.</p>
+
+<p>Really, we&rsquo;ve got a collection of Knights and each one responds to a series of questions. If we coded that up, it would look something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Knight</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:quest</span><span class="p">,</span> <span class="ss">:favorite_color</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">intialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">quest</span><span class="p">,</span> <span class="n">favorite_color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+</span><span class='line'>    <span class="vi">@quest</span> <span class="o">=</span> <span class="n">quest</span>
+</span><span class='line'>    <span class="vi">@favorite_color</span> <span class="o">=</span> <span class="n">favorite_color</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Our knights, Sir Lancelot, King Arthur, or Sir Galahad, are all instances of the class &ldquo;Knight.&rdquo; They are objects with contain a state (their specific names, quests, etc) and behaviors.</p>
+
+<p>When it comes to behaviors, they can inherit them in some cases, or the behaviors have to be explicitly defined within the class.</p>
+
+<p>In the clip above, we can see how the knights know how to answer the questions about their names and quests&hellip;they respond to the name and quest methods defined in their class.</p>
+
+<p>But we also see something else.</p>
+
+<p>When Robin approaches the bride, the Bridgekeeper asks him his name and quest:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">robin</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'><span class="n">robin</span><span class="o">.</span><span class="n">quest</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And that produces the answers we&rsquo;d expect:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="s2">&quot;Robin of Camelot&quot;</span>
+</span><span class='line'><span class="s2">&quot;To seek the Holy Grail&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But then the Bridgekeeper throws a curveball. He calls</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">robin</span><span class="o">.</span><span class="n">capital_of_assyria</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When Robin is asked what the capital of Assyria is, he literally blows up. From an OOP perspective, we know it was because this behavior was never defined for the class Knight:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">capital_of_assyria</span>
+</span><span class='line'>  <span class="sc">????</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Of course, there&rsquo;s a further twist when the Bridgekeeper tries to call</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">.</span><span class="n">airspeed_velocity_of_an_unladen_swallow</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>on King Arthur, but really, you should watch the clip if you don&rsquo;t already know what happens.</p>
+
+<h2>Asking Questions, Building Objects</h2>
+
+<p>So, now we know that you have to define the behaviors you want to utilize to do effective object-oriented programming.</p>
+
+<p>But why? What&rsquo;s the point? Or more importantly, what&rsquo;s the advantage of writing code this way.</p>
+
+<p>I&rsquo;m sure there are bigger implications of taking this approach, but I can tell you that right away, my experience of writing simple code is completely different.</p>
+
+<p>When you set out to build classes and objects, you actually don&rsquo;t need to know everything about how your program works right away to make progress.</p>
+
+<p>Instead of figuring out every detail of every loop, calculation, and variable, <strong>you can assume that the classes and methods you create will give you the answer you want.</strong></p>
+
+<p>You are free to write more semantic, flowing code from the beginning, without having to stop and figure out the nitty-gritty.</p>
+
+<p>Even in my limited experience taking this approach, I can tell you that it lets you think at a high level about your problem, sketching out the logic, flow, and just marking out the big areas you know you&rsquo;ll tackle later on.</p>
+
+<p>Gradually, layer-by-layer, you go deeper and work out the details.</p>
+
+<p>I wish I had had a clear top-down model like this to solve problems in the past. Here&rsquo;s to applying it going forward!</p>
 </div>
 
 
@@ -138,7 +230,7 @@ Deploying on Github I need to dig into the &hellip;">
   
 
 
-<time datetime="2014-03-18T21:28:17-04:00" pubdate data-updated="true">Mar 18<span>th</span>, 2014</time>
+<time datetime="2014-06-08T20:32:17-04:00" pubdate data-updated="true">Jun 8<span>th</span>, 2014</time>
       
 
 
@@ -146,7 +238,7 @@ Deploying on Github I need to dig into the &hellip;">
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2014/03/18/whoa-octopress/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2014/03/18/whoa-octopress/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2014/06/08/asking-questions-the-holy-grail-of-oop/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2014/06/08/asking-questions-the-holy-grail-of-oop/" >Tweet</a>
   
   
   
@@ -177,8 +269,10 @@ Deploying on Github I need to dig into the &hellip;">
     </p>
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2014/05/30/buying-a-mongolian-website/" title="Previous Post: Buying a Mongolian Website for my URL Shortner">&laquo; Buying a Mongolian Website for my URL Shortner</a>
       
-        <a class="basic-alignment right" href="/blog/2014/03/19/learning-more-about-octopress/" title="Next Post: Learning more about Octopress">Learning more about Octopress &raquo;</a>
+      
+        <a class="basic-alignment right" href="/blog/2014/06/15/launch-academy-5-weeks-in-or-5-weeks-left/" title="Next Post: Launch Academy: 5 Weeks In or 5 Weeks Left?">Launch Academy: 5 Weeks In or 5 Weeks Left? &raquo;</a>
       
     </p>
   </footer>
