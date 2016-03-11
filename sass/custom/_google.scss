@@ -1,0 +1,35 @@
+/* google form styles */
+
+.google-form-wrapper {
+  .error {
+    color: red;
+    font-size: 12px;
+  }
+  .errorbox-good {
+    margin-bottom: 20px;
+  }
+  .success-msg {
+    display: none;
+    font-weight: bold;
+  }
+}
+.freebirdFormviewerViewHeaderTitle,
+.quantumWizTextinputPaperinputPlaceholder,
+.quantumWizTextinputPapertextareaPlaceholder {
+  display: none;
+}
+.freebirdFormviewerViewItemsItemItemTitle {
+  font-weight: bold;
+}
+.freebirdFormviewerViewHeaderRequiredLegend {
+  color: red;
+  font-size: 10px;
+}
+.quantumWizTextinputPapertextareaContentArea textarea {
+  height: 10em;
+  width: 100%
+}
+.freebirdFormviewerViewItemsItemItemHelpText {
+  font-size: 12px;
+  line-height: 1.5em;
+}
