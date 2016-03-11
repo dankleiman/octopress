@@ -20,7 +20,7 @@ The switch from Wordpress to Jekyll is exciting for me because:
 
 As I begin to play with the different components for the migration from Wordpress to Jekyll, it seems like the project will break down into the following areas:
 
-1. Migrating Posts and Pages
+1. [Migrating Posts and Pages](/blog/2016/03/11/migrating-posts-and-pages-from-wordpress-to-jekyll/)
 2. Migrating Assets
 3. Grooming/Revisiting Existing Content
 4. Site Look and Feel
