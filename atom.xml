@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Dan Kleiman]]></title>
+  <title><![CDATA[Dan Kleiman Code]]></title>
   <link href="http://dankleiman.github.io/atom.xml" rel="self"/>
   <link href="http://dankleiman.github.io/"/>
-  <updated>2016-01-17T16:11:03-05:00</updated>
+  <updated>2016-03-11T13:46:23-05:00</updated>
   <id>http://dankleiman.github.io/</id>
   <author>
     <name><![CDATA[Dan Kleiman]]></name>
@@ -12,6 +12,43 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Migrating From Wordpress to Jekyll]]></title>
+    <link href="http://dankleiman.github.io/blog/2016/03/09/migrating-from-wordpress-to-jekyll/"/>
+    <updated>2016-03-09T13:09:18-05:00</updated>
+    <id>http://dankleiman.github.io/blog/2016/03/09/migrating-from-wordpress-to-jekyll</id>
+    <content type="html"><![CDATA[<p>So, I&rsquo;ve decided to migrate my <a href="http://dankleiman.com">Tai Chi site at dankleiman.com</a> from Wordpress to a new static site using Jekyll.</p>
+
+<p>Since I haven&rsquo;t posted there in almost two years, but I get a steady stream of new subscribers who want to learn about Tai Chi, qigong, and meditation, I thought it would be good to give the 300+ pages and posts a more evergreen feel.</p>
+
+<!--more-->
+
+
+<p>The switch from Wordpress to Jekyll is exciting for me because:</p>
+
+<ul>
+<li>I get to learn a new framework that&rsquo;s in line with tools I use every day, like Ruby and git.</li>
+<li>I can deliver existing content to new users quickly and easily with plain html.</li>
+<li>The content on the site deserves a fresh coat of paint and likely some re-writing.</li>
+</ul>
+
+
+<p>As I begin to play with the different components for the migration from Wordpress to Jekyll, it seems like the project will break down into the following areas:</p>
+
+<ol>
+<li>Migrating Posts and Pages</li>
+<li>Migrating Assets</li>
+<li>Grooming/Revisiting Existing Content</li>
+<li>Site Look and Feel</li>
+<li>Handling Form Submission</li>
+<li>DNS and Redirection</li>
+</ol>
+
+
+<p>I plan to write about each of these areas and link to each topic as I publish more about the different decisions and steps that go into each part of the migration process.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[I Hate Voicemail: Straight to SMS With Twilio]]></title>
