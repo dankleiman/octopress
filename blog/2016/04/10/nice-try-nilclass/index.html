@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Text Me When You're Done: Twilio for Notifications of Long-Running Dev Tasks - Dan Kleiman Code</title>
+  <title>Nice Try, NilClass - Dan Kleiman Code</title>
   <meta name="author" content="Dan Kleiman">
 
   
-  <meta name="description" content="This week at work, we ran into a slight hiccup with one of our larger third-party data syncs. Without going into too much detail, to fix the issue, &hellip;">
+  <meta name="description" content="I love that feeling when a new concept starts to come together in your mind and you can point to all the converging sources of insight. Right now, I &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://dankleiman.github.io/blog/2015/08/29/text-me-when-youre-done-twilio-for-notifications-of-long-running-dev-tasks">
+  <link rel="canonical" href="http://dankleiman.github.io/blog/2016/04/10/nice-try-nilclass">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Dan Kleiman Code" type="application/atom+xml">
@@ -72,7 +72,7 @@
   
   <header>
     
-      <h1 class="entry-title">Text Me When You're Done: Twilio for Notifications of Long-Running Dev Tasks</h1>
+      <h1 class="entry-title">Nice Try, NilClass</h1>
     
     
       <p class="meta">
@@ -88,74 +88,127 @@
   
 
 
-<time datetime="2015-08-29T10:33:48-04:00" pubdate data-updated="true">Aug 29<span>th</span>, 2015</time>
+<time datetime="2016-04-10T07:13:27-04:00" pubdate data-updated="true">Apr 10<span>th</span>, 2016</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>This week at work, we ran into a slight hiccup with one of our larger third-party data syncs. Without going into too much detail, to fix the issue, we had to carefully reproduce data in various states and test fixes that would transform that data back to the correct state &mdash; or for the purpose of this post, <em>I spent a lot of time this week setting things up and waiting for them to run</em>.</p>
+<div class="entry-content"><p>I love that feeling when a new concept starts to come together in your mind and you can point to all the converging sources of insight.</p>
 
-<p>Outside of work I&rsquo;ve been continuing to play with Twilio and this morning, with hours of data prep still in front of me, I stumbled across this article on <a href="https://www.twilio.com/labs/bash/sms">Sending a Twilio SMS from the Shell</a>.</p>
+<p>Right now, I can&rsquo;t tell if I&rsquo;m fooling myself, hiding some logic, or making my code more readable with this particular concept, but when I put together these three pieces of information, I think I start to see something emerge.</p>
 
-<!--more-->
+<!-- more -->
 
 
-<p>Before I get into how this works and what I did, I was also reading some of Patrick McKenzie&rsquo;s old posts on his first Twilio apps. What got me excited this morning was <a href="http://www.kalzumeus.com/2011/12/19/productizing-twilio-applications/">something he wrote as an addendum to his TwilioConf talk</a>.</p>
+<p>This week:</p>
 
-<p>I now consider it my mission statement for all my Twilio projects:</p>
+<ul>
+<li>Damir Svrtan published a nice article about <a href="https://infinum.co/the-capsized-eight/articles/whitelisting-with-the-lesser-known-presence-in-method">whitelisting input with #presence_in in Rails</a>.</li>
+<li>I read a chapter of <a href="http://www.confidentruby.com/">Avdi Grimm&rsquo;s Confident Ruby</a> where #fetch is used to pull data out of hash.</li>
+<li>At work, we were cleaning up #present? checks on incoming params input using #presence</li>
+</ul>
 
-<blockquote><h2>Why I Think Twilio Will Take Over The World</h2>
 
-<p>(This was not actually in the presentation, because I didn’t have enough time for it, but I sincerely believe it and want to publish it somewhere.)</p>
+<p>I still don&rsquo;t know exactly what to call this collection of methods, but they all feel very related to me. They all remind me of <a href="http://apidock.com/rails/v4.2.1/Object/try">#try</a>, which makes me nervous.</p>
 
-<p>I think Twilio is, far and away, the most exciting technology I’ve ever worked with. The world needs cat photos, local coupons, and mobifotosocial games, too, but it needs good telephony systems a lot more, as evidenced by companies paying billions of dollars for them.</p>
+<p>Using #try always feels like a little bit of a crutch, where you don&rsquo;t quite know what inputs you are expecting or haven&rsquo;t coded thoroughly to all your cases, but in Rails, #try swallows some of the errors you would have run into and returns nil instead.</p>
 
-<p>Additionally, Twilio is the nascent, embryonic form of the first Internet that a billion people are going to have access to, because <strong>Twilio turns every phone into a smartphone</strong>.  The end-game for Zynga’s take-over-the-world vision is the human race slaved to artificial dopamine treadmills.  The endgame for Twilio’s vision is that every $2 handset in Africa is the moral equivalent of an iPhone.  I know which future I want to support.</p>
+<p>With these three methods, we&rsquo;re doing something similar. In each case, we get a simple way to check for a value and handle missing values gracefully with defaults, moving forward if the value is present.</p>
 
-<p>Smartphones aren’t smart because of anything on the phones themselves, they’re smart because they speak HTTP and thus get always-on access to a universe of applications which are improving constantly.  Twilio radically reduces the amount of hardware support a phone needs to speak HTTP — it retroactively upgrades every phone in the world to do so.  After that, all you need is the application logic.  And what application logic there is — because the applications live on web servers, they have access to all the wonderful infrastructure built to run the Internet, from APIs that let you get Highly Consequential Data like e.g. weather reports or stock prices or whatever, to easy integration with systems which were never built to have a phone operating as part of them.</p>
-
-<p>You can’t swing a stick in a business without hitting a problem which a phone application makes great sense for.  I filled up three pages of a notebook with them in just a week after being exposed to Twilio for the first time.  Order status checking for phone/fax/mail orders.  Integrated CRMs for phone customer service representatives.  Flight information.  Bank balances.  Server monitoring.  Appointment reminders. Restaurant reservations.  Local search.  Loyalty programs.  Time card systems.  Retail/service employee support systems.  Shift management.  The list goes on and on and on.</p>
-
-<p>Seriously, <strong>start writing Twilio apps</strong>.</p></blockquote>
-
-<p>Thanks, Patrick!</p>
-
-<h2>Twilio SMS via Shell</h2>
-
-<p>Up to this point, I had been thinking of Twilio as a way to tie SMS, either as input or output, to web-based application logic. When I came across the shell script that would also hit Twilio to send SMS, though I realized that chaining a Twilio SMS to a long-running script would allow me to set up and job and just walk away. I&rsquo;ll get a text when it&rsquo;s done. Awesome!</p>
-
-<p>At it&rsquo;s core, the script is a curl request to the Twilio API:</p>
+<p>So, for #presence, instead of:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">RESPONSE</span><span class="o">=</span><span class="sb">`</span>curl -fSs -u <span class="s2">&quot;$ACCOUNTSID:$AUTHTOKEN&quot;</span> -d <span class="s2">&quot;From=$CALLERID&quot;</span> -d <span class="s2">&quot;To=$PHONE&quot;</span> -d <span class="s2">&quot;Body=$MSG&quot;</span> <span class="s2">&quot;https://api.twilio.com/2010-04-01/Accounts/$ACCOUNTSID/SMS/Messages&quot;</span> 2&gt;&amp;1<span class="sb">`</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">params</span><span class="o">[</span><span class="ss">:name</span><span class="o">].</span><span class="n">blank?</span> <span class="p">?</span> <span class="n">params</span><span class="o">[</span><span class="ss">:name</span><span class="o">]</span> <span class="p">:</span> <span class="kp">nil</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>The rest of the script takes care of arguments and configuration &mdash; even allowing you to create a separate config file with your Twilio credentials. Pretty sweet to have such a nice neat package! <a href="https://www.twilio.com/labs/bash/sms">Here&rsquo;s everything you need to get it running</a></p>
-
-<h2>Integrating Tasks with the Script</h2>
-
-<p>I&rsquo;ve played with a few different alerts so far.</p>
-
-<p>When I had to load a large file full of sql data, a simple alert when the job was done did the trick:</p>
+<p>We can do:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>mysql -u root databasename &lt; some/file.sql; <span class="nb">echo</span> <span class="s1">&#39;Your table is ready&#39;</span> | ~/twilio-sms 6178675309
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">params</span><span class="o">[</span><span class="ss">:name</span><span class="o">].</span><span class="n">presence</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>When I was deciding how to break up the file into more manageable smaller files to import, and running around doing errands and walking my dog, just calculating the number of lines took long enough that I piped the result out to the Twilio script and got a text that said 34218:</p>
+<p> For whitelisting, instead of:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>wc -l &lt; some/file.sql | ~/twilio-sms 6178675309
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:name</span><span class="o">].</span><span class="n">present?</span> <span class="o">&amp;&amp;</span> <span class="sx">%w(foo bar)</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:name</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">params</span><span class="o">[</span><span class="ss">:name</span><span class="o">]</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'>  <span class="kp">nil</span>
+</span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>There&rsquo;s nothing earth-shatteringly-amazing technically here. It&rsquo;s really about peace of mind.</p>
+<p>We can use #presence_in like this:</p>
 
-<p>Now, I don&rsquo;t have to keep looking over my shoulder to check if the task is done. Or waste time checking Twitter while I sit at my computer. I can go do more useful things, like finish this blog post, confident that the text notification will be enough to get my attention when the job is done running.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">params</span><span class="o">[</span><span class="ss">:name</span><span class="o">].</span><span class="n">presence_in</span> <span class="sx">%w(foo bar)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Finally, with #fetch, the only Ruby standard library method in this group (the rest come from Rails), you have a few different options. Lifted straight from <a href="http://ruby-doc.org/core-2.2.0/Hash.html#method-i-fetch">the docs</a>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">h</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;a&quot;</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span> <span class="o">=&gt;</span> <span class="mi">200</span> <span class="p">}</span>
+</span><span class='line'><span class="n">h</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>                            <span class="c1">#=&gt; 100</span>
+</span><span class='line'><span class="n">h</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="s2">&quot;go fish&quot;</span><span class="p">)</span>                 <span class="c1">#=&gt; &quot;go fish&quot;</span>
+</span><span class='line'><span class="n">h</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">el</span><span class="o">|</span> <span class="s2">&quot;go fish, </span><span class="si">#{</span><span class="n">el</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>   <span class="c1">#=&gt; &quot;go fish, z&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With #fetch, you use a key to puull a value from the hash, but you now you can define a default as your second argument, which is used to rescue missing key errors. Even better, you can execute whole block in the case that your key is not there.</p>
+
+<h2>Bonus Reading</h2>
+
+<p>I went digging a little more because I was still feeling uneasy about #try, but I couldn&rsquo;t quite articulate why. Guess who I found to say it for me? <a href="http://devblog.avdi.org/2011/07/05/demeter-its-not-just-a-good-idea-its-the-law/">Here&rsquo;s Avdi from 2011 on Structural Coupling enabled by #try</a>:</p>
+
+<blockquote>
+<p>The seed of this all-too-common predicament is structural coupling. What’s structural coupling? To
+define it, let’s start with a review of the DRY principle:</p>
+
+<blockquote>&#8220;Every piece of knowledge must have a single, unambiguous, authoritative representation within the system.&#8221;</blockquote>
+
+<p>It’s easy to think about DRYness just in terms of data: e.g., there should be only one place in the
+system for API keys; they shouldn’t just be copy-and-pasted willy-nilly throughout the codebase. But
+DRY applies equally to structural knowledge: knowledge about the composition of and relationships
+between your objects.</p>
+
+<p>Let’s take a look at the code we started out with:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">user_info</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+</span><span class='line'>  <span class="s2">&quot;Name: </span><span class="si">#{</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. Dept: </span><span class="si">#{</span><span class="n">user</span><span class="o">.</span><span class="n">department</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This seemingly innocuous code makes the following assumptions:</p>
+
+<ul>
+  <li>user will have a name property.</li>
+  <li>user may or may not have a single department.</li>
+  <li>user&#8217;s department, in turn, has a name property</li>
+</ul>
+
+
+<p>By going two levels deep into user&#8217;s associations, we’ve made a structural coupling between this code and the models it works with. We’ve duplicated knowledge about a User’s associations—canonically located in the User and Department classes—in the #user_info method.</p>
+
+<p>And the #try method was an enabler. By papering over the ugly user.department && user.department.name construct we’d otherwise have had to use, #try made the coupling an easier syntactical pill to swallow.</p>
+</blockquote>
+
+
+<p>I highly recommend you read the whole article, as he goes into how this coupling violates the Law of Demeter and links back to <a href="http://devblog.avdi.org/2011/06/28/do-or-do-not-there-is-no-try/">an earlier discussion of #try</a>, because, clearly, while these types of methods are cool and convenient, they make him a little uneasy too.</p>
 </div>
 
 
@@ -178,7 +231,7 @@
   
 
 
-<time datetime="2015-08-29T10:33:48-04:00" pubdate data-updated="true">Aug 29<span>th</span>, 2015</time>
+<time datetime="2016-04-10T07:13:27-04:00" pubdate data-updated="true">Apr 10<span>th</span>, 2016</time>
       
 
 
@@ -186,7 +239,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2015/08/29/text-me-when-youre-done-twilio-for-notifications-of-long-running-dev-tasks/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2015/08/29/text-me-when-youre-done-twilio-for-notifications-of-long-running-dev-tasks/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2016/04/10/nice-try-nilclass/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2016/04/10/nice-try-nilclass/" >Tweet</a>
   
   
   
@@ -217,10 +270,8 @@
     </p>
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/08/13/sms-to-do-list-with-twilio/" title="Previous Post: SMS To Do List with Twilio">&laquo; SMS To Do List with Twilio</a>
+        <a class="basic-alignment left" href="/blog/2016/03/11/migrating-posts-and-pages-from-wordpress-to-jekyll/" title="Previous Post: Migrating Posts and Pages from Wordpress to Jekyll">&laquo; Migrating Posts and Pages from Wordpress to Jekyll</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/09/15/i-hate-voicemail-straight-to-sms-with-twilio/" title="Next Post: I Hate Voicemail: Straight to SMS with Twilio">I Hate Voicemail: Straight to SMS with Twilio &raquo;</a>
       
     </p>
   </footer>

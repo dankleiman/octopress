@@ -4,7 +4,7 @@
   <title><![CDATA[Dan Kleiman Code]]></title>
   <link href="http://dankleiman.github.io/atom.xml" rel="self"/>
   <link href="http://dankleiman.github.io/"/>
-  <updated>2016-03-11T15:30:12-05:00</updated>
+  <updated>2016-04-10T21:40:15-04:00</updated>
   <id>http://dankleiman.github.io/</id>
   <author>
     <name><![CDATA[Dan Kleiman]]></name>
@@ -12,6 +12,128 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Nice Try, NilClass]]></title>
+    <link href="http://dankleiman.github.io/blog/2016/04/10/nice-try-nilclass/"/>
+    <updated>2016-04-10T07:13:27-04:00</updated>
+    <id>http://dankleiman.github.io/blog/2016/04/10/nice-try-nilclass</id>
+    <content type="html"><![CDATA[<p>I love that feeling when a new concept starts to come together in your mind and you can point to all the converging sources of insight.</p>
+
+<p>Right now, I can&rsquo;t tell if I&rsquo;m fooling myself, hiding some logic, or making my code more readable with this particular concept, but when I put together these three pieces of information, I think I start to see something emerge.</p>
+
+<!-- more -->
+
+
+<p>This week:</p>
+
+<ul>
+<li>Damir Svrtan published a nice article about <a href="https://infinum.co/the-capsized-eight/articles/whitelisting-with-the-lesser-known-presence-in-method">whitelisting input with #presence_in in Rails</a>.</li>
+<li>I read a chapter of <a href="http://www.confidentruby.com/">Avdi Grimm&rsquo;s Confident Ruby</a> where #fetch is used to pull data out of hash.</li>
+<li>At work, we were cleaning up #present? checks on incoming params input using #presence</li>
+</ul>
+
+
+<p>I still don&rsquo;t know exactly what to call this collection of methods, but they all feel very related to me. They all remind me of <a href="http://apidock.com/rails/v4.2.1/Object/try">#try</a>, which makes me nervous.</p>
+
+<p>Using #try always feels like a little bit of a crutch, where you don&rsquo;t quite know what inputs you are expecting or haven&rsquo;t coded thoroughly to all your cases, but in Rails, #try swallows some of the errors you would have run into and returns nil instead.</p>
+
+<p>With these three methods, we&rsquo;re doing something similar. In each case, we get a simple way to check for a value and handle missing values gracefully with defaults, moving forward if the value is present.</p>
+
+<p>So, for #presence, instead of:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">params</span><span class="o">[</span><span class="ss">:name</span><span class="o">].</span><span class="n">blank?</span> <span class="p">?</span> <span class="n">params</span><span class="o">[</span><span class="ss">:name</span><span class="o">]</span> <span class="p">:</span> <span class="kp">nil</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We can do:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">params</span><span class="o">[</span><span class="ss">:name</span><span class="o">].</span><span class="n">presence</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p> For whitelisting, instead of:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:name</span><span class="o">].</span><span class="n">present?</span> <span class="o">&amp;&amp;</span> <span class="sx">%w(foo bar)</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:name</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">params</span><span class="o">[</span><span class="ss">:name</span><span class="o">]</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'>  <span class="kp">nil</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We can use #presence_in like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">params</span><span class="o">[</span><span class="ss">:name</span><span class="o">].</span><span class="n">presence_in</span> <span class="sx">%w(foo bar)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Finally, with #fetch, the only Ruby standard library method in this group (the rest come from Rails), you have a few different options. Lifted straight from <a href="http://ruby-doc.org/core-2.2.0/Hash.html#method-i-fetch">the docs</a>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">h</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;a&quot;</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span> <span class="o">=&gt;</span> <span class="mi">200</span> <span class="p">}</span>
+</span><span class='line'><span class="n">h</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>                            <span class="c1">#=&gt; 100</span>
+</span><span class='line'><span class="n">h</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="s2">&quot;go fish&quot;</span><span class="p">)</span>                 <span class="c1">#=&gt; &quot;go fish&quot;</span>
+</span><span class='line'><span class="n">h</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;z&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">el</span><span class="o">|</span> <span class="s2">&quot;go fish, </span><span class="si">#{</span><span class="n">el</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>   <span class="c1">#=&gt; &quot;go fish, z&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With #fetch, you use a key to puull a value from the hash, but you now you can define a default as your second argument, which is used to rescue missing key errors. Even better, you can execute whole block in the case that your key is not there.</p>
+
+<h2>Bonus Reading</h2>
+
+<p>I went digging a little more because I was still feeling uneasy about #try, but I couldn&rsquo;t quite articulate why. Guess who I found to say it for me? <a href="http://devblog.avdi.org/2011/07/05/demeter-its-not-just-a-good-idea-its-the-law/">Here&rsquo;s Avdi from 2011 on Structural Coupling enabled by #try</a>:</p>
+
+<blockquote>
+<p>The seed of this all-too-common predicament is structural coupling. What’s structural coupling? To
+define it, let’s start with a review of the DRY principle:</p>
+
+<blockquote>&#8220;Every piece of knowledge must have a single, unambiguous, authoritative representation within the system.&#8221;</blockquote>
+
+<p>It’s easy to think about DRYness just in terms of data: e.g., there should be only one place in the
+system for API keys; they shouldn’t just be copy-and-pasted willy-nilly throughout the codebase. But
+DRY applies equally to structural knowledge: knowledge about the composition of and relationships
+between your objects.</p>
+
+<p>Let’s take a look at the code we started out with:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">user_info</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+</span><span class='line'>  <span class="s2">&quot;Name: </span><span class="si">#{</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. Dept: </span><span class="si">#{</span><span class="n">user</span><span class="o">.</span><span class="n">department</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:name</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This seemingly innocuous code makes the following assumptions:</p>
+
+<ul>
+  <li>user will have a name property.</li>
+  <li>user may or may not have a single department.</li>
+  <li>user&#8217;s department, in turn, has a name property</li>
+</ul>
+
+
+<p>By going two levels deep into user&#8217;s associations, we’ve made a structural coupling between this code and the models it works with. We’ve duplicated knowledge about a User’s associations—canonically located in the User and Department classes—in the #user_info method.</p>
+
+<p>And the #try method was an enabler. By papering over the ugly user.department && user.department.name construct we’d otherwise have had to use, #try made the coupling an easier syntactical pill to swallow.</p>
+</blockquote>
+
+
+<p>I highly recommend you read the whole article, as he goes into how this coupling violates the Law of Demeter and links back to <a href="http://devblog.avdi.org/2011/06/28/do-or-do-not-there-is-no-try/">an earlier discussion of #try</a>, because, clearly, while these types of methods are cool and convenient, they make him a little uneasy too.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Migrating Posts and Pages From Wordpress to Jekyll]]></title>
@@ -1811,15 +1933,6 @@ However, no matter how deeply theory believes this to be true, practice knows be
 <p>My first attempt was too heavy-handed, though, and it just ended up confusing my student.</p>
 
 <p>Fascinating to keep trying this approach, though!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Learning More About Octopress]]></title>
-    <link href="http://dankleiman.github.io/blog/2014/03/19/learning-more-about-octopress/"/>
-    <updated>2014-03-19T18:46:22-04:00</updated>
-    <id>http://dankleiman.github.io/blog/2014/03/19/learning-more-about-octopress</id>
-    <content type="html"><![CDATA[<p>Just running through a test post again to go over the process and remind myself how this works!</p>
 ]]></content>
   </entry>
   
