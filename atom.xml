@@ -4,7 +4,7 @@
   <title><![CDATA[Dan Kleiman Code]]></title>
   <link href="http://dankleiman.github.io/atom.xml" rel="self"/>
   <link href="http://dankleiman.github.io/"/>
-  <updated>2016-04-10T21:40:15-04:00</updated>
+  <updated>2016-04-10T21:46:54-04:00</updated>
   <id>http://dankleiman.github.io/</id>
   <author>
     <name><![CDATA[Dan Kleiman]]></name>
@@ -25,12 +25,14 @@
 <!-- more -->
 
 
-<p>This week:</p>
+<p>I&rsquo;ve been inspired to do some more digging into these kinds of questions lately thanks to the awesome new <a href="http://rubybookclub.com/">Ruby Book Club Podcast</a>. Co-hosts <a href="http://twitter.com/nodunayo">Nadia Odunayo</a> and <a href="http://twitter.com/saronyitbarek">Saron Yitbarek</a> are leading us chapter-by-chapter through different Ruby books and sharing their thoughts on the podcast as they go.</p>
+
+<p>This week, specifically, I came across:</p>
 
 <ul>
-<li>Damir Svrtan published a nice article about <a href="https://infinum.co/the-capsized-eight/articles/whitelisting-with-the-lesser-known-presence-in-method">whitelisting input with #presence_in in Rails</a>.</li>
-<li>I read a chapter of <a href="http://www.confidentruby.com/">Avdi Grimm&rsquo;s Confident Ruby</a> where #fetch is used to pull data out of hash.</li>
-<li>At work, we were cleaning up #present? checks on incoming params input using #presence</li>
+<li>Damir Svrtan&rsquo;s article about <a href="https://infinum.co/the-capsized-eight/articles/whitelisting-with-the-lesser-known-presence-in-method">whitelisting input with #presence_in in Rails</a>.</li>
+<li><a href="http://www.confidentruby.com/">Avdi Grimm&rsquo;s Confident Ruby</a> where #fetch is used to pull data out of hash.</li>
+<li>A work situation, we were cleaning up #present? checks on incoming params input using #presence</li>
 </ul>
 
 
