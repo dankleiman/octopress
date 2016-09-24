@@ -1,15 +1,16 @@
 ---
 layout: post
-title: "Rails Security Exercises from Happy Bear Software"
+title: "Rails Security Exercises from Bearclaw"
 date: 2016-09-19 06:05:49 -0400
 comments: true
 categories:
 author: Dan
 ---
-In this post, I'm going to tell you what I learned doing a series of Rails security exercises developed by [Happy Bear Software](https://www.happybearsoftware.com/).
+In this post, I'm going to tell you what I learned doing a series of Rails security exercises developed by [Bearclaw](https://www.gobearclaw.com/), a Rails security consultancy.
 
-Before I go into the exercises, though, I want to send a huge thank you to [@alinajaf](https://twitter.com/alinajaf), founder of Happy Bear. What I've learned here is due to the thoughtfulness of the exercises he's put together and his willingness to try something new by sharing them with me. Normally these exercises are part of a workshop he leads in person.
+Before I go into the exercises, though, I want to send a huge thank you to [Najaf Ali](https://twitter.com/alinajaf), founder of Bearclaw. What I've learned here is due to the thoughtfulness of the exercises he's put together and his willingness to try something new by sharing them with me. Normally these exercises are part of a workshop he leads in person.
 
+<!-- more -->
 If you find anything in this article useful or interesting, please reach out to him and send your thanks!
 
 What's in a URL?
