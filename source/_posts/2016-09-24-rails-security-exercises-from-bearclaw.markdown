@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Rails Security Exercises from Bearclaw"
-date: 2016-09-19 06:05:49 -0400
+date: 2016-09-24 06:05:49 -0400
 comments: true
 categories:
 author: Dan
