@@ -4,7 +4,7 @@
   <title><![CDATA[Dan Kleiman Code]]></title>
   <link href="http://dankleiman.github.io/atom.xml" rel="self"/>
   <link href="http://dankleiman.github.io/"/>
-  <updated>2016-09-24T11:21:05-04:00</updated>
+  <updated>2016-09-24T11:27:50-04:00</updated>
   <id>http://dankleiman.github.io/</id>
   <author>
     <name><![CDATA[Dan Kleiman]]></name>
@@ -20,7 +20,7 @@
     <id>http://dankleiman.github.io/blog/2016/09/24/rails-security-exercises-from-bearclaw</id>
     <content type="html"><![CDATA[<p>In this post, I&rsquo;m going to tell you what I learned doing a series of Rails security exercises developed by <a href="https://www.gobearclaw.com/">Bearclaw</a>, a Rails security consultancy.</p>
 
-<p>Before I go into the exercises, though, I want to send a huge thank you to <a href="https://twitter.com/alinajaf">Najaf Ali</a>, founder of Bearclaw. What I&rsquo;ve learned here is due to the thoughtfulness of the exercises he&rsquo;s put together and his willingness to try something new by sharing them with me. Normally these exercises are part of a workshop he leads in person.</p>
+<p>Before I go into the exercises, though, I want to send a huge thank you to <a href="https://twitter.com/alinajaf">Ali Najaf</a>, founder of Bearclaw. What I&rsquo;ve learned here is due to the thoughtfulness of the exercises he&rsquo;s put together and his willingness to try something new by sharing them with me. Normally these exercises are part of a workshop he leads in person.</p>
 
 <!-- more -->
 
