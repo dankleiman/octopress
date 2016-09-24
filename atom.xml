@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
+
   <title><![CDATA[Dan Kleiman Code]]></title>
   <link href="http://dankleiman.github.io/atom.xml" rel="self"/>
   <link href="http://dankleiman.github.io/"/>
@@ -8,11 +9,10 @@
   <id>http://dankleiman.github.io/</id>
   <author>
     <name><![CDATA[Dan Kleiman]]></name>
-    
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
+
   <entry>
     <title type="html"><![CDATA[Nice Try, NilClass]]></title>
     <link href="http://dankleiman.github.io/blog/2016/04/10/nice-try-nilclass/"/>
@@ -136,7 +136,7 @@ between your objects.</p>
 <p>I highly recommend you read the whole article, as he goes into how this coupling violates the Law of Demeter and links back to <a href="http://devblog.avdi.org/2011/06/28/do-or-do-not-there-is-no-try/">an earlier discussion of #try</a>, because, clearly, while these types of methods are cool and convenient, they make him a little uneasy too.</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Migrating Posts and Pages From Wordpress to Jekyll]]></title>
     <link href="http://dankleiman.github.io/blog/2016/03/11/migrating-posts-and-pages-from-wordpress-to-jekyll/"/>
@@ -196,7 +196,7 @@ between your objects.</p>
 <p>Of course, questions about redirection from the pages I converted or deleted and styling and layout started to fill my head&hellip;but we&rsquo;re going to get to that in future articles!</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Migrating From Wordpress to Jekyll]]></title>
     <link href="http://dankleiman.github.io/blog/2016/03/09/migrating-from-wordpress-to-jekyll/"/>
@@ -233,7 +233,7 @@ between your objects.</p>
 <p>I plan to write about each of these areas and link to each topic as I publish more about the different decisions and steps that go into each part of the migration process.</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[I Hate Voicemail: Straight to SMS With Twilio]]></title>
     <link href="http://dankleiman.github.io/blog/2015/09/15/i-hate-voicemail-straight-to-sms-with-twilio/"/>
@@ -401,7 +401,7 @@ between your objects.</p>
 <p>So call me. Or don&rsquo;t. I can handle it either way now!</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Text Me When You're Done: Twilio for Notifications of Long-Running Dev Tasks]]></title>
     <link href="http://dankleiman.github.io/blog/2015/08/29/text-me-when-youre-done-twilio-for-notifications-of-long-running-dev-tasks/"/>
@@ -470,7 +470,7 @@ between your objects.</p>
 <p>Now, I don&rsquo;t have to keep looking over my shoulder to check if the task is done. Or waste time checking Twitter while I sit at my computer. I can go do more useful things, like finish this blog post, confident that the text notification will be enough to get my attention when the job is done running.</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[SMS to Do List With Twilio]]></title>
     <link href="http://dankleiman.github.io/blog/2015/08/13/sms-to-do-list-with-twilio/"/>
@@ -704,7 +704,7 @@ between your objects.</p>
 <p>If you want to see more, <a href="https://github.com/dankleiman/sms_todo">here&rsquo;s the code</a>.</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[10 of My Favorite Talks From RailsConf 2015]]></title>
     <link href="http://dankleiman.github.io/blog/2015/04/29/10-of-my-favorite-talks-from-railsconf-2015/"/>
@@ -795,7 +795,7 @@ between your objects.</p>
 
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Parachuting Into Unfamilar Code]]></title>
     <link href="http://dankleiman.github.io/blog/2015/01/11/parachuting-into-unfamilar-code/"/>
@@ -879,7 +879,7 @@ between your objects.</p>
 <p>Either this is a moment of satisfaction, as you survey your work, or someone comes along and pushes you out of the plane again, to redo the whole mission.</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Coding Bootcamp ROI 3 Weeks Later]]></title>
     <link href="http://dankleiman.github.io/blog/2014/08/11/coding-bootcamp-roi-3-weeks-later/"/>
@@ -977,7 +977,7 @@ between your objects.</p>
 <p>I hope to report back here and share the upsides of ongoing learning and growth. Thanks for reading!</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Burlington Ruby Conference 2014]]></title>
     <link href="http://dankleiman.github.io/blog/2014/08/03/burlington-ruby-conference-2014/"/>
@@ -1038,7 +1038,7 @@ between your objects.</p>
 <p>Alan explained some of the challenges and solutions he&rsquo;s come up with for optimizing these connections and Dan gave us some great guidlines around functionality when deciding the best structure for building an app, like <a href="http://www.ticketzen.com/">Ticket Zen</a>, the parking ticket payment app I hope I never have to use.</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Launching Datastroyer]]></title>
     <link href="http://dankleiman.github.io/blog/2014/07/02/launching-datastroyer/"/>
@@ -1078,7 +1078,7 @@ between your objects.</p>
 <p>We hope you learn like we have!</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[The Race to Hello World: Rails vs. Sinatra]]></title>
     <link href="http://dankleiman.github.io/blog/2014/06/23/the-race-to-hello-world-rails-vs-sinatra/"/>
@@ -1163,7 +1163,7 @@ between your objects.</p>
 <p>Coming away from these last two weeks of playing with Sinatra and Rails, I&rsquo;m glad we started with Sinatra for the directness, but I can also see, as our projects get bigger, how the conventions and structures of Rails will allow us to maintain clear, organized code.</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Launch Academy: 5 Weeks in or 5 Weeks Left?]]></title>
     <link href="http://dankleiman.github.io/blog/2014/06/15/launch-academy-5-weeks-in-or-5-weeks-left/"/>
@@ -1229,7 +1229,7 @@ between your objects.</p>
 <p>What&rsquo;s exciting is that I don&rsquo;t quite know what these seeds will yield!</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Asking Questions: The Holy Grail of OOP]]></title>
     <link href="http://dankleiman.github.io/blog/2014/06/08/asking-questions-the-holy-grail-of-oop/"/>
@@ -1350,7 +1350,7 @@ between your objects.</p>
 <p>I wish I had had a clear top-down model like this to solve problems in the past. Here&rsquo;s to applying it going forward!</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Buying a Mongolian Website for My URL Shortner]]></title>
     <link href="http://dankleiman.github.io/blog/2014/05/30/buying-a-mongolian-website/"/>
@@ -1595,7 +1595,7 @@ between your objects.</p>
 <p>These all seem like interesting questions!</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Building a Learning Tool for Compound Data Structures]]></title>
     <link href="http://dankleiman.github.io/blog/2014/05/25/building-a-learning-tool-for-compound-data-structures/"/>
@@ -1735,7 +1735,7 @@ between your objects.</p>
 <p><a href="https://github.com/dankleiman/path_finder">Check out the repo on Github</a>.</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Day 10: The Dreams Continue]]></title>
     <link href="http://dankleiman.github.io/blog/2014/05/21/day-10-the-dreams-continue/"/>
@@ -1781,7 +1781,7 @@ between your objects.</p>
 <p>I&rsquo;ve written about how this works from a Tai Chi perspective too, <a href="http://dankleiman.com/2013/04/23/practice-rhythms-at-tai-chi-immersion-week/">if you&rsquo;re curious to read more</a>.</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Launch Academy: Week 1 Reflections]]></title>
     <link href="http://dankleiman.github.io/blog/2014/05/17/launch-academy-week-1-reflections/"/>
@@ -1829,7 +1829,7 @@ between your objects.</p>
 <p>Even though it&rsquo;s been a few days, it feels like it&rsquo;s been months of immersion and I can&rsquo;t wait to get back to work on Monday!</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Reflections on Pre-Work: Balancing Theory and Practice]]></title>
     <link href="http://dankleiman.github.io/blog/2014/05/09/this-is-new-post/"/>
@@ -1898,7 +1898,7 @@ However, no matter how deeply theory believes this to be true, practice knows be
 <p>If I can find the right balance, work life will be even more rewarding!</p>
 ]]></content>
   </entry>
-  
+
   <entry>
     <title type="html"><![CDATA[Getting a Feel for It]]></title>
     <link href="http://dankleiman.github.io/blog/2014/03/20/getting-a-feel-for-it/"/>
@@ -1937,5 +1937,4 @@ However, no matter how deeply theory believes this to be true, practice knows be
 <p>Fascinating to keep trying this approach, though!</p>
 ]]></content>
   </entry>
-  
 </feed>

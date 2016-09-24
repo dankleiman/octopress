@@ -1,0 +1,226 @@
+// This File is imported last, and will override other styles in the cascade
+// Add styles here to make changes without digging in too much
+html {
+  background:$page-bg;
+}
+body {
+  line-height: 1.8em;
+  font-size:1.1em;
+  max-width:1320px;
+  > div {
+    background: #fff !important;
+    border-bottom:2px solid #f2f2f2;
+    > div {
+      border-right:2px solid #f2f2f2;
+      background: #fff !important;
+    }
+  }
+  > nav {
+    border-bottom:2px solid #f2f2f2;
+    li+li {
+      border-left:2px solid #f2f2f2;
+    }
+    a {
+      font-family: $serif;
+    }
+  }
+  >header {
+    h1 a {
+    font-weight: bold;
+    }
+  }
+  #content .blog-index article {
+  header {
+    h1 {
+      margin: 0;
+      a { text-decoration: none;
+        &:hover {
+          text-decoration: none;
+          color:$link-color;
+          }
+          }
+        }
+      }
+    }
+  #blog-archives {
+    h1 {
+      a { text-decoration: none;
+        &:hover { text-decoration:none; } }
+    }
+  }
+  aside.sidebar {
+    background:#fff;
+    border-left:2px solid #f2f2f2;
+    height:100%;
+    form .search {
+      padding: .3em .5em 0;
+      font-size: .85em;
+      font-family: $serif;
+      line-height: 1.1em;
+      width: 95%;
+      background-color: #fff;
+      border: 2px solid #f2f2f2;
+      color: #000;
+      }
+    input[type=text]:focus, textarea:focus {
+      box-shadow: 0 0 0 rgba(255,255,255,1);
+    }
+  }
+
+  .toggle-sidebar {
+    display:none;
+  }
+}
+@media only screen and (max-width: 749px) {
+  aside.sidebar {
+    padding-top:15px;
+    padding-bottom:15px;
+  }
+}
+@media only screen and (min-width: 750px) {
+  aside.sidebar {
+    border-top:0px solid black;
+  }
+}
+@media only screen and (min-width:992px) {
+  body {
+    font-size: 1.3em;
+  }
+  .collapse-sidebar aside.sidebar {
+    background: #fff;
+  }
+}
+.meta {
+  font-family: $serif;
+}
+.sticky {
+    position: fixed;
+    width:100%;
+    left: 0;
+    top: 0;
+    z-index: 100;
+}
+::-webkit-input-placeholder {
+   color: $link-color;
+}
+:-moz-placeholder { /* Firefox 18- */
+   color: $link-color;
+}
+::-moz-placeholder {  /* Firefox 19+ */
+   color: $link-color;
+}
+:-ms-input-placeholder {
+   color: $link-color;
+}
+/*DK Customization*/
+
+img.left{
+  float: left;
+}
+
+ul{
+  margin-left: 30px;
+
+}
+
+ol{
+  margin-left: 30px;
+
+}
+
+.sidebar-connect {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.sidebar-icon {
+  margin: 10px;
+}
+/* for Treehouse Badges */
+
+.badges-box {
+  margin:6px auto;
+  max-width:267px;
+}
+.badges-box p {
+  margin-top:0;
+}
+.badge-image-list {
+  text-align:center;
+  margin-left:-40px;
+}
+.badge-image-list img {
+  width:70px;
+  height:75px;
+  padding:0px 2px 0 2px;
+  -webkit-transition: all 0.5s ease;
+}
+.badge-image-list img:hover {
+  -webkit-transform: scale(1.1);
+  opacity:.5;
+}
+.badge-image-list a img {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 0px;
+}
+#show-all {
+  background:#fff;
+  padding:8px;
+  border-radius:4px;
+  font-size:1em;
+}
+/* end badges styles */
+/* begin mailchimp styles */
+#mc_embed_signup {
+  border-style: solid;
+  border-width: 5px;
+  border-color: #F98432;
+  padding: 15px;
+}
+
+#mc_embed_signup h1 {
+  margin: 0px;
+}
+
+#mc_embed_footer {
+  border-style: solid;
+  border-width: 5px;
+  border-color: #F98432;
+  padding: 15px;
+}
+
+/* end mailchimp styles */
+/* landing page styles */
+
+#landing-main {
+  border-bottom: none;
+  background:#6ec9ec !important;
+}
+
+#landing-content {
+  width:70%;
+  margin:auto;
+  border: 2px solid #f2f2f2;
+  padding: 20px;
+}
+ul.basic-list {
+  list-style:none;
+  list-style-type:none;
+}
+.note {
+  font-size: 80%;
+  font-style: italic;
+  color:#aaa;
+}
+
+
