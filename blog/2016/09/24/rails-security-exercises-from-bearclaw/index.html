@@ -1,0 +1,471 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Rails Security Exercises From Bearclaw - Dan Kleiman Code</title>
+  <meta name="author" content="Dan Kleiman">
+
+  
+  <meta name="description" content="In this post, I&rsquo;m going to tell you what I learned doing a series of Rails security exercises developed by Bearclaw, a Rails security &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dankleiman.github.io/blog/2016/09/24/rails-security-exercises-from-bearclaw">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Dan Kleiman Code" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript">
+    // Avoid conflict with ender.js.
+    jQuery.noConflict();
+</script>
+<!-- jQuery Form Plugin -->
+<script src="http://malsup.github.com/jquery.form.js"></script>
+<!-- jQuery Form Validation Plugin -->
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+<script src="/javascripts/google_form.js"></script>
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Dan Kleiman Code</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects">Projects</a></li>
+  <li><a href="/about">About Me</a></li>
+  <li><a href="/contact">Contact</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Rails Security Exercises From Bearclaw</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-09-24T06:05:49-04:00" pubdate data-updated="true">Sep 24<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>In this post, I&rsquo;m going to tell you what I learned doing a series of Rails security exercises developed by <a href="https://www.gobearclaw.com/">Bearclaw</a>, a Rails security consultancy.</p>
+
+<p>Before I go into the exercises, though, I want to send a huge thank you to <a href="https://twitter.com/alinajaf">Najaf Ali</a>, founder of Bearclaw. What I&rsquo;ve learned here is due to the thoughtfulness of the exercises he&rsquo;s put together and his willingness to try something new by sharing them with me. Normally these exercises are part of a workshop he leads in person.</p>
+
+<!-- more -->
+
+
+<p>If you find anything in this article useful or interesting, please reach out to him and send your thanks!</p>
+
+<h2>What&rsquo;s in a URL?</h2>
+
+<p>One of the first things I remember about learning Rails was how declarative the URL structure is for explaining the context of the resource you are viewing. For example, all your users will be viewable on the <code>/users</code> page. A single user is viewable on the <code>/users/7</code> page.</p>
+
+<p>We even had a running joke at my last job that none of the developers actually knew where anything was in the UI. Instead, we would all just type in URLs for whatever we wanted to view, because we knew which controllers and actions we were working on.</p>
+
+<p>Rails relies heavily on the convention that an HTTP action should match a standard URL structure and a standard place in the code where that action is handled. For example, from the <a href="http://guides.rubyonrails.org/routing.html">Rails routing guide</a>:</p>
+
+<ul>
+<li>a GET request to <code>/photos</code> maps to the <code>photos#index</code> controller action and you can expect a list of all photos</li>
+<li>a GET request to <code>/photos/new</code> maps to the <code>photos#new</code> controller action and you can expect to land on a form for creating a new photo</li>
+<li>a POST request to <code>/photos</code> maps to the <code>photos#create</code> controller action and it will create a new photo</li>
+<li>a GET request to <code>/photos/:id</code> maps to the <code>photos#show</code> controller action and you would expect that action to display a specific photo</li>
+</ul>
+
+
+<p>Of course, for a web framework to work at all, there has to be a concept of &lsquo;routing&rsquo; where web requests are mapped to program logic. If you know the Rails conventions for this mapping, when you start up an unfamiliar Rails app, you can often take a pretty good tour of the app, just by making some assumptions about the URLs you would expect to find.</p>
+
+<p><strong>While I used to think of this as convenience and convention, now I see the flipside of this standardization: the more you follow the common patterns, the more I already know about the internals of your application.</strong></p>
+
+<p>In fact, the first exercise in this series drives home the point. Looking for &ldquo;typical&rdquo; Rails routes was all it took to exploit the app.</p>
+
+<h2>Can You Keep a Secret?</h2>
+
+<p>The goal of each of the exercises in the series is to find a &ldquo;secret&rdquo; &mdash; a random based64 encoded string &mdash; that&rsquo;s displayed somewhere in the application. In each exercise, you have to compromise a different security mechanism to get access to the secret.</p>
+
+<p>Each exercise is its own small Rails app, so to get started, there&rsquo;s a little set up to run it locally. Then, when you view it in the browser, you&rsquo;re prompted to log in or create an account.</p>
+
+<p>For the first exercise, after you log in, there&rsquo;s a navigation link to &ldquo;Your Secret.&rdquo; Clicking on that, guess what the URL is? Just like the photo example above, it&rsquo;s the straightforward Rails URL, so if you go to <code>/secrets/39</code>, you&rsquo;re going to see the resource with that id.</p>
+
+<p>From there, all you have to do is match up the secret to the specific user secret (whose name is displayed on the secret page) that you&rsquo;re after in the exercise. A little light scripting with something like <a href="http://docs.seattlerb.org/mechanize/">Mechanize</a> lets you test a whole range of secret ids and confirm you are on the correct user&rsquo;s page. And, that&rsquo;s it, the app is compromised!</p>
+
+<p>Now, hang on, I know what you&rsquo;re probably thinking. This is not a real Rails vulnerability and no one would be stupid enough to let all their user data sit out at exposed endpoints with no authorization checks. Fair point.</p>
+
+<p>But that&rsquo;s what is so cool about this series&hellip;.You feel like you&rsquo;re interacting with a real application, but the exercises are contrived in a way to make each attack vector clear.</p>
+
+<p><strong>In this case, the app had a glaring weakness that forced you to think through URL manipulation to expose data.</strong> It was a warm-up, graded &lsquo;easy&rsquo; &mdash;&ndash; there are more complex ones, all the way up to &lsquo;diabolical&rsquo;!</p>
+
+<h2>Next!</h2>
+
+<p>Expanding on the notion that the URL reveals information about the system resources, the next exercise exposes a password reset field on the <code>/users/:id/edit</code> page. Whoops!</p>
+
+<p>Not only can you get a sense for how many user records are in the database, but if you visited all the edit pages one-by-one, you could easily set all the user passwords to whatever you liked.</p>
+
+<p>Since I knew the id of the user I had just created, a simple for loop &mdash; from 1 to my user id &mdash; was all it took to set everyone&rsquo;s password to &lsquo;password&rsquo;. Then I could log in as the user whose information I was after.</p>
+
+<p>Again, is this typically how password resets work? Of course not!</p>
+
+<p>But due to the design of the exercise, I learned that sometimes you can get at a particular target by compromosing all the data.</p>
+
+<h2>Time for Some Self-Promotion</h2>
+
+<p>The set up for the next exercise hinted that managers had access to special information that regular users did not. When I thought about Rails apps I had worked on in the past, one of the simplest contrivances to separate special users from regular users was to set <code>admin: true</code> on a user account.</p>
+
+<p>Often, the admin-ing of a user is done through a superuser set-up script or directly in the database, which I didn&rsquo;t have access to here. Ultimately, though, the admin flag is just an attribute of the user, so if I could find a way to add in additional info about my user, maybe I could promote myself to admin?</p>
+
+<p>Yes, out-of-the-box Rails will guard against accepting user input on any model attribute via whitelisting what is changeable for any given action, but maybe&hellip;</p>
+
+<p>It turned out, in this vulnerable little app, I could happily suggest attributes to edit on my own user edit page, beyond name and email. When I submited the form on <code>/users/:id/edit</code>, I could send along some HTML that added one more form field, setting <code>user['admin']</code> to <code>true</code>. The controller action, it turned out, did not whitelist which attributes it would accept in the edit action, and I became an admin.</p>
+
+<p>In this particular challenge, I had to apply the same concept again, weaving my way through other attributes and associations, until I was the admin for a particular group of users, one of which had the info that I needed to solve the challenge.</p>
+
+<p>Each time, the changes were a combination of iterating through resource ids as we did in the previous challenges and altering the information with additional HTML embedded in the user edit form.</p>
+
+<p>Very interesting to note here that editing the form HTML can be done easily in the browser, with all other authentication mechanisms already in place. In other words, I logged in as a valid user, verified by a session in the application, and sent requests that would have otherwise followed all the &ldquo;rules&rdquo; of the app &mdash; I just happened to throw in some extra data.</p>
+
+<h2>Little Bobby Tables Learns Javascript</h2>
+
+<p>This next one really stoked the growing feeling I had that I was getting away with something devious and delicious all at the same time.</p>
+
+<p>Now, we weren&rsquo;t blowing up a database with SQL injection, but it was a similar idea:</p>
+
+<p><img src="http://imgs.xkcd.com/comics/exploits_of_a_mom.png"></p>
+
+<p>I learned that any time you let a user enter unescaped HTML, you run the risk of letting malicious code into your application. I mean, I guess I knew that in theory, but in this exercise, I learned how to actually do it&hellip;and it felt good!</p>
+
+<p>Here&rsquo;s how the attack could work.</p>
+
+<p>If there is a field in a form somewhere that accepts any HTML tags, a user could enter something like <code>&lt;h1&gt;This is an H1 you were not expecting!&lt;/h1&gt;</code> and now, anywhere that the field is displayed, whoever is viewing it will have a nice big H1 in the middle of their page.</p>
+
+<p>So far, that doesn&rsquo;t seem so bad&hellip;but the fact that one user can create input that shows up for another user in this way is critical to understanding the problem.</p>
+
+<p>Next, instead of page styling, let&rsquo;s throw in some javascript. If the input isn&rsquo;t sanitized, meaning we haven&rsquo;t been explicit about which tags are allowed or not allowed from users, or we&rsquo;ve outright converted the tags into harmless strings, then something like <code>&lt;script&gt;alert('whoops, this should never happen!');&lt;/script&gt;</code> could totally happen.</p>
+
+<p>Now, a little alert isn&rsquo;t going to hurt anybody, but remember how any other user will see whatever we put into that field? Since we can include a <code>&lt;script&gt;</code> tag, we can use javascript to manipulate the page and scrape anything else that&rsquo;s on other user&rsquo;s page, like account information or user data.</p>
+
+<p>Here&rsquo;s the part that I found extra devious: <strong>How do we retrieve the information we maliciously scrape from another user&rsquo;s page?</strong></p>
+
+<p>See that XKCD comic a couple of paragraphs up? Do you know where I got it? I mean the actual embedded image? Right here:</p>
+
+<p><code>&lt;img src="http://imgs.xkcd.com/comics/exploits_of_a_mom.png"&gt;</code></p>
+
+<p>I&rsquo;m not hosting that image. I&rsquo;m requesting it from xkcd.com. And if I owned xkcd.com, I would look in my server logs and see a request come in for:</p>
+
+<p><code>/comics/exploits_of_a_mom.png</code></p>
+
+<p>I would also see a request come in for:</p>
+
+<p><code>/comics/exploits_of_a_mom.png?foo=bar</code></p>
+
+<p>or:</p>
+
+<p><code>/comics/exploits_of_a_mom.png?secret-user-data=here&amp;is&amp;the&amp;account&amp;balance</code></p>
+
+<p>In other words, it&rsquo;s easy to request the image resource itself or any other valid url at the domain, plus any other random data stuffed into the querystring params.</p>
+
+<p>When you roll all this up into some evil user input, the script tag will:</p>
+
+<ol>
+<li>Scrape some data on a page where I expect the input to be displayed.</li>
+<li>Create a fake <code>&lt;img&gt;</code> tag to be inserted into the DOM</li>
+<li>Set the source of the <code>&lt;img&gt;</code> as a URL that I control, with a querystring param that includes the scraped data</li>
+</ol>
+
+
+<p>Now, when someone renders the page with my input in place, I will steal their data and ship it off to my server. So evil! So clever!</p>
+
+<h2>Fear Not&hellip;Or Do?</h2>
+
+<p>As I&rsquo;ve tried to point out several times, following Rails conventions pretty much ensures you are protected from accidentally allowing any of these exploits to slip into your app. This is not an article about Rails vulnerabilities.</p>
+
+<p>Instead, I&rsquo;m hoping you&rsquo;ll ponder this: a web application is <strong>valuable</strong> because it can gather data and then display it. A web framework is <strong>easy to use and maintain</strong> as a developer because it follows strong conventions.</p>
+
+<p>Doing these Rails security exercises has flipped these tenets around for me.</p>
+
+<p>Now it feels like a web application is <strong>dangerous</strong> because it can gather data and then display it. A web framework is <strong>easy interrogate and exploit</strong> because it follows strong conventions.</p>
+
+<p>I don&rsquo;t quite know how to reconcile these perspectives, but having gone through these exercises, I&rsquo;m sure I will now be a little more cautious, a little more skeptical, and hopefully, a little safer as a developer.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Dan</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-09-24T06:05:49-04:00" pubdate data-updated="true">Sep 24<span>th</span>, 2016</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2016/09/24/rails-security-exercises-from-bearclaw/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2016/09/24/rails-security-exercises-from-bearclaw/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+     <p class="meta">
+      <section>
+  <div id="mc_embed_footer">
+    <form action="//dankleiman.us1.list-manage.com/subscribe/post?u=0e4a1aa488d23c693881caeec&amp;id=99d1412a0b" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+      <h1>Did You Enjoy This Post?</h1>
+      <p>Enter your email address below so you'll automatically receive updates about coding, work, community, and new things I've learned.</p>
+      <p>I promise to share as much useful info with you as possible...but I'll never share your email with anyone. It's free and you can easily unsubscribe at any time.</p>
+      <div class="mc-field-group">
+        <label for="mce-EMAIL">Enter Your Email Address:</label>
+        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+      </div>
+      <div id="mce-responses" class="clear">
+        <div class="response" id="mce-error-response" style="display:none"></div>
+        <div class="response" id="mce-success-response" style="display:none"></div>
+      </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+        <div style="position: absolute; left: -5000px;"><input type="text" name="b_0e4a1aa488d23c693881caeec_99d1412a0b" tabindex="-1" value=""></div>
+        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+    </form>
+  </div>
+</section>
+
+    </p>
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/04/10/nice-try-nilclass/" title="Previous Post: Nice Try, NilClass">&laquo; Nice Try, NilClass</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+  <aside class="sidebar">
+   
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dankleiman.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+  
+    <section>
+  <h1>Connect with Me</h1>
+  <div class="sidebar-connect">
+    <a class="sidebar-icon" href="https://github.com/dankleiman"><img src="https://raw.githubusercontent.com/adamfairhead/webicons/master/webicons/webicon-github.png" alt="image courtesy of fairheadcreative"></a>
+    <a class="sidebar-icon" href="https://twitter.com/dan_kleiman"><img src="https://raw.githubusercontent.com/adamfairhead/webicons/master/webicons/webicon-twitter.png" alt="image courtesy of fairheadcreative"></a>
+    <a class="sidebar-icon" href="https://www.linkedin.com/in/dlkleiman"><img src="https://raw.githubusercontent.com/adamfairhead/webicons/master/webicons/webicon-linkedin.png" alt="image courtesy of fairheadcreative"></a><br/><br/>
+  </div>
+</section>
+<section>
+  <div id="mc_embed_signup">
+    <form action="//dankleiman.us1.list-manage.com/subscribe/post?u=0e4a1aa488d23c693881caeec&amp;id=99d1412a0b" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+      <h1>Get Blog Updates</h1>
+      <div class="mc-field-group">
+        <br/>
+        <label for="mce-EMAIL">Enter Your Email Address:</label>
+        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+      </div>
+      <div id="mce-responses" class="clear">
+        <div class="response" id="mce-error-response" style="display:none"></div>
+        <div class="response" id="mce-success-response" style="display:none"></div>
+      </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+        <div style="position: absolute; left: -5000px;"><input type="text" name="b_0e4a1aa488d23c693881caeec_99d1412a0b" tabindex="-1" value=""></div>
+        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+    </form>
+  </div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/09/24/rails-security-exercises-from-bearclaw/">Rails Security Exercises From Bearclaw</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/10/nice-try-nilclass/">Nice Try, NilClass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/03/11/migrating-posts-and-pages-from-wordpress-to-jekyll/">Migrating Posts and Pages From Wordpress to Jekyll</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/03/09/migrating-from-wordpress-to-jekyll/">Migrating From Wordpress to Jekyll</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/09/15/i-hate-voicemail-straight-to-sms-with-twilio/">I Hate Voicemail: Straight to SMS With Twilio</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Dan Kleiman -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Site Theme by <a href="https://github.com/johnkeith/boldandblue">John Keith</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+<script>
+  $(document).ready(function() {  
+  var stickyNavTop = $('nav').offset().top;  
+    
+  var stickyNav = function(){  
+  var scrollTop = $(window).scrollTop();  
+         
+  if (scrollTop > stickyNavTop) {   
+      $('nav').addClass('sticky');  
+  } else {  
+      $('nav').removeClass('sticky');   
+  }  
+  };  
+    
+  stickyNav();  
+    
+  $(window).scroll(function() {  
+      stickyNav();  
+  });  
+  });  
+</script>
+<script>
+th_username = "dankleiman";
+th_show_all_badges = false;
+th_number_badges_visible = (9 - 1);
+
+$(document).ready(function() {
+
+  if(th_username == "" || th_show_all_badges == false && th_number_badges_visible == -1){
+    $(".badges-box").hide();
+  } else {
+
+  $.getJSON("http://teamtreehouse.com/" + th_username +".json", function(data) {
+    var items = [];
+    var number_of_badges = data.badges.length;
+    var total_points = data.points.total;
+    $.each(data.badges, function(k, v) {
+       items.push( "<a href='" + v.url + "'><img src='" + v.icon_url + "' alt='" + v.name + "' title='" + v.name + "'/></a>");
+    });
+   
+    $(".badges-box").append("<p>I've earned <strong>" + number_of_badges + " badges</strong> for a total of <strong>" + total_points + " points</strong> at <a href='http://www.teamtreehouse.com'>Treehouse!</a></p>");
+   
+    $( "<ul/>", {
+      "class": "badge-image-list",
+      html: items.reverse().join( "" )
+    }).appendTo( ".badges-box" ).hide().fadeIn(500);
+   
+    if(th_show_all_badges == false) {
+      $( ".badge-image-list img:gt(" + th_number_badges_visible + ")").hide();
+
+      $(".badges-box").append("<button id='show-all'>See all badges</button>");
+
+      $("#show-all").click(function() {
+        $( ".badge-image-list img:gt(" + th_number_badges_visible + ")").toggle(0, "linear");
+        if($("#show-all").html() == "See all badges") {
+          $("#show-all").html("Hide badges");
+          $("#show-all").blur();
+        } else {
+          $("#show-all").html("See all badges");
+          $("#show-all").blur();
+        };
+      });
+    };
+  });
+ };
+});
+</script>
+
+
+</body>
+</html>
