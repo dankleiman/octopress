@@ -1,0 +1,456 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>My 5 Strategies for Learning Go in 2017 - Dan Kleiman Code</title>
+  <meta name="author" content="Dan Kleiman">
+
+  
+  <meta name="description" content="Over the past couple of years, one thing I&rsquo;ve become more and more aware of is the unease and uncertainty of diving into a new project. Not &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dankleiman.github.io/blog/2016/12/29/my-5-strategies-for-learning-go-in-2017">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Dan Kleiman Code" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript">
+    // Avoid conflict with ender.js.
+    jQuery.noConflict();
+</script>
+<!-- jQuery Form Plugin -->
+<script src="http://malsup.github.com/jquery.form.js"></script>
+<!-- jQuery Form Validation Plugin -->
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+<script src="/javascripts/google_form.js"></script>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-19970008-12']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Dan Kleiman Code</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/projects">Projects</a></li>
+  <li><a href="/about">About Me</a></li>
+  <li><a href="/contact">Contact</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">My 5 Strategies for Learning Go in 2017</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-12-29T09:29:22-05:00" pubdate data-updated="true">Dec 29<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Over the past couple of years, one thing I&rsquo;ve become more and more aware of is the unease and uncertainty of diving into a new project. Not matter what the new X is, I find I always go through the same set of uncomfortable feelings on my initial approach.</p>
+
+<p>Now, though, I&rsquo;m starting to become familiar enough with this process that &mdash; even though the discomfort doesn&rsquo;t go away in the initial learning stages &mdash; I can embrace it, coexist with it, and forge ahead in learning, because of the strategies I&rsquo;m going to lay out here.</p>
+
+<!--more-->
+
+
+<p>Heading into 2017, the new project I want to tackle is learning to write code in <a href="https://golang.org/">Go</a>. Here are the 5 strategies I&rsquo;ve started using to reach that goal:</p>
+
+<ol>
+<li>Attend live events, like the <a href="https://twitter.com/framinghamgo">Framingham Go Meetup</a></li>
+<li>Read in-depth books, like <a href="https://www.manning.com/books/go-in-action">Go in Action</a></li>
+<li>Do lots of coding exercises,  like <a href="https://gobyexample.com/">Go by Example</a></li>
+<li>Make a mini project that puts these new concepts to use (coming soon)</li>
+<li>Contribute to one of our live Go projects at work (The Big Goal)</li>
+</ol>
+
+
+<p>It might seem like a scattershot approach, but having 5 different ways to come in contact with a new language has two layers of benefits: the things I learn directly in each context and the things that get woven together as a result of switching context between each approach.</p>
+
+<p>Here are the &ldquo;direct&rdquo; and &ldquo;crossover&rdquo; benefits of each strategy:</p>
+
+<h2>Attending Live Events</h2>
+
+<p>I wandered into my first <a href="https://twitter.com/framinghamgo">Framingham Go Meetup</a> with almost no exposure to Go, which is what I did with Ruby a few years ago. A little intimidating? Yes. Did I feel out of place? Yup. Were people welcoming and friendly? Yes!</p>
+
+<p><strong>Direct benefits:</strong> Knowing full well that I would only understand bits and pieces of the talks at the first meetup, I still went for two reasons.</p>
+
+<p>Now I have a benchmark for seeing progress &mdash; in 6 months, maybe I&rsquo;ll think, &ldquo;hey, I understood 70% of the talks this month!&rdquo;</p>
+
+<p>By meeting people and hearing about what they are working on and how they tackle problems with Go, I can start to think about applications and business logic I already understand through a Go lens.</p>
+
+<p><strong>Crossover benefits:</strong> Fully embracing the discomfort of being in a place where some part of you thinks you don&rsquo;t belong prepares you for taking on unknowns in every other mode of learning too.</p>
+
+<p><strong>Bonus:</strong> I got to hear directly from Bill Kennedy (<a href="http://twitter.com/goinggodotnet">@goinggodotnet</a>), the author of Go in Action, which I had just started reading. Big Thanks for speaking to the group and sharing <a href="https://github.com/ardanlabs/gotraining/blob/master/reading/README.md">these excellent resources</a>.</p>
+
+<h2>Reading Books</h2>
+
+<p><strong>Direct benefits:</strong> Without previous experience in statically typed, compiled programming languages, there&rsquo;s a lot about Go that I just don&rsquo;t have exposure to. Having the background explained thoroughly in the long format of a book like <a href="https://www.manning.com/books/go-in-action">Go in Action</a> is really helpful, even if I know I&rsquo;m not going to retain everything on the first read.</p>
+
+<p>As far as programming concepts go too, the explicit format of the book helps highlight places where I do know what&rsquo;s going on and I can draw comparisons to languages I already know.</p>
+
+<p><strong>Crossover benefits:</strong> In the last year, I&rsquo;ve really recognized that if I&rsquo;m actively reading a book on programming concepts, then I&rsquo;m sharper every day when I go to code. I <em>think</em> this has to do with building better mental models about the work. As little as 10-15 minutes of theory reading a day helps me think more clearly about problems I&rsquo;m trying to solve, even if they are unrelated to the book I&rsquo;m reading.</p>
+
+<h2>Coding Exercises</h2>
+
+<p><strong>Direct benefits:</strong> While coding books do tend to have examples in them, I find a ton of added benefit to sites like <a href="https://gobyexample.com/">Go by Example</a>, where you can do exercise after exercise. I&rsquo;m not necessarily talking about &ldquo;coding challenges&rdquo; either. Instead, I want to find examples that I can literally copy to reinforce the patterns and idioms used in Go. Rote learning here is tremendously helpful to get my fingers to start &ldquo;thinking in Go.&rdquo;</p>
+
+<p><strong>Crossover benefits:</strong> After a while, I start jumping back and forth between books and exercises, to create stronger connections between the muscle memory in my hands and the concepts in my head.</p>
+
+<p>For example, once I read the section on loops and conditionals, I thought, why not try Fizzbuzz:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='go'><span class='line'><span class="kn">package</span> <span class="nx">main</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="s">&quot;fmt&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="nx">i</span><span class="o">%</span><span class="mi">15</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;fizzbuzz&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">i</span><span class="o">%</span><span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;buzz&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">i</span><span class="o">%</span><span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;fizz&quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>          <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>From past experience with simple code exercises in other languages, I know that I&rsquo;ll reimplement Fizzbuzz or something like it &mdash; maybe with goroutines and channels?? &mdash; a half dozen times over the next few months, as I pick up new concepts and styles.</p>
+
+<h2>Mini Projects</h2>
+
+<p>I actually started out thinking this was the first thing I would do. Pretty soon, though, I realized that I&rsquo;d rather get a foundation in the core concepts first and have some muscle memory, i.e. not have to look up the syntax for declaring variables or iterating over a slice.</p>
+
+<p><strong>Direct benefits:</strong> By pushing this project back a little bit, I can use it as a test of &ldquo;the basics.&rdquo; Also, for what I have in mind (stay tuned!), I will need to dig into Go&rsquo;s standard library for things like making http requests and file IO. I&rsquo;m considering these slightly more advanced explorations, once I feel comfortable with the flow of a simple program.</p>
+
+<p><strong>Crossover benefits:</strong> Hopefully, this stage will push me to ask some bigger design questions too and I&rsquo;ll have the chance to talk to my coworkers or people I&rsquo;ve met from the meetups more about that.</p>
+
+<h2>Production Code at Work</h2>
+
+<p>This is on my strategy list, but it&rsquo;s really a goal that will prove that I&rsquo;ve done the work of all the other strategies.</p>
+
+<p><strong>Direct benefits:</strong> Not only would some production code be higher stakes than code I&rsquo;d write in any of the other approaches &mdash; nothing like production deployment pressure to accelerate learning! &mdash; but I will also have the most context, because I&rsquo;ve been writing code for the same platform, so I&rsquo;ll have lots of domain knowledge to guide me.</p>
+
+<p>At Tapjoy, we&rsquo;ve successfully ported portions of multiple Rails applications to Go services that run much more performantly. I have my eye on one particular area that I think could also benefit from a Go re-write. Aiming towards a working version of that application in Go in my spare time will be a great capstone for this entire learning process.</p>
+
+<p><strong>Be sure to check back next December for &ldquo;5 Improved Strategies for Really Learning Go, This Time, I Swear, in 2018&rdquo;.</strong></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Dan Kleiman</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-12-29T09:29:22-05:00" pubdate data-updated="true">Dec 29<span>th</span>, 2016</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2016/12/29/my-5-strategies-for-learning-go-in-2017/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2016/12/29/my-5-strategies-for-learning-go-in-2017/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+     <p class="meta">
+      <section>
+  <div id="mc_embed_footer">
+    <form action="//dankleiman.us1.list-manage.com/subscribe/post?u=0e4a1aa488d23c693881caeec&amp;id=99d1412a0b" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+      <h1>Did You Enjoy This Post?</h1>
+      <p>Enter your email address below so you'll automatically receive updates about coding, work, community, and new things I've learned.</p>
+      <p>I promise to share as much useful info with you as possible...but I'll never share your email with anyone. It's free and you can easily unsubscribe at any time.</p>
+      <div class="mc-field-group">
+        <label for="mce-EMAIL">Enter Your Email Address:</label>
+        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+      </div>
+      <div id="mce-responses" class="clear">
+        <div class="response" id="mce-error-response" style="display:none"></div>
+        <div class="response" id="mce-success-response" style="display:none"></div>
+      </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+        <div style="position: absolute; left: -5000px;"><input type="text" name="b_0e4a1aa488d23c693881caeec_99d1412a0b" tabindex="-1" value=""></div>
+        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+    </form>
+  </div>
+</section>
+
+    </p>
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/09/24/rails-security-exercises-from-bearclaw/" title="Previous Post: Rails Security Exercises from Bearclaw">&laquo; Rails Security Exercises from Bearclaw</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+  <aside class="sidebar">
+   
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dankleiman.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+  
+    <section>
+  <h1>Connect with Me</h1>
+  <div class="sidebar-connect">
+    <a class="sidebar-icon" href="https://github.com/dankleiman"><img src="https://raw.githubusercontent.com/adamfairhead/webicons/master/webicons/webicon-github.png" alt="image courtesy of fairheadcreative"></a>
+    <a class="sidebar-icon" href="https://twitter.com/dan_kleiman"><img src="https://raw.githubusercontent.com/adamfairhead/webicons/master/webicons/webicon-twitter.png" alt="image courtesy of fairheadcreative"></a>
+    <a class="sidebar-icon" href="https://www.linkedin.com/in/dlkleiman"><img src="https://raw.githubusercontent.com/adamfairhead/webicons/master/webicons/webicon-linkedin.png" alt="image courtesy of fairheadcreative"></a><br/><br/>
+  </div>
+</section>
+<section>
+  <div id="mc_embed_signup">
+    <form action="//dankleiman.us1.list-manage.com/subscribe/post?u=0e4a1aa488d23c693881caeec&amp;id=99d1412a0b" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+      <h1>Get Blog Updates</h1>
+      <div class="mc-field-group">
+        <br/>
+        <label for="mce-EMAIL">Enter Your Email Address:</label>
+        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+      </div>
+      <div id="mce-responses" class="clear">
+        <div class="response" id="mce-error-response" style="display:none"></div>
+        <div class="response" id="mce-success-response" style="display:none"></div>
+      </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+        <div style="position: absolute; left: -5000px;"><input type="text" name="b_0e4a1aa488d23c693881caeec_99d1412a0b" tabindex="-1" value=""></div>
+        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+    </form>
+  </div>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/12/29/my-5-strategies-for-learning-go-in-2017/">My 5 Strategies for Learning Go in 2017</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/09/24/rails-security-exercises-from-bearclaw/">Rails Security Exercises From Bearclaw</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/10/nice-try-nilclass/">Nice Try, NilClass</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/03/11/migrating-posts-and-pages-from-wordpress-to-jekyll/">Migrating Posts and Pages From Wordpress to Jekyll</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/03/09/migrating-from-wordpress-to-jekyll/">Migrating From Wordpress to Jekyll</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
+
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Dan Kleiman -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Site Theme by <a href="https://github.com/johnkeith/boldandblue">John Keith</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+<script>
+  $(document).ready(function() {  
+  var stickyNavTop = $('nav').offset().top;  
+    
+  var stickyNav = function(){  
+  var scrollTop = $(window).scrollTop();  
+         
+  if (scrollTop > stickyNavTop) {   
+      $('nav').addClass('sticky');  
+  } else {  
+      $('nav').removeClass('sticky');   
+  }  
+  };  
+    
+  stickyNav();  
+    
+  $(window).scroll(function() {  
+      stickyNav();  
+  });  
+  });  
+</script>
+<script>
+th_username = "dankleiman";
+th_show_all_badges = false;
+th_number_badges_visible = (9 - 1);
+
+$(document).ready(function() {
+
+  if(th_username == "" || th_show_all_badges == false && th_number_badges_visible == -1){
+    $(".badges-box").hide();
+  } else {
+
+  $.getJSON("http://teamtreehouse.com/" + th_username +".json", function(data) {
+    var items = [];
+    var number_of_badges = data.badges.length;
+    var total_points = data.points.total;
+    $.each(data.badges, function(k, v) {
+       items.push( "<a href='" + v.url + "'><img src='" + v.icon_url + "' alt='" + v.name + "' title='" + v.name + "'/></a>");
+    });
+   
+    $(".badges-box").append("<p>I've earned <strong>" + number_of_badges + " badges</strong> for a total of <strong>" + total_points + " points</strong> at <a href='http://www.teamtreehouse.com'>Treehouse!</a></p>");
+   
+    $( "<ul/>", {
+      "class": "badge-image-list",
+      html: items.reverse().join( "" )
+    }).appendTo( ".badges-box" ).hide().fadeIn(500);
+   
+    if(th_show_all_badges == false) {
+      $( ".badge-image-list img:gt(" + th_number_badges_visible + ")").hide();
+
+      $(".badges-box").append("<button id='show-all'>See all badges</button>");
+
+      $("#show-all").click(function() {
+        $( ".badge-image-list img:gt(" + th_number_badges_visible + ")").toggle(0, "linear");
+        if($("#show-all").html() == "See all badges") {
+          $("#show-all").html("Hide badges");
+          $("#show-all").blur();
+        } else {
+          $("#show-all").html("See all badges");
+          $("#show-all").blur();
+        };
+      });
+    };
+  });
+ };
+});
+</script>
+
+
+</body>
+</html>
