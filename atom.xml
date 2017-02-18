@@ -4,7 +4,7 @@
   <title><![CDATA[Dan Kleiman Code]]></title>
   <link href="http://dankleiman.github.io/atom.xml" rel="self"/>
   <link href="http://dankleiman.github.io/"/>
-  <updated>2016-12-29T13:06:59-05:00</updated>
+  <updated>2017-02-17T22:31:48-05:00</updated>
   <id>http://dankleiman.github.io/</id>
   <author>
     <name><![CDATA[Dan Kleiman]]></name>
@@ -12,6 +12,302 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[GoBridge With Bill Kennedy]]></title>
+    <link href="http://dankleiman.github.io/blog/2017/02/12/gobridge-with-bill-kennedy/"/>
+    <updated>2017-02-12T15:18:04-05:00</updated>
+    <id>http://dankleiman.github.io/blog/2017/02/12/gobridge-with-bill-kennedy</id>
+    <content type="html"><![CDATA[<p>Last weekend, I had the chance to volunteer at a GoBridge event taught by Bill Kennedy of Ardan Labs. I&rsquo;m trying to make <a href="http://dankleiman.github.io/blog/2016/12/29/my-5-strategies-for-learning-go-in-2017/">2017 my year of learning Go</a>, so helping out at the event felt like a natural extension and a great way to connect with more people in the Go community.</p>
+
+<p>Going in with Ruby as my first language, I braced myself for static typing and wanted concurrent programming to bend my brain, but that&rsquo;s not really what happened at all.</p>
+
+<!--more-->
+
+
+<p>Before we get into what I actually learned, I urge you to check out all of these related links if you want more background on the GoBridge, the instructor, and the training material:</p>
+
+<ul>
+<li><a href="https://golangbridge.org/">GoBridge</a> &mdash; the inspiration for the event</li>
+<li><a href="https://www.meetup.com/Framingham-Golang-Meetup/">Framingham Go</a> &mdash; the meetup group that organized the event</li>
+<li><a href="https://github.com/ardanlabs/gotraining#current-schedule">Ardan Labs Trainings</a> &mdash; the instructor Bill Kennedy&rsquo;s company that teaches this and other events</li>
+<li><a href="https://github.com/ardanlabs/gotraining/tree/master/courses/ultimate">Ultimate Go Training</a> &mdash; the source material, including design philosophy, practice exercises, and related reading, for the actual workshop</li>
+</ul>
+
+
+<p><em>Bonus: git clone the Go Training repo above into you $GOPATH, go build it, and it will run as a webserver you can launch locally, browsing all the coure material and links to code samples on the Go Playground.</em></p>
+
+<p>And one more caveat: my Tai Chi teacher always talked about the challenges of teaching Tai Chi, which has to be experienced physically, to people who like to do abstract thinking. When someone tends to build a mental model for new information first, it&rsquo;s hard to get them to dive directly into the felt sensations, and as a result, they can come up with some pretty wacky ideas their first time through. He used to say it was like accidentally overhearing two young children describe what they thought sex was like. Of coure, the kids would have wildly inaccurate, innocent, and yet, elaborate ideas about it. And they would be hilariously far off from what the actual experience is like.</p>
+
+<p>If I head into this post trying to tell you Go is X or Go does Y better than this or that language, I&rsquo;m going to sound like those little kids. This is all new to me and I don&rsquo;t want to just parrot back something I&rsquo;ve heard somewhere. I&rsquo;ll link out to better arguments when it comes to technical detail, but I do want to try to talk about what I continue to find interesting about learning Go.</p>
+
+<h2>Design Software for Hardware</h2>
+
+<p>We started off the weekend with some <a href="https://github.com/ardanlabs/gotraining/blob/master/reading/design_guidelines.md">design guidelines</a>. Here&rsquo;s the first thing that really jumped out at me:</p>
+
+<p><em>&ldquo;The most amazing achievement of the computer software industry is its continuing cancellation of the steady and staggering gains made by the computer hardware industry.&rdquo; &ndash; Henry Petroski</em></p>
+
+<p>Wait, so all that time I haven&rsquo;t been thinking about the relationship between the code I write and the hardware it runs on, I&rsquo;ve actually been contributing to the &ldquo;two steps back&rdquo; phase of technological evolution???</p>
+
+<p>We explored stack frames and memory allocation and passing values all with the notion that the performance characteristics of the underlying hardware should be factored into the way that your software is written and executed &mdash; a concept with a fantastic name: <strong>Mechanical Sympathy</strong>. Here&rsquo;s where I take Bill&rsquo;s word for it and I won&rsquo;t try to make the case to you that Go is somehow the best way to achieve this hardware/software balance. But I will say that I am left feeling that the possibility of more powerful and efficient hardware/software unity is intriguing enough to pull me deeper into the story of Go.</p>
+
+<p><strong>Homework:</strong> Read everything in the <a href="https://github.com/ardanlabs/gotraining/blob/master/reading/README.md#mechanical-sympathy">Mechanical Sympathy</a> section of the training repo.</p>
+
+<h2>Shared Behavior over Shared State</h2>
+
+<p>Now, I&rsquo;ll let Bill introduce the other major hurdle I had to overcome with my object-oriented background. Starting around 5 minutes in the video, he explains a typical gotcha that people run into when they switch to Go from an object-oriented language. Even though the slides don&rsquo;t come out in the video, you&rsquo;ll be able to follow the issue.</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7YcLIbG1ekM?t=5m8s" frameborder="0" allowfullscreen></iframe>
+
+
+<p>Here is <a href="https://github.com/ardanlabs/gotraining/blob/master/topics/api/composition/grouping/example1/example1.go">code from the training repo</a> that illustrates the problem. The comment at the top of the file sums up the problem: &ldquo;This is an example of using type hierarchies with a OOP pattern. This is not something we want to do in Go. Go does not have the concept of sub-typing. All types are their own and the concepts of base and derived types do not exist in Go. This pattern does not provide a good design principle in a Go program.&rdquo;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+</pre></td><td class='code'><pre><code class='go'><span class='line'><span class="c1">// All material is licensed under the Apache License Version 2.0, January 2004</span>
+</span><span class='line'><span class="c1">// http://www.apache.org/licenses/LICENSE-2.0</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// This is an example of using type hierarchies with a OOP pattern.</span>
+</span><span class='line'><span class="c1">// This is not something we want to do in Go. Go does not have the</span>
+</span><span class='line'><span class="c1">// concept of sub-typing. All types are their own and the concepts of</span>
+</span><span class='line'><span class="c1">// base and derived types do not exist in Go. This pattern does not</span>
+</span><span class='line'><span class="c1">// provide a good design principle in a Go program.</span>
+</span><span class='line'><span class="kn">package</span> <span class="nx">main</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="s">&quot;fmt&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Animal contains all the base fields for animals.</span>
+</span><span class='line'><span class="kd">type</span> <span class="nx">Animal</span> <span class="kd">struct</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">Name</span>     <span class="kt">string</span>
+</span><span class='line'>  <span class="nx">IsMammal</span> <span class="kt">bool</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Speak provides generic behavior for all animals and</span>
+</span><span class='line'><span class="c1">// how they speak.</span>
+</span><span class='line'><span class="c1">// SMELL - This can&#39;t apply to all animals.</span>
+</span><span class='line'><span class="kd">func</span> <span class="p">(</span><span class="nx">a</span> <span class="nx">Animal</span><span class="p">)</span> <span class="nx">Speak</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;UGH!&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s">&quot;My name is&quot;</span><span class="p">,</span> <span class="nx">a</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span>
+</span><span class='line'>      <span class="s">&quot;, it is&quot;</span><span class="p">,</span> <span class="nx">a</span><span class="p">.</span><span class="nx">IsMammal</span><span class="p">,</span>
+</span><span class='line'>      <span class="s">&quot;I am a mammal&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Dog contains everything an Animal is but specific</span>
+</span><span class='line'><span class="c1">// attributes that only a Dog has.</span>
+</span><span class='line'><span class="kd">type</span> <span class="nx">Dog</span> <span class="kd">struct</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">Animal</span>
+</span><span class='line'>  <span class="nx">PackFactor</span> <span class="kt">int</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Speak knows how to speak like a dog.</span>
+</span><span class='line'><span class="kd">func</span> <span class="p">(</span><span class="nx">d</span> <span class="nx">Dog</span><span class="p">)</span> <span class="nx">Speak</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Woof!&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s">&quot;My name is&quot;</span><span class="p">,</span> <span class="nx">d</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span>
+</span><span class='line'>      <span class="s">&quot;, it is&quot;</span><span class="p">,</span> <span class="nx">d</span><span class="p">.</span><span class="nx">IsMammal</span><span class="p">,</span>
+</span><span class='line'>      <span class="s">&quot;I am a mammal with a pack factor of&quot;</span><span class="p">,</span> <span class="nx">d</span><span class="p">.</span><span class="nx">PackFactor</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Cat contains everything an Animal is but specific</span>
+</span><span class='line'><span class="c1">// attributes that only a Cat has.</span>
+</span><span class='line'><span class="kd">type</span> <span class="nx">Cat</span> <span class="kd">struct</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">Animal</span>
+</span><span class='line'>  <span class="nx">ClimbFactor</span> <span class="kt">int</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Speak knows how to speak like a cat.</span>
+</span><span class='line'><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="nx">Cat</span><span class="p">)</span> <span class="nx">Speak</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;Meow!&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s">&quot;My name is&quot;</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span>
+</span><span class='line'>      <span class="s">&quot;, it is&quot;</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nx">IsMammal</span><span class="p">,</span>
+</span><span class='line'>      <span class="s">&quot;I am a mammal with a climb factor of&quot;</span><span class="p">,</span> <span class="nx">c</span><span class="p">.</span><span class="nx">ClimbFactor</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// SMELL - I can&#39;t create a list of Cats and Dogs using</span>
+</span><span class='line'>  <span class="c1">// the Animal type. Can&#39;t create a list based on a</span>
+</span><span class='line'>  <span class="c1">// common set of state.</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// DOES NOT COMPILE</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Create a list of Animals that know how to speak.</span>
+</span><span class='line'>  <span class="nx">animals</span> <span class="o">:=</span> <span class="p">[]</span><span class="nx">Animal</span><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// Create a Dog by initializing its Animal parts</span>
+</span><span class='line'>      <span class="c1">// and then its specific Dog attributes.</span>
+</span><span class='line'>      <span class="nx">Dog</span><span class="p">{</span>
+</span><span class='line'>          <span class="nx">Animal</span><span class="p">:</span> <span class="nx">Animal</span><span class="p">{</span>
+</span><span class='line'>              <span class="nx">Name</span><span class="p">:</span>     <span class="s">&quot;Fido&quot;</span><span class="p">,</span>
+</span><span class='line'>              <span class="nx">IsMammal</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="nx">PackFactor</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+</span><span class='line'>      <span class="p">},</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="c1">// Create a Cat by initializing its Animal parts</span>
+</span><span class='line'>      <span class="c1">// and then its specific Cat attributes.</span>
+</span><span class='line'>      <span class="nx">Cat</span><span class="p">{</span>
+</span><span class='line'>          <span class="nx">Animal</span><span class="p">:</span> <span class="nx">Animal</span><span class="p">{</span>
+</span><span class='line'>              <span class="nx">Name</span><span class="p">:</span>     <span class="s">&quot;Milo&quot;</span><span class="p">,</span>
+</span><span class='line'>              <span class="nx">IsMammal</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>          <span class="nx">ClimbFactor</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+</span><span class='line'>      <span class="p">},</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Have the Animals speak.</span>
+</span><span class='line'>  <span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">animal</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">animals</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">animal</span><span class="p">.</span><span class="nx">Speak</span><span class="p">()</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// =============================================================================</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// NOTES:</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Smells:</span>
+</span><span class='line'><span class="c1">//   * The Animal type is providing an abstraction layer of reusable state.</span>
+</span><span class='line'><span class="c1">//   * The program never needs to create or solely use a value of type Animal.</span>
+</span><span class='line'><span class="c1">//   * The implementation of the Speak method for the Animal type is a generalization.</span>
+</span><span class='line'><span class="c1">//   * The Speak method for the Animal type is never going to be called.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Reading the code above, especially for the notes, you can see that the OO mindset of grouping objects based on shared state, and then defining shared behavior for that heirarchy of objects, does not really hold up in Go. Instead, interfaces are defined by shared behavior &mdash; or implementing the same set of methods. If a type implements all the methods defined by the interface, it <em>satisfies</em> that interface.</p>
+
+<p>So in our example above, instead of thinking about the shared parent class &ldquo;Animal&rdquo;, Go pushes you to define an interface of &ldquo;things that speak.&rdquo;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='go'><span class='line'><span class="kd">type</span> <span class="nx">Speaker</span> <span class="kd">interface</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">Speak</span><span class="p">()</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In order for a Dog or a Cat or Whatever other type to be a Speaker, it has to implement the Speak method. Sounds cool in theory, right? Here&rsquo;s the first practical example I came across that helped the concept click.</p>
+
+<p>In <a href="https://medium.com/go-walkthrough">Ben Johnson&rsquo;s Go Walkthrough series</a>, where he explores different packages in the Go standard library, he gives the example of the <code>io.MultiReader</code> function. The <code>Reader</code> interface, like our <code>Speaker</code> interface above, is satisfied when a type can read a stream of bytes.</p>
+
+<p>In the MultiReader example, Ben asks, &ldquo;what if you are trying to send a POST request and you want to combine the header data you have in memory, with the contents of a file you have on disk?&rdquo; Since you can access the in-memory data and file contents via <code>Read</code> functions, the info you need can be passed into <code>io.MultiReader</code> which accepts multiple input readers and concatenates them.</p>
+
+<p>So in OO land I wouldn&rsquo;t group a file and header data as the same class of object, but if you drill into their behavior given the particular functionality we need, then you can easily see what they have in common.</p>
+
+<p>At first, seeing this difference in grouping by behavior over state was a little overwhelming &ndash; &ldquo;oh gosh, I&rsquo;m going to have to rethink all the heirarchies and abstracts I need to make as I&rsquo;m planning out my code.&rdquo; But again, Bill was very reassuring here. Here was the essence of it:</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/mDYCLFE86Po" frameborder="0" allowfullscreen></iframe>
+
+
+<p>And if you want to see how you solve one problem at a time in your code, go back to the first video in this post for a very elegant example.</p>
+
+<h2>For Further Training</h2>
+
+<p>Check out the full list of <a href="https://github.com/ardanlabs/gotraining/tree/master/courses">Ardan Labs courses</a> along with other recommended Go training materials like <a href="http://exercism.io/languages/go/about">Exercism.io</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[My 5 Strategies for Learning Go in 2017]]></title>
@@ -2042,54 +2338,6 @@ between your objects.</p>
 <p>My goal is to keep up, as strange as it sounds, deliberate un-deliberate times to maximize learning and work, because the truth is, these things are circular &mdash; rest completes work &mdash; not linear.</p>
 
 <p>I&rsquo;ve written about how this works from a Tai Chi perspective too, <a href="http://dankleiman.com/2013/04/23/practice-rhythms-at-tai-chi-immersion-week/">if you&rsquo;re curious to read more</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Launch Academy: Week 1 Reflections]]></title>
-    <link href="http://dankleiman.github.io/blog/2014/05/17/launch-academy-week-1-reflections/"/>
-    <updated>2014-05-17T09:32:59-04:00</updated>
-    <id>http://dankleiman.github.io/blog/2014/05/17/launch-academy-week-1-reflections</id>
-    <content type="html"><![CDATA[<p>So, all this week, I&rsquo;ve been experiencing the Tetris effect and I&rsquo;ve come to appreciate the beauty, and the painlessness, of learning how to break down a problem.</p>
-
-<p>Let me explain&hellip;.</p>
-
-<!-- more -->
-
-
-<h2>The Tetris Effect</h2>
-
-<p>According to <a href="http://www.scientificamerican.com/article/tetris-dreams/">the study from Harvard Medical School</a>, games like Tetris can reveal the way our brain integrates new information.</p>
-
-<blockquote>In fact, the game Tetris has proved to be just that. Robert Stickgold and his colleagues at Harvard Medical School recently conducted a clever set of experiments in which they used the game to guide the content of people¿s dreams: among 17 subjects they trained to play Tetris, more than 60 percent reported dreaming of images associated with the game. </blockquote>
-
-
-<p>I&rsquo;ve been having similar dreams about coding all week, especially as I&rsquo;m falling asleep.</p>
-
-<p>In fact, I&rsquo;ve had to resist the urge to jump out of bed and grab my laptop to finish coding problems that plagued me during the day.</p>
-
-<p>What&rsquo;s so cool is that my instructors at Launch Academy have been talking from the beginning about the way coding &mdash; and more generally the brain &mdash; works. They&rsquo;ve been extremely clear about the value of stepping away from the computer to actually find the solution.</p>
-
-<p>I love being immersed in this environment where the answers to &ldquo;my work&rdquo; pour in at night, or on breaks, and more importantly, these down moments are treated as equally valuable as work time.</p>
-
-<h2>Shoring Up Fundamentals</h2>
-
-<p>All week, we&rsquo;ve been reviewing pre-work and solidifying our Ruby basics.</p>
-
-<p>Specifically, here&rsquo;s what we&rsquo;ve been covering:</p>
-
-<p><em>Ruby fundamentals
-</em>Hashes, arrays, and compound data structures
-<em>Iteration
-</em>File IO</p>
-
-<p>Launch Academy has some pretty cool custom tools to help us do this work. I&rsquo;m sure you&rsquo;ve seen things like CodeAcademy or RubyMonk.</p>
-
-<p>At Launch Academy, we have internal tools that integrate shell commands to download, test, and submit practice problems. What I love about this is that not only are we honing our Ruby fundamentals, but we&rsquo;re integrating other skills, like command line basics, git, and a broader understanding of how to navigate the file system.</p>
-
-<p>Next week, I think we&rsquo;re going to expand this work to include remote repositories.</p>
-
-<p>Even though it&rsquo;s been a few days, it feels like it&rsquo;s been months of immersion and I can&rsquo;t wait to get back to work on Monday!</p>
 ]]></content>
   </entry>
   
