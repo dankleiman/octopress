@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Launching Datastroyer - Dan Kleiman Code</title>
+  <title>Don't Blow Your BigQuery Budget on Unknown Data! - Dan Kleiman Code</title>
   <meta name="author" content="Dan Kleiman">
 
   
-  <meta name="description" content="I&rsquo;m very excited to announce that Craig McGinley and I have launched Datastroyer. Datastroyer is our online tool for searching JSON objects and &hellip;">
+  <meta name="description" content="It&rsquo;s easy to blow your BigQuery budget when you are exploring a new data set. Because you&rsquo;re billed for the amount of data scanned, not &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://dankleiman.github.io/blog/2014/07/02/launching-datastroyer">
+  <link rel="canonical" href="http://dankleiman.github.io/blog/2017/10/06/dont-blow-your-bigquery-budget">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Dan Kleiman Code" type="application/atom+xml">
@@ -84,7 +84,7 @@
   
   <header>
     
-      <h1 class="entry-title">Launching Datastroyer</h1>
+      <h1 class="entry-title">Don't Blow Your BigQuery Budget on Unknown Data!</h1>
     
     
       <p class="meta">
@@ -100,45 +100,79 @@
   
 
 
-<time datetime="2014-07-02T21:29:17-04:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2014</time>
+<time datetime="2017-10-06T14:55:37-04:00" pubdate data-updated="true">Oct 6<span>th</span>, 2017</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>I&rsquo;m very excited to announce that <a href="https://github.com/craigmcginley">Craig McGinley</a> and I have launched <a href="http://datastroyer.herokuapp.com/">Datastroyer</a>.</p>
+<div class="entry-content"><p>It&rsquo;s easy to blow your BigQuery budget when you are exploring a new data set. Because you&rsquo;re billed for the amount of data scanned, not the ultimate result set, when you don&rsquo;t know what you&rsquo;re looking  for, you can end up with wasteful queries.</p>
 
-<p>Datastroyer is our online tool for searching JSON objects and returning the correct path to any value.</p>
+<p>In this post, I&rsquo;m going to share some tips for more efficiently scanning data in BigQuery when you don&rsquo;t quite know what you need.</p>
 
 <!--more-->
 
 
-<p>Previously, I wrote about the <a href="/blog/2014/05/25/building-a-learning-tool-for-compound-data-structures/">challenges of parsing compound data structures</a>. For someone just learning to code and work with data, one of the biggest challenges was learning to read syntax.</p>
+<p>To ground some of these questions in an example, at work, we often investigate unknowns in our data, especially where we integrate with third parties. Recently, we were reconciling some data with a third party that posts us back about in-app events. They had about 50,000 events for one month, and our logs showed that we processed 10,000. What happened to the delta? Who had the more accurate number?</p>
 
-<p>One particularly challenging &ldquo;reading problem&rdquo; is figuring out how to reference a specific value nested inside a tangle of hashes and arrays. Not knowing how the object is structured, in terms of size, layers of nesting, or type of nested objects initially made this problem really confusing!</p>
+<p>The table in BigQuery that holds these particular event logs for us gets about 1 billion postbacks a day and the period in question was a whole month. So, without blowing my whole BigQuery budget, I had to poke at this large data set and explain how those 50k needles moved through our haystack of 30 billion requests.</p>
 
-<p>Eventually we learned how to traverse the whole structure and efficiently store the path we were going down as we went.</p>
+<p>If you&rsquo;re new to BigQuery, and drawing on your past experience with other databases, it&rsquo;s tempting to want to <code>SELECT * FROM whole_month_of_data</code>, export it to Excel, and do a <code>VLOOKUP</code> to see if their data is there&hellip;but as you&rsquo;re about to learn, that is the 100% wrong approach to efficiently working with data in BigQuery.</p>
 
-<p>Craig and I have talked about many different use cases for the method we coded up, but in this case we have released the code embedded in a web application that searches JSON objects for you. If you&rsquo;ve been working with API and trying to make sense of your queries, we hope this helps!</p>
+<p>Now, I can&rsquo;t share our actual queries and data with you for this particular case, but fortunately, <a href="https://cloud.google.com/bigquery/public-data/">Google makes public datasets available</a> to anyone using BigQuery. And you can start to play around on their free tier, provided you follow these tips to stay under the free allocation.</p>
 
-<p>Here&rsquo;s what you do:</p>
+<p>I used all these same techiniques to ultimately piece together a clear explanation of how the event data moved through our applications&hellip;and I only blew my daily BigQuery budget on the first day of this investigation.</p>
 
-<ol>
-<li><p>Copy your entire JSON object.</p></li>
-<li><p>Visit <a href="http://datastroyer.herokuapp.com/">Datastroyer</a>.</p></li>
-<li><p>Paste the JSON into the search box.</p></li>
-<li><p>On the next screen, enter the search value you are looking for.</p></li>
-</ol>
+<h2>Never Use Select *</h2>
 
+<p>So, the first thing you should do when you open up a new dataset, is NEVER USE <code>SELECT *</code>.</p>
 
-<p>Datastroyer will return all of the possible paths to this search value inside of the JSON.</p>
+<p>If you&rsquo;re used to working with smaller row-based relationational datastores, like MySQL or Postgres, then <code>SELECT *</code> is a handy way to get a feel for what&rsquo;s stored in your tables.</p>
 
-<p>If you don&rsquo;t have some JSON to search, you can <a href="http://datastroyer.herokuapp.com/data">try a sample search</a> with the data we&rsquo;ve provided.</p>
+<p>However, in a column-based store like BigQuery, <code>SELECT *</code> is much less efficient. Instead, you want to explore column-by-column.</p>
 
-<p>At the end of the day, we think this is a learning tool to help you get more familiar with the structure of compound objects.</p>
+<p>Here&rsquo;s a good explanation of the difference <a href="http://docs.aws.amazon.com/redshift/latest/dg/c_columnar_storage_disk_mem_mgmnt.html">between row-based and column-based datastores</a>. Basically, in a row store, the data for each row is stored continguously in memory on disk, so when you <code>SELECT *</code> and pull out the whole row, you&rsquo;re reaching for adjacent memory that is more easily pulled all at once.</p>
 
-<p>We hope you learn like we have!</p>
+<p>In a column-based store, the allocation is inverted, so the whole column of data is stored together, not the row. Every time you have to pull a new column to build your row, you&rsquo;re reaching somewhere else on disk, which is less efficient.</p>
+
+<p>Pulling an entire column is going to be cheaper than pulling all columns, even if you do something like <code>SELECT * FROM whatever LIMIT 1</code> because each of the non-contiguous columns has to be scanned to get the data you need.</p>
+
+<h2>Handy Preview Mode</h2>
+
+<p>If you need to explore an unknown data set, you can still get a feel for what&rsquo;s in each column and the different characteristics of the data by using BigQuery&rsquo;s built in &ldquo;preview&rdquo; function.</p>
+
+<p><img src="/images/bigquery_preview_mode.png"></p>
+
+<p>I&rsquo;m using <a href="https://bigquery.cloud.google.com/table/fh-bigquery:reddit_comments.2015_01?tab=preview">this publicly available dump of Reddit comments</a> for all the screenshots in this post.</p>
+
+<p>Use preview to refine the questions you need to answer with the data and understand what data is available. When you find a potentially useful column, just query this column, grouping values or filtering results to understand what&rsquo;s there more thoroughly.</p>
+
+<p>But remember, even here, you don&rsquo;t want to be crawling the whole data set you&rsquo;re ultimately interested in each time. Instead, try to limit it to a single shard of data &mdash; in my work example above, that would have been a single day of data, even though I was ultimately going to have to scan a whole month.</p>
+
+<h2>Run Your Big Query Once</h2>
+
+<p>Once you&rsquo;ve identified the columns and clauses you need, run the &ldquo;big query&rdquo; once and store it to a temp table.</p>
+
+<p><img src="/images/bigquery_temp_table.png"></p>
+
+<p>Now, instead of querying against billions of rows each time, you will be working with a subset of data. Even if it&rsquo;s a few million rows, it will still be more efficient.</p>
+
+<h2>Import External Data</h2>
+
+<p>If you&rsquo;re comparing BigQuery data to external data, you might be tempted to export your BigQuery data at this point and try to compare data in spreadsheets. Don&rsquo;t!</p>
+
+<p>Instead, you can import data into BigQuery as a temp table and use the auto-detect schema feature. BigQuery will build you a temp table with all the columns and rows from your spreadsheet.</p>
+
+<p><img src="/images/bigquery_import_data.png"></p>
+
+<p>Now you can use your temp table or any other data set to write SQL against your external data. You can even join data across BigQuery projects &mdash; the project name is just part of the namespace that identifies each table.</p>
+
+<h2>Now Go Query</h2>
+
+<p>I know when I started working with data in BigQuery, I was always afraid I was going to scan too much data, or write bad SQL. I probably still do that on a regular basis, but hopefully, by following these guidelines, I&rsquo;ve become a little smarter about how I tackle an unknown data problem.</p>
+
+<p>And I hope you found at least one good tip in this post to go and use too!</p>
 </div>
 
 
@@ -161,7 +195,7 @@
   
 
 
-<time datetime="2014-07-02T21:29:17-04:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2014</time>
+<time datetime="2017-10-06T14:55:37-04:00" pubdate data-updated="true">Oct 6<span>th</span>, 2017</time>
       
 
 
@@ -169,7 +203,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2014/07/02/launching-datastroyer/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2014/07/02/launching-datastroyer/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://dankleiman.github.io/blog/2017/10/06/dont-blow-your-bigquery-budget/" data-via="Dan_Kleiman" data-counturl="http://dankleiman.github.io/blog/2017/10/06/dont-blow-your-bigquery-budget/" >Tweet</a>
   
   
   
@@ -200,10 +234,8 @@
     </p>
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/06/23/the-race-to-hello-world-rails-vs-sinatra/" title="Previous Post: The Race to Hello World: Rails vs. Sinatra">&laquo; The Race to Hello World: Rails vs. Sinatra</a>
+        <a class="basic-alignment left" href="/blog/2017/02/12/gobridge-with-bill-kennedy/" title="Previous Post: GoBridge with Bill Kennedy">&laquo; GoBridge with Bill Kennedy</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/08/03/burlington-ruby-conference-2014/" title="Next Post: Burlington Ruby Conference 2014">Burlington Ruby Conference 2014 &raquo;</a>
       
     </p>
   </footer>
